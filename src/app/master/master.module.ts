@@ -38,8 +38,11 @@ import { UsersComponent } from './users/users.component';
 import { BoilerComponent } from './boiler/boiler.component';
 import { CommandComponent } from './command/command.component';
 import { DepartmentComponent } from './department/department.component';
-import { ProjectsComponent } from './projects/projects.component';
-import { ProjectTypeComponent } from './project_type/project_type.component';
+//import { ProjectsComponent } from './projects/projects.component';
+import { DefectListComponent } from './defect_list/defect_list.component';
+//import { ProjectTypeComponent } from './project_type/project_type.component';
+import { RefitTypeComponent } from './refit_type/refit_type.component';
+
 
 
 import { PrimaryRolesComponent } from './psr/primary_role/primary-roles.component';
@@ -98,8 +101,8 @@ import { FormMappingComponent } from './form-mapping/form-mapping.component';
     BoilerComponent,
     CommandComponent,
     DepartmentComponent,
-    ProjectsComponent,
-    ProjectTypeComponent,
+    DefectListComponent,
+    RefitTypeComponent,
     PrimaryRolesComponent,
     SecondaryRolesComponent,
     StandardComponent,

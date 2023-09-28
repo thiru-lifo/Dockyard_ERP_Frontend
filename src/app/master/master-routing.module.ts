@@ -16,8 +16,13 @@ import { UsersComponent } from './users/users.component';
 import { BoilerComponent } from './boiler/boiler.component';
 //import { CommandComponent } from './command/command.component';
 import { DepartmentComponent } from './department/department.component';
-import { ProjectsComponent } from './projects/projects.component';
-import { ProjectTypeComponent } from './project_type/project_type.component';
+//import { ProjectsComponent } from './projects/projects.component';
+import { DefectListComponent } from './defect_list/defect_list.component';
+
+//import { ProjectTypeComponent } from './project_type/project_type.component';
+
+import { RefitTypeComponent } from './refit_type/refit_type.component';
+
 import { CommandComponent } from './command/command.component';
 import { SectionComponent } from './section/section.component';
 import { SubSectionComponent } from './sub_section/sub_section.component';
@@ -73,8 +78,10 @@ const routes: Routes = [
   { path: 'boilers',component:BoilerComponent,data:{breadcrumb: 'Boilers'}},
     //{ path: 'command',component:CommandComponent,data:{breadcrumb: 'Command'}},
   { path: 'department',component:DepartmentComponent,data:{breadcrumb: 'Department'}},
-  { path: 'projects',component:ProjectsComponent,data:{breadcrumb: 'Projects'}},
-  { path: 'project-type',component:ProjectTypeComponent,data:{breadcrumb: 'Project type'}},
+  //{ path: 'projects',component:ProjectsComponent,data:{breadcrumb: 'Projects'}},
+  { path: 'defect-list',component:DefectListComponent,data:{breadcrumb: 'Defect List'}},
+  
+  { path: 'refit-type',component:RefitTypeComponent,data:{breadcrumb: 'Refit type'}},
 
   { path: 'command',component:CommandComponent,data:{breadcrumb: 'Command'}},
   { path: 'section', component: SectionComponent, data: { breadcrumb: 'Section'}  },

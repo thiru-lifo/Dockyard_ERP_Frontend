@@ -20,7 +20,7 @@ import { of } from 'rxjs';
 export class SectionComponent implements OnInit {
 
   displayedColumns: string[] = [
-    "department_id",
+    //"department_id",
     "name",
     "code",
     "status",
@@ -59,7 +59,7 @@ export class SectionComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
-    department_id: new FormControl("",[Validators.required]),
+    //department_id: new FormControl("",[Validators.required]),
     name: new FormControl("", [
       Validators.required,
     ]),
@@ -81,7 +81,7 @@ export class SectionComponent implements OnInit {
     console.log(data,"data");
 
     this.editForm.patchValue(data);
-    this.editForm.patchValue({department_id:data.department_id.id});
+    //this.editForm.patchValue({department_id:data.department_id.id});
     //this.editForm.patchValue({department_id:data.department.id});
     /*this.editForm.patchValue({trial_unit:data.trial_unit.id});
 
@@ -284,8 +284,8 @@ param:any;
   
       }
     search(){
-    let type=this.searchForm.value.department?"department_id="+this.searchForm.value.department:"";
-    this.param=type;
+    //let type=this.searchForm.value.department?"department_id="+this.searchForm.value.department:"";
+    //this.param=type;
     this.getSection();
   }
 

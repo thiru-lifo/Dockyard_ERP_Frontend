@@ -42,6 +42,7 @@ import { UnitTypeComponent } from './unit_type/unit_type.component';
 import { UnitComponent } from './unit/unit.component';
 import { AuthorityComponent } from './authority/authority.component';
 import { ClassComponent } from './class/class.component';
+import { DockyardComponent } from './dockyard/dockyard.component';
 import { PrimaryRolesComponent } from './psr/primary_role/primary-roles.component';
 import { SecondaryRolesComponent } from './psr/secondary_roles/secondary-roles.component';
 import { StandardComponent } from './psr/standard/standard.component';
@@ -95,6 +96,7 @@ const routes: Routes = [
   { path: 'unit', component: UnitComponent, data: { breadcrumb: 'Unit'}  },
   { path: 'authority', component: AuthorityComponent, data: { breadcrumb: 'Authority'}  },
   { path: 'class', component: ClassComponent, data: { breadcrumb: 'Class'}  },
+  { path: 'dockyard', component: DockyardComponent, data: { breadcrumb: 'Dockyard'}  },
   { path: 'ship', component: ShipComponent, data: { breadcrumb: 'Ship'}  },
   { path: 'ships', component: ShipsComponent, data: { breadcrumb: 'Ships'}  },
   { path: 'compartment', component: CompartmentComponent, data: { breadcrumb: 'Compartment'}  },

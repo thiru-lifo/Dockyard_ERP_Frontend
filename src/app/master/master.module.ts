@@ -24,6 +24,7 @@ import { UnitTypeComponent } from './unit_type/unit_type.component';
 import { UnitComponent } from './unit/unit.component';
 import { AuthorityComponent } from './authority/authority.component';
 import { ClassComponent } from './class/class.component';
+import { DockyardComponent } from './dockyard/dockyard.component';
 import { ShipComponent } from './ship/ship.component';
 import { ShipsComponent } from './ships/ships.component';
 import { CompartmentComponent } from './compartment/compartment.component';
@@ -85,6 +86,7 @@ import { FormMappingComponent } from './form-mapping/form-mapping.component';
     UnitComponent,
     AuthorityComponent,
     ClassComponent,
+    DockyardComponent,
     ShipComponent,
     ShipsComponent,
     CompartmentComponent,

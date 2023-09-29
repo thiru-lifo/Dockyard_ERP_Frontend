@@ -49,7 +49,7 @@ import { UnitComponent } from './unit/unit.component';
 import { AuthorityComponent } from './authority/authority.component';
 import { ClassComponent } from './class/class.component';
 import { DockyardComponent } from './dockyard/dockyard.component';
-import { DockyardGroupComponent } from './dockyard_group/dockyard_group.component';
+//import { DockyardGroupComponent } from './dockyard_group/dockyard_group.component';
 import { PrimaryRolesComponent } from './psr/primary_role/primary-roles.component';
 import { SecondaryRolesComponent } from './psr/secondary_roles/secondary-roles.component';
 import { StandardComponent } from './psr/standard/standard.component';

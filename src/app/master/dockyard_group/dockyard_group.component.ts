@@ -11,22 +11,24 @@ import { language } from "src/environments/language";
 import { Router } from '@angular/router';
 import { ConsoleService } from "src/app/service/console.service";
 import { of } from 'rxjs';
-declare var $;
+
 @Component({
-  selector: 'app-sections',
-  templateUrl: './refit_type.component.html',
-  styleUrls: ['./refit_type.component.scss']
+  selector: 'app-class',
+  templateUrl: './dockyard_group.component.html',
+  styleUrls: ['./dockyard_group.component.scss']
 })
-export class RefitTypeComponent implements OnInit {
+export class DockyardGroupComponent implements OnInit {
 
 
   displayedColumns: string[] = [
+    //'project_id',
     "name",
     "code",
     "status",
     "view",
     "edit",
     "delete",
+
   ];
   dataSource: MatTableDataSource<any>;
 
@@ -57,6 +59,7 @@ export class RefitTypeComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
+    //project_id: new FormControl("",[Validators.required]),
     name: new FormControl("", [
       Validators.required,
     ]),
@@ -72,7 +75,16 @@ export class RefitTypeComponent implements OnInit {
   populate(data) {
 
     this.editForm.patchValue(data);
-    //this.editForm.patchValue({section_id:data.section_id.id});
+    //this.editForm.patchValue({project_id:data.project_id.id});
+    //this.editForm.patchValue({trial_unit:data.trial_unit.id});
+    /*this.getCommand(data.trial_unit.id);
+    this.getSatelliteUnits(data.trial_unit.id,data.command.id);
+    this.getShips(data.trial_unit.id,data.satellite_unit.id);
+    setTimeout(()=>{
+      this.editForm.patchValue({satellite_unit:data.satellite_unit.id});
+      this.editForm.patchValue({command:data.command?data.command.id:''});
+      this.editForm.patchValue({ship:data.ship.id});
+    },500);*/
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
     this.logger.info(data.status)
   }
@@ -88,13 +100,23 @@ export class RefitTypeComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getRefitType();
+     this.getClass();
+     //this.getProject();
      this.getAccess();
   }
 
-  getRefitType() {
+  /*projects:any;
+  getProject() {
     this.api
-      .getAPI(environment.API_URL + "master/refit_type")
+      .getAPI(environment.API_URL + "master/project?status=1")
+      .subscribe((res) => {
+        this.projects = res.data;
+      });
+  }*/
+
+  getClass() {
+    this.api
+      .getAPI(environment.API_URL + "master/class")
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
         this.countryList = res.data;
@@ -151,15 +173,15 @@ export class RefitTypeComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/refit_type/details", {
+        this.api.postAPI(environment.API_URL + "master/class/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('Refit type '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getRefitType();
+            this.notification.warn('Class '+language[environment.DEFAULT_LANG].deleteMsg);
+            this.getClass();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -175,7 +197,7 @@ export class RefitTypeComponent implements OnInit {
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/refit_type/details",
+          environment.API_URL + "master/class/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -184,7 +206,7 @@ export class RefitTypeComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getRefitType();
+            this.getClass();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -224,18 +246,18 @@ export class RefitTypeComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getRefitType();
+      this.getClass();
     }
   }
-
-numberOnly(event:any): boolean {
-  var key = event.keyCode;
-        if (key > 31 && (key < 65 || key > 90) &&
-            (key < 97 || key > 122)) {
-        return false;
+  numberOnly(event:any): boolean {
+    var key = event.keyCode;
+          if (key > 31 && (key < 65 || key > 90) &&
+              (key < 97 || key > 122)) {
+          return false;
+        }
+        return true;
+  
       }
-      return true;
-
-    }
 
 }
+

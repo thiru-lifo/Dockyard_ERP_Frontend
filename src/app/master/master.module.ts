@@ -15,7 +15,9 @@ import { SubSectionComponent } from './sub_section/sub_section.component';
 import { GlobalSectionComponent } from './global_section/global_section.component';
 import { GlobalSubSectionComponent } from './global_sub_section/global_sub_section.component';
 import { GlobalSubSubSectionComponent } from './global_sub_sub_section/global_sub_sub_section.component';
+import { ModuleComponent } from './module/module.component';
 import { SubModuleComponent } from './sub_module/sub_module.component';
+
 import { TemplateComponent } from './template/template.component';
 import { TemplateConfigComponent } from './template_config/template_config.component';
 //import { TemplateGenerationComponent } from './template-generation/template-generation.component';
@@ -67,6 +69,8 @@ import { FormMappingComponent } from './form-mapping/form-mapping.component';
 
 
 import { DockyardGroupComponent } from './dockyard_group/dockyard_group.component';
+import { TimeKeepingAttendanceComponent } from './time-keeping-attendance/time-keeping-attendance.component';
+import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.component';
 
 
 @NgModule({
@@ -82,6 +86,7 @@ import { DockyardGroupComponent } from './dockyard_group/dockyard_group.componen
     GlobalSubSectionComponent,
     GlobalSubSubSectionComponent,
 
+    ModuleComponent,
     SubModuleComponent,
     TemplateComponent,
     TemplateConfigComponent,
@@ -121,7 +126,9 @@ import { DockyardGroupComponent } from './dockyard_group/dockyard_group.componen
     FormMappingComponent,
 
 
-    DockyardGroupComponent
+    DockyardGroupComponent,
+    TimeKeepingAttendanceComponent,
+    ManPowerBookingComponent,
   ],
   imports: [
     CommonModule,

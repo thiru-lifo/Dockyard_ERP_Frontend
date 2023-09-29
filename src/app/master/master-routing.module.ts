@@ -31,6 +31,7 @@ import { GlobalSectionComponent } from './global_section/global_section.componen
 import { GlobalSubSectionComponent } from './global_sub_section/global_sub_section.component';
 import { GlobalSubSubSectionComponent } from './global_sub_sub_section/global_sub_sub_section.component';
 
+import { ModuleComponent } from './module/module.component';
 import { SubModuleComponent } from './sub_module/sub_module.component';
 import { TemplateComponent } from './template/template.component';
 import { TemplateConfigComponent } from './template_config/template_config.component';
@@ -64,7 +65,9 @@ import { FormMappingComponent } from './form-mapping/form-mapping.component';
 
 
 import { DockyardGroupComponent } from './dockyard_group/dockyard_group.component';
+import { TimeKeepingAttendanceComponent } from './time-keeping-attendance/time-keeping-attendance.component';
 
+import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.component';
 
 
 const routes: Routes = [
@@ -93,6 +96,7 @@ const routes: Routes = [
   { path: 'global-sub-section', component: GlobalSubSectionComponent, data: { breadcrumb: 'Global Sub Section'}  },
   { path: 'global-sub-sub-section', component: GlobalSubSubSectionComponent, data: { breadcrumb: 'Global Sub Sub Section'}  },
   { path: 'global-sub-sub-section', component: GlobalSubSubSectionComponent, data: { breadcrumb: 'Global Sub Sub Section'}  },
+  { path: 'module', component: ModuleComponent, data: { breadcrumb: 'Module'}  },
   { path: 'sub-module', component: SubModuleComponent, data: { breadcrumb: 'Sub Module'}  },
   { path: 'template', component: TemplateComponent, data: { breadcrumb: 'Template'}  }, 
   { path: 'template-config', component: TemplateConfigComponent, data: { breadcrumb: 'Template Config'}  }, 
@@ -134,9 +138,9 @@ const routes: Routes = [
 
 
     { path: 'dockyard-group',component:DockyardGroupComponent,data:{breadcrumb: 'Dockyard Group'}},
-
-
-
+    { path: 'time-keeping-attendance',component:TimeKeepingAttendanceComponent,data:{breadcrumb: 'Time Keeping Attendance'}},
+    
+    { path: 'man-power-booking',component:ManPowerBookingComponent,data:{breadcrumb: 'Manpower Booking'}},
 
 ];
 

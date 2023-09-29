@@ -258,6 +258,93 @@
                      </mat-form-field>
                   </div>
                </div>
+
+              <div class="col-md-6">
+                    <div class="matt-group">
+                        <mat-label>Select Section <b class="star">*</b></mat-label>
+                        <mat-form-field appearance="legacy">
+                              <mat-select formControlName="section_id"
+                              placeholder="Select Section">
+
+                              <mat-option *ngFor="let section of sections" [value]="section.id">{{section.name}}</mat-option>
+                              </mat-select>
+                           <!-- <mat-error *ngIf="Error('global_section','required')"></mat-error> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Equipment Model <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <!-- <input matInput placeholder="" (keypress)="numberOnly($event)" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*"> -->
+                        <input matInput placeholder="" formControlName="equipment_model" maxlength="100">
+                        <!-- <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
+                        <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error> -->
+                     </mat-form-field>
+                  </div>
+               </div>
+
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Nomenclature <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <!-- <input matInput placeholder="" (keypress)="numberOnly($event)" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*"> -->
+                        <input matInput placeholder="" formControlName="nomenclature" maxlength="100">
+                        <!-- <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
+                        <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error> -->
+                     </mat-form-field>
+                  </div>
+               </div>
+
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Equipment Ship Id <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <!-- <input matInput placeholder="" (keypress)="numberOnly($event)" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*"> -->
+                        <input matInput placeholder="" formControlName="equipment_ship_id" maxlength="100">
+                        <!-- <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
+                        <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error> -->
+                     </mat-form-field>
+                  </div>
+               </div>
+
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>ESD Equipment Id <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <!-- <input matInput placeholder="" (keypress)="numberOnly($event)" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*"> -->
+                        <input matInput placeholder="" formControlName="esd_equipment_id" maxlength="100">
+                        <!-- <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
+                        <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error> -->
+                     </mat-form-field>
+                  </div>
+               </div>
+
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Universal Id M Ship <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <!-- <input matInput placeholder="" (keypress)="numberOnly($event)" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*"> -->
+                        <input matInput placeholder="" formControlName="universal_id_m_ship" maxlength="100">
+                        <!-- <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
+                        <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error> -->
+                     </mat-form-field>
+                  </div>
+               </div>
+
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Equipment Sr No <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <!-- <input matInput placeholder="" (keypress)="numberOnly($event)" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*"> -->
+                        <input matInput placeholder="" formControlName="equipment_sr_no" maxlength="100">
+                        <!-- <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
+                        <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error> -->
+                     </mat-form-field>
+                  </div>
+               </div>
+
                <div class="col-md-6">
                   <div class="matt-group">
                      <mat-label>Descriptions </mat-label>

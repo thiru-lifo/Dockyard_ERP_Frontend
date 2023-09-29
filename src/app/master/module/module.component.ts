@@ -11,28 +11,23 @@ import { language } from "src/environments/language";
 import { Router } from '@angular/router';
 import { ConsoleService } from "src/app/service/console.service";
 import { of } from 'rxjs';
-
+declare var $;
 @Component({
-  selector: 'app-equipment',
-  templateUrl: './equipment.component.html',
-  styleUrls: ['./equipment.component.scss']
+  selector: 'app-sections',
+  templateUrl: './module.component.html',
+  styleUrls: ['./module.component.scss']
 })
-export class EquipmentComponent implements OnInit {
+export class ModuleComponent implements OnInit {
 
 
   displayedColumns: string[] = [
-    "globalsection",
-    "globalsubsection",
-    "globalsubsubsection",
     "name",
-    "code",
-    "equipment_ship_id",
+    //"code",
     "status",
     "view",
     "edit",
     "delete",
   ];
-
   dataSource: MatTableDataSource<any>;
 
   country: any;
@@ -62,26 +57,11 @@ export class EquipmentComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
-    //global_section: new FormControl("",[Validators.required]),
-    global_section: new FormControl(""),
-    global_sub_section: new FormControl(""),
-    global_sub_sub_section: new FormControl(""),
     name: new FormControl("", [
       Validators.required,
     ]),
-    description: new FormControl(""),
+    //description: new FormControl(""),
     //code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    code: new FormControl("", [Validators.required]),
-    equipment_type_name: new FormControl("", [Validators.required]),
-
-    section_id: new FormControl(""),
-    equipment_model: new FormControl(""),
-    nomenclature: new FormControl(""),
-    equipment_ship_id: new FormControl(""),
-    esd_equipment_id: new FormControl(""),
-    universal_id_m_ship: new FormControl(""),
-    equipment_sr_no: new FormControl(""),
-
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -92,15 +72,7 @@ export class EquipmentComponent implements OnInit {
   populate(data) {
 
     this.editForm.patchValue(data);
-    this.editForm.patchValue({global_section:data.global_section.id});
-    this.getSubSections(data.global_section.id);
-    setTimeout(()=>{
-       this.editForm.patchValue({global_sub_section:data.global_sub_section?data.global_sub_section.id:''});
-     },500);
-    this.getSubSubSections(data.global_section.id,data.global_sub_section.id);
-    setTimeout(()=>{
-       this.editForm.patchValue({global_sub_sub_section:data.global_sub_sub_section?data.global_sub_sub_section.id:''});
-     },500);
+    //this.editForm.patchValue({section_id:data.section_id.id});
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
     this.logger.info(data.status)
   }
@@ -116,113 +88,13 @@ export class EquipmentComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getEquipment();
-     this.getSection();
-     this.getSystem();
+     this.getModule();
      this.getAccess();
-     this.getgSection();
-     this.getSectionF();
-  }
-sectiong:any;
-  getgSection() {
-    this.api
-      .getAPI(environment.API_URL + "master/global_section?status=1&order_type=asc&type_equipment=1")
-      .subscribe((res) => {
-        this.sectiong = res.data;
-
-      });
-  }
-   subSections:any;
-  getSubSections(global_section_id='') {
-
-    let filter='?status=1&order_type=asc&type_equipment=1';
-    filter+=global_section_id?'&global_section_id='+global_section_id:'';
-    //alert(filter)
-    this.api
-      .getAPI(environment.API_URL + "master/global_sub_section"+filter)
-      .subscribe((res) => {
-        this.subSections = res.data;
-
-        
-      });
-  }
-   subsubSections:any;
-  //getSubSubSections(global_section_id='', global_sub_section_id='') {
-   getSubSubSections(global_sub_section_id='',global_section_id='') {
-
-    //let filter='?status=1&order_type=asc&type_equipment=1';
-    //filter+=global_section_id?'&global_section_id='+global_section_id+'&global_sub_section_id='+global_sub_section_id:'';
-
-    let filter='?status=1&order_type=asc&type_equipment=1';
-    filter+=global_section_id?'&global_section_id='+global_section_id+'&global_sub_section_id='+global_sub_section_id:'';
-    //alert(filter)
-    this.api
-      .getAPI(environment.API_URL + "master/global_sub_sub_section"+filter)
-      .subscribe((res) => {
-        this.subsubSections = res.data;
-
-        
-      });
-  }
-  sectionF:any;
-getSectionF() {
-    this.api
-      .getAPI(environment.API_URL + "master/global_section?status=1&order_type=asc")
-      .subscribe((res) => {
-        this.sectionF = res.data;
-
-      });
-  }
-   subSectionF:any;
-  getSubSectionF(global_section_id='') {
-
-    let filter='?status=1&order_type=asc';
-    filter+=global_section_id?'&global_section_id='+global_section_id:'';
-    //alert(filter)
-    this.api
-      .getAPI(environment.API_URL + "master/global_sub_section"+filter)
-      .subscribe((res) => {
-        this.subSectionF = res.data;
-
-        
-      });
-  }
-   subsubSectionF:any;
-  getSubSubSectionF(global_section_id='', global_sub_section_id='') {
-
-    let filter='?status=1&order_type=asc';
-    filter+=global_section_id?'&global_section_id='+global_section_id+'&global_sub_section_id='+global_sub_section_id:'';
-    //alert(filter)
-    this.api
-      .getAPI(environment.API_URL + "master/global_sub_sub_section"+filter)
-      .subscribe((res) => {
-        this.subsubSectionF = res.data;
-
-        
-      });
   }
 
-  sections:any;
-  getSection() {
+  getModule() {
     this.api
-      .getAPI(environment.API_URL + "master/section?status=1")
-      .subscribe((res) => {
-        this.sections = res.data;
-      });
-  }
-  systems:any;
-  getSystem() {
-    this.api
-      .getAPI(environment.API_URL + "master/system?status=1")
-      .subscribe((res) => {
-        this.systems = res.data;
-      });
-  }
-
-  getEquipment() {
-    if(this.param==undefined) this.param=""; else this.param;
-    this.api
-      .getAPI(environment.API_URL + "master/equipment?order_type=desc"+this.param)
+      .getAPI(environment.API_URL + "master/module")
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
         this.countryList = res.data;
@@ -279,15 +151,15 @@ getSectionF() {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/equipment/details", {
+        this.api.postAPI(environment.API_URL + "master/module/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('Equipment '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getEquipment();
+            this.notification.warn('Refit type '+language[environment.DEFAULT_LANG].deleteMsg);
+            this.getModule();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -298,15 +170,12 @@ getSectionF() {
   }
 
   onSubmit() {
-    //alert('@@@@@');
-
-    //console.log('####', this.editForm.value)
      if (this.editForm.valid) {
       this.editForm.value.created_by = this.api.userid.user_id;
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/equipment/details",
+          environment.API_URL + "master/module/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -315,7 +184,7 @@ getSectionF() {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getEquipment();
+            this.getModule();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -355,43 +224,18 @@ getSectionF() {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getEquipment();
+      this.getModule();
     }
   }
-  numberOnly(event:any): boolean {
-    var key = event.keyCode;
-          if (key > 31 && (key < 65 || key > 90) &&
-              (key < 97 || key > 122)) {
-          return false;
-        }
-        return true;
-  
+
+numberOnly(event:any): boolean {
+  var key = event.keyCode;
+        if (key > 31 && (key < 65 || key > 90) &&
+            (key < 97 || key > 122)) {
+        return false;
       }
+      return true;
 
- 
-searchForm= new FormGroup({
-    
-    section:new FormControl(""),
-    subsection:new FormControl(""),
-    subsubsection:new FormControl("")
-  })
-  param:any;
-  search(){
-  
-  let type=this.searchForm.value.section?"&global_section="+this.searchForm.value.section:"";
-  type+=this.searchForm.value.subsection?"&global_sub_section="+this.searchForm.value.subsection:"";
-  type+=this.searchForm.value.subsubsection?"&global_sub_sub_section="+this.searchForm.value.subsubsection:"";
-  this.param=type;
-    this.getEquipment();
-  }
+    }
 
- clear(){
-    this.searchForm.reset();
-    this.param="";
-    this.getEquipment();
-  }
- close(){
-    this.editForm.reset();
-  }
 }
-

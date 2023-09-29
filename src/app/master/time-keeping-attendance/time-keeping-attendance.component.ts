@@ -13,32 +13,30 @@ import { ConsoleService } from "src/app/service/console.service";
 import { of } from 'rxjs';
 
 @Component({
-  selector: 'app-equipment',
-  templateUrl: './equipment.component.html',
-  styleUrls: ['./equipment.component.scss']
+  selector: 'app-sub-module',
+  templateUrl: './time-keeping-attendance.component.html',
+  styleUrls: ['./time-keeping-attendance.component.scss']
 })
-export class EquipmentComponent implements OnInit {
-
+export class TimeKeepingAttendanceComponent implements OnInit {
 
   displayedColumns: string[] = [
-    "globalsection",
-    "globalsubsection",
-    "globalsubsubsection",
+    "module",
     "name",
-    "code",
-    "equipment_ship_id",
+    //"targetted_month_complex",
+    //"targetted_month_moderate",
     "status",
     "view",
     "edit",
     "delete",
-  ];
 
+  ];
   dataSource: MatTableDataSource<any>;
 
   country: any;
   public crudName = "Add";
   public countryList = [];
   filterValue:any;
+  filterValue1:any;
   isReadonly=false;
   moduleAccess:any;
   ErrorMsg:any;
@@ -62,45 +60,38 @@ export class EquipmentComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
-    //global_section: new FormControl("",[Validators.required]),
-    global_section: new FormControl(""),
-    global_sub_section: new FormControl(""),
-    global_sub_sub_section: new FormControl(""),
+    module: new FormControl("",[Validators.required]),
+    description: new FormControl(""),
+    code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    //targetted_month_complex: new FormControl(""),
+    //targetted_month_moderate: new FormControl(""),
     name: new FormControl("", [
       Validators.required,
     ]),
-    description: new FormControl(""),
-    //code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    code: new FormControl("", [Validators.required]),
-    equipment_type_name: new FormControl("", [Validators.required]),
-
-    section_id: new FormControl(""),
-    equipment_model: new FormControl(""),
-    nomenclature: new FormControl(""),
-    equipment_ship_id: new FormControl(""),
-    esd_equipment_id: new FormControl(""),
-    universal_id_m_ship: new FormControl(""),
-    equipment_sr_no: new FormControl(""),
-
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
-    sequence : new FormControl("", [Validators.pattern("^[0-9]*$")]),
     status: new FormControl("", [Validators.required]),
   });
+   searchForm= new FormGroup({
+    department:new FormControl(""),
+    
+  })
    status = this.editForm.value.status;
+
   populate(data) {
+    console.log(data,"data");
 
     this.editForm.patchValue(data);
-    this.editForm.patchValue({global_section:data.global_section.id});
-    this.getSubSections(data.global_section.id);
+    this.editForm.patchValue({module:data.module.id});
+    //this.editForm.patchValue({department_id:data.department.id});
+    /*this.editForm.patchValue({trial_unit:data.trial_unit.id});
+
     setTimeout(()=>{
-       this.editForm.patchValue({global_sub_section:data.global_sub_section?data.global_sub_section.id:''});
-     },500);
-    this.getSubSubSections(data.global_section.id,data.global_sub_section.id);
-    setTimeout(()=>{
-       this.editForm.patchValue({global_sub_sub_section:data.global_sub_sub_section?data.global_sub_sub_section.id:''});
-     },500);
+      this.editForm.patchValue({command:data.command?data.command.id:''});
+    },500);
+    let list = data.satellite_units.map(function(a){return a['satellite_unit']['id'];});
+    this.editForm.patchValue({satellite_unit:list});*/
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
     this.logger.info(data.status)
   }
@@ -111,123 +102,60 @@ export class EquipmentComponent implements OnInit {
     });
   }
 
+  displaySatelliteUnit(units)
+  {
+    let satelliteUnits='';
+    for(let i=0;i<units.length;i++)
+      satelliteUnits+=units[i].satellite_unit.name+' & ';
+
+    return satelliteUnits.substring(0,(satelliteUnits.length)-3);
+  }
+
   Error = (controlName: string, errorName: string) => {
     return this.editForm.controls[controlName].hasError(errorName);
   };
 
   ngOnInit(): void {
-     this.getEquipment();
-     this.getSection();
-     this.getSystem();
+     //this.getSubModule();
+    this.getSubModuleTimeKeepingAttendance();
+     this.getModule();
      this.getAccess();
-     this.getgSection();
-     this.getSectionF();
   }
-sectiong:any;
-  getgSection() {
-    this.api
-      .getAPI(environment.API_URL + "master/global_section?status=1&order_type=asc&type_equipment=1")
-      .subscribe((res) => {
-        this.sectiong = res.data;
 
+  modules:any;
+  getModule() {
+    this.api
+      .getAPI(environment.API_URL + "master/module?status=1")
+      .subscribe((res) => {
+        this.modules = res.data;
       });
   }
-   subSections:any;
-  getSubSections(global_section_id='') {
 
-    let filter='?status=1&order_type=asc&type_equipment=1';
-    filter+=global_section_id?'&global_section_id='+global_section_id:'';
-    //alert(filter)
-    this.api
-      .getAPI(environment.API_URL + "master/global_sub_section"+filter)
-      .subscribe((res) => {
-        this.subSections = res.data;
-
+  // getSubModule() {
+  //   if(this.param==undefined) this.param=""; else this.param;
+  //   this.api
+  //     .getAPI(environment.API_URL + "master/sub_module?"+this.param)
+  //     .subscribe((res) => {
+  //       this.dataSource = new MatTableDataSource(res.data);
+  //       this.countryList = res.data;
+  //       this.dataSource.paginator = this.pagination;
+  //       this.logger.log('country',this.countryList)
         
-      });
-  }
-   subsubSections:any;
-  //getSubSubSections(global_section_id='', global_sub_section_id='') {
-   getSubSubSections(global_sub_section_id='',global_section_id='') {
-
-    //let filter='?status=1&order_type=asc&type_equipment=1';
-    //filter+=global_section_id?'&global_section_id='+global_section_id+'&global_sub_section_id='+global_sub_section_id:'';
-
-    let filter='?status=1&order_type=asc&type_equipment=1';
-    filter+=global_section_id?'&global_section_id='+global_section_id+'&global_sub_section_id='+global_sub_section_id:'';
-    //alert(filter)
-    this.api
-      .getAPI(environment.API_URL + "master/global_sub_sub_section"+filter)
-      .subscribe((res) => {
-        this.subsubSections = res.data;
-
         
-      });
-  }
-  sectionF:any;
-getSectionF() {
-    this.api
-      .getAPI(environment.API_URL + "master/global_section?status=1&order_type=asc")
-      .subscribe((res) => {
-        this.sectionF = res.data;
+  //     });
+  // }
 
-      });
-  }
-   subSectionF:any;
-  getSubSectionF(global_section_id='') {
-
-    let filter='?status=1&order_type=asc';
-    filter+=global_section_id?'&global_section_id='+global_section_id:'';
-    //alert(filter)
-    this.api
-      .getAPI(environment.API_URL + "master/global_sub_section"+filter)
-      .subscribe((res) => {
-        this.subSectionF = res.data;
-
-        
-      });
-  }
-   subsubSectionF:any;
-  getSubSubSectionF(global_section_id='', global_sub_section_id='') {
-
-    let filter='?status=1&order_type=asc';
-    filter+=global_section_id?'&global_section_id='+global_section_id+'&global_sub_section_id='+global_sub_section_id:'';
-    //alert(filter)
-    this.api
-      .getAPI(environment.API_URL + "master/global_sub_sub_section"+filter)
-      .subscribe((res) => {
-        this.subsubSectionF = res.data;
-
-        
-      });
-  }
-
-  sections:any;
-  getSection() {
-    this.api
-      .getAPI(environment.API_URL + "master/section?status=1")
-      .subscribe((res) => {
-        this.sections = res.data;
-      });
-  }
-  systems:any;
-  getSystem() {
-    this.api
-      .getAPI(environment.API_URL + "master/system?status=1")
-      .subscribe((res) => {
-        this.systems = res.data;
-      });
-  }
-
-  getEquipment() {
+  getSubModuleTimeKeepingAttendance() {
     if(this.param==undefined) this.param=""; else this.param;
     this.api
-      .getAPI(environment.API_URL + "master/equipment?order_type=desc"+this.param)
+      .getAPI(environment.API_URL + "master/sub_module_time_keeping_attendance?order_type=desc"+this.param)
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
         this.countryList = res.data;
         this.dataSource.paginator = this.pagination;
         this.logger.log('country',this.countryList)
+        
+        
       });
   }
 
@@ -279,15 +207,15 @@ getSectionF() {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/equipment/details", {
+        this.api.postAPI(environment.API_URL + "master/sub_module_time_keeping_attendance/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('Equipment '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getEquipment();
+            this.notification.warn('Time keeping attendance '+language[environment.DEFAULT_LANG].deleteMsg);
+            this.getSubModuleTimeKeepingAttendance();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -298,15 +226,12 @@ getSectionF() {
   }
 
   onSubmit() {
-    //alert('@@@@@');
-
-    //console.log('####', this.editForm.value)
      if (this.editForm.valid) {
       this.editForm.value.created_by = this.api.userid.user_id;
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/equipment/details",
+          environment.API_URL + "master/sub_module_time_keeping_attendance/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -315,7 +240,7 @@ getSectionF() {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getEquipment();
+            this.getSubModuleTimeKeepingAttendance();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -332,7 +257,7 @@ getSectionF() {
   }
 
 
-
+param:any;
   getAccess() {
     this.moduleAccess=this.api.getPageAction();
     if(this.moduleAccess)
@@ -355,9 +280,13 @@ getSectionF() {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getEquipment();
+      this.getSubModuleTimeKeepingAttendance();
     }
   }
+
+
+ 
+
   numberOnly(event:any): boolean {
     var key = event.keyCode;
           if (key > 31 && (key < 65 || key > 90) &&
@@ -367,31 +296,19 @@ getSectionF() {
         return true;
   
       }
-
- 
-searchForm= new FormGroup({
-    
-    section:new FormControl(""),
-    subsection:new FormControl(""),
-    subsubsection:new FormControl("")
-  })
-  param:any;
-  search(){
-  
-  let type=this.searchForm.value.section?"&global_section="+this.searchForm.value.section:"";
-  type+=this.searchForm.value.subsection?"&global_sub_section="+this.searchForm.value.subsection:"";
-  type+=this.searchForm.value.subsubsection?"&global_sub_sub_section="+this.searchForm.value.subsubsection:"";
-  this.param=type;
-    this.getEquipment();
+    search(){
+    let type=this.searchForm.value.department?"department_id="+this.searchForm.value.department:"";
+    this.param=type;
+    this.getSubModuleTimeKeepingAttendance();
   }
 
  clear(){
     this.searchForm.reset();
     this.param="";
-    this.getEquipment();
+    this.getSubModuleTimeKeepingAttendance();
   }
- close(){
-    this.editForm.reset();
+ chooseCountry(event) {
+    //this.getDepartments();
+    
   }
 }
-

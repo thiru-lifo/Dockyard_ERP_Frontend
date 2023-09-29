@@ -23,8 +23,8 @@ export class DefectListComponent implements OnInit {
     //"trial_unit",
     //"command",
     //"satellite_unit",
-    'class_id',
-    'project_type',
+    //'class_id',
+    'refit_type',
     "name",
     "code",
     "status",
@@ -66,8 +66,16 @@ export class DefectListComponent implements OnInit {
     name: new FormControl("", [Validators.required]),
     description: new FormControl(""),
     code: new FormControl("", [Validators.required]),
-    class_id: new FormControl("", [Validators.required]),
-    project_type: new FormControl("", [Validators.required]),
+    //class_id: new FormControl("", [Validators.required]),
+    refit_type: new FormControl("", [Validators.required]),
+
+    dl_1: new FormControl(""),
+    dl_2: new FormControl(""),
+    dl_3: new FormControl(""),
+    sdl: new FormControl(""),
+    awrf_1: new FormControl(""),
+    awrf_2: new FormControl(""),
+    awrf_3: new FormControl(""),
 
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
@@ -80,16 +88,16 @@ export class DefectListComponent implements OnInit {
     console.log(data,"data");
 
     this.editForm.patchValue(data);
-    this.editForm.patchValue({class_id:data.class_id.id});
+    //this.editForm.patchValue({class_id:data.class_id.id});
     //this.getCommand(data.trial_unit.id);
     //this.getSatelliteUnits(data.trial_unit.id,data.command.id);
 
     setTimeout(()=>{
       // this.editForm.patchValue({satellite_unit:data.satellite_unit?data.satellite_unit.id:''});
-      this.editForm.patchValue({command:data.command?data.command.id:''});
+      //this.editForm.patchValue({command:data.command?data.command.id:''});
     },500);
 
-    this.editForm.patchValue({satellite_unit:data.class_id.id});
+    //this.editForm.patchValue({satellite_unit:data.class_id.id});
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
     this.logger.info(data.status)
     console.log('dsd',data.status)
@@ -115,30 +123,41 @@ export class DefectListComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getProject();
-     this.getClass();
-     this.getProjectType();
+     this.getDefect();
+     //this.getClass();
+     //this.getProjectType();
+     this.getRefitType();
      //this.getTrialUnits();
      this.getAccess();
   }
 
-  classes:any;
+  // classes:any;
 
-  getClass() {
+  // getClass() {
+  //   this.api
+  //     .getAPI(environment.API_URL + "master/class?status=1")
+  //     .subscribe((res) => {
+  //       this.classes = res.data;
+  //     });
+  // }
+  // refit_types=[];
+  // getProjectType() {
+  //   this.api
+  //     .getAPI(environment.API_URL + "master/refit_type?status=1")
+  //     .subscribe((res) => {
+  //       this.refit_types = res.data;
+  //     });
+  // }
+
+refit_types=[];
+  getRefitType() {
     this.api
-      .getAPI(environment.API_URL + "master/class?status=1")
+      .getAPI(environment.API_URL + "master/refit_type?status=1")
       .subscribe((res) => {
-        this.classes = res.data;
+        this.refit_types = res.data;
       });
   }
-  project_types=[];
-  getProjectType() {
-    this.api
-      .getAPI(environment.API_URL + "master/project_type?status=1")
-      .subscribe((res) => {
-        this.project_types = res.data;
-      });
-  }
+
 
   /*trialUnits:any;
 
@@ -183,10 +202,10 @@ export class DefectListComponent implements OnInit {
       });
   }*/
 
-  getProject() {
+  getDefect() {
     if(this.param==undefined) this.param=""; else this.param;
     this.api
-      .getAPI(environment.API_URL + "master/project?"+this.param)
+      .getAPI(environment.API_URL + "master/defect?"+this.param)
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
         this.countryList = res.data;
@@ -245,15 +264,15 @@ export class DefectListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/project/details", {
+        this.api.postAPI(environment.API_URL + "master/defect/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('Project '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getProject();
+            this.notification.warn('Defect '+language[environment.DEFAULT_LANG].deleteMsg);
+            this.getDefect();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -264,12 +283,15 @@ export class DefectListComponent implements OnInit {
   }
 
   onSubmit() {
+
+    //console.log(this.editForm.value)
+    //return false;
      if (this.editForm.valid) {
       this.editForm.value.created_by = this.api.userid.user_id;
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/project/details",
+          environment.API_URL + "master/defect/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -278,7 +300,7 @@ export class DefectListComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getProject();
+            this.getDefect();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -318,20 +340,20 @@ export class DefectListComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getProject();
+      this.getDefect();
     }
   }
-    // applyFilter1(fill) {
-    //   console.log('dsfdsf',fill)
-    //  //this.filterValue1 = (fill.target as HTMLSelectElement).value;
-    //   this.filterValue1=fill.value;
-    //  console.log('dsfdsf',this.filterValue1)
-    //    if(this.filterValue1){
-    //   this.dataSource.filter = this.filterValue1.trim().toLowerCase();
-    // } else {
-    //   this.getProject();
-    // }
-    // }
+    applyFilter1(fill) {
+      console.log('dsfdsf',fill)
+     //this.filterValue1 = (fill.target as HTMLSelectElement).value;
+      this.filterValue1=fill.value;
+     console.log('dsfdsf',this.filterValue1)
+       if(this.filterValue1){
+      this.dataSource.filter = this.filterValue1.trim().toLowerCase();
+    } else {
+      this.getDefect();
+    }
+    }
 
   numberOnly(event:any): boolean {
     var key = event.keyCode;
@@ -348,18 +370,19 @@ export class DefectListComponent implements OnInit {
   })
   param:any;
   search(){
-  let type=this.searchForm.value.class?"class_id="+this.searchForm.value.class:"";
+  let type=this.searchForm.value.class?"refit_type_id="+this.searchForm.value.class:"";
     this.param=type;
-    this.getProject();
+    this.getDefect();
   }
 
  clear(){
     this.searchForm.reset();
     this.param="";
-    this.getProject();
+    this.getDefect();
   }
  chooseCountry(event) {
-    this.getClass();
+    //this.getClass();
+  this.getRefitType();
     
   }
 }

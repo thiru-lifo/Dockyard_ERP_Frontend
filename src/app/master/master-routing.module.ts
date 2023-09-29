@@ -64,6 +64,9 @@ import{ DesignationComponent } from './designation/designation.component';
 import { FormMappingComponent } from './form-mapping/form-mapping.component';
 
 
+import { DockyardGroupComponent } from './dockyard_group/dockyard_group.component';
+
+
 
 const routes: Routes = [
   { path: '', component: TrialunitsComponent, data: { breadcrumb: 'Trial Units'} },
@@ -130,6 +133,10 @@ const routes: Routes = [
     { path: 'designation',component:DesignationComponent,data:{breadcrumb: 'Designation Component'}},
 
     { path: 'psr/sss-mapping',component:SSSMappingComponent,data:{breadcrumb: 'SSS Mapping Component'}},
+
+
+    { path: 'dockyard-group',component:DockyardGroupComponent,data:{breadcrumb: 'Dockyard Group'}},
+
 
 
 

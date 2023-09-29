@@ -67,6 +67,9 @@ import { SSSMappingComponent } from './sss-mapping/sss-mapping.component';
 import { FormMappingComponent } from './form-mapping/form-mapping.component';
 
 
+import { DockyardGroupComponent } from './dockyard_group/dockyard_group.component';
+
+
 @NgModule({
   declarations: [
     TrialunitsComponent,
@@ -117,7 +120,10 @@ import { FormMappingComponent } from './form-mapping/form-mapping.component';
     AnnexuresComponent,
     DesignationComponent,
     SSSMappingComponent,
-    FormMappingComponent
+    FormMappingComponent,
+
+
+    DockyardGroupComponent
   ],
   imports: [
     CommonModule,

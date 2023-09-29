@@ -13,7 +13,7 @@ import { ConsoleService } from "src/app/service/console.service";
 import { of } from 'rxjs';
 
 @Component({
-  selector: 'app-class',
+  selector: 'app-dockyard_group',
   templateUrl: './dockyard_group.component.html',
   styleUrls: ['./dockyard_group.component.scss']
 })
@@ -100,7 +100,7 @@ export class DockyardGroupComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getClass();
+     this.getdockyard_group();
      //this.getProject();
      this.getAccess();
   }
@@ -113,15 +113,15 @@ export class DockyardGroupComponent implements OnInit {
         this.projects = res.data;
       });
   }*/
-
-  getClass() {
+dockyardgroup:any
+  getdockyard_group() {
     this.api
-      .getAPI(environment.API_URL + "master/class")
+      .getAPI(environment.API_URL + "master/dockyard_group")
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
-        this.countryList = res.data;
+        this.dockyardgroup = res.data;
         this.dataSource.paginator = this.pagination;
-        this.logger.log('country',this.countryList)
+        this.logger.log('dockyardgroup',this.dockyardgroup)
       });
   }
 
@@ -173,7 +173,7 @@ export class DockyardGroupComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/class/details", {
+        this.api.postAPI(environment.API_URL + "master/dockyard_group/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
@@ -181,7 +181,7 @@ export class DockyardGroupComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
             this.notification.warn('Class '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getClass();
+            this.getdockyard_group();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -197,7 +197,7 @@ export class DockyardGroupComponent implements OnInit {
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/class/details",
+          environment.API_URL + "master/dockyard_group/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -206,7 +206,7 @@ export class DockyardGroupComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getClass();
+            this.getdockyard_group();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -246,7 +246,7 @@ export class DockyardGroupComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getClass();
+      this.getdockyard_group();
     }
   }
   numberOnly(event:any): boolean {

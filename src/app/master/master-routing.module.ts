@@ -48,6 +48,7 @@ import { UnitComponent } from './unit/unit.component';
 import { AuthorityComponent } from './authority/authority.component';
 import { ClassComponent } from './class/class.component';
 import { DockyardComponent } from './dockyard/dockyard.component';
+import { DockyardGroupComponent } from './dockyard_group/dockyard_group.component';
 import { PrimaryRolesComponent } from './psr/primary_role/primary-roles.component';
 import { SecondaryRolesComponent } from './psr/secondary_roles/secondary-roles.component';
 import { StandardComponent } from './psr/standard/standard.component';
@@ -64,7 +65,7 @@ import{ DesignationComponent } from './designation/designation.component';
 import { FormMappingComponent } from './form-mapping/form-mapping.component';
 
 
-import { DockyardGroupComponent } from './dockyard_group/dockyard_group.component';
+
 
 
 
@@ -107,6 +108,7 @@ const routes: Routes = [
   { path: 'authority', component: AuthorityComponent, data: { breadcrumb: 'Authority'}  },
   { path: 'class', component: ClassComponent, data: { breadcrumb: 'Class'}  },
   { path: 'dockyard', component: DockyardComponent, data: { breadcrumb: 'Dockyard'}  },
+  { path: 'dockyard-group', component: DockyardGroupComponent, data: { breadcrumb: 'Dockyard Group'}  },
   { path: 'ship', component: ShipComponent, data: { breadcrumb: 'Ship'}  },
   { path: 'ships', component: ShipsComponent, data: { breadcrumb: 'Ships'}  },
   { path: 'compartment', component: CompartmentComponent, data: { breadcrumb: 'Compartment'}  },

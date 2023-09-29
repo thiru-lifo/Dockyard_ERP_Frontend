@@ -24,6 +24,7 @@ export class DockyardComponent implements OnInit {
     //'project_id',
     "name",
     "code",
+    "command",
     "status",
     "view",
     "edit",
@@ -65,6 +66,7 @@ export class DockyardComponent implements OnInit {
     ]),
     description: new FormControl(""),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    command_id: new FormControl(""),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -100,9 +102,10 @@ export class DockyardComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getClass();
+     this.getDockyard();
      //this.getProject();
      this.getAccess();
+     this.getCommand();
   }
 
   /*projects:any;
@@ -113,15 +116,24 @@ export class DockyardComponent implements OnInit {
         this.projects = res.data;
       });
   }*/
-
-  getClass() {
+  commands:any;
+  getCommand() {
     this.api
-      .getAPI(environment.API_URL + "master/class")
+      .getAPI(environment.API_URL + "master/command?status=1")
+      .subscribe((res) => {
+        this.commands = res.data;
+        console.log("ddddddd",this.commands)
+      });
+  }
+  dockyardlist:any
+  getDockyard() {
+    this.api
+      .getAPI(environment.API_URL + "master/dockyard")
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
-        this.countryList = res.data;
+        this.dockyardlist = res.data;
         this.dataSource.paginator = this.pagination;
-        this.logger.log('country',this.countryList)
+        this.logger.log('dockyard',this.dockyardlist)
       });
   }
 
@@ -173,7 +185,7 @@ export class DockyardComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/class/details", {
+        this.api.postAPI(environment.API_URL + "master/dockyard/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
@@ -181,7 +193,7 @@ export class DockyardComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
             this.notification.warn('Class '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getClass();
+            this.getDockyard();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -194,10 +206,13 @@ export class DockyardComponent implements OnInit {
   onSubmit() {
      if (this.editForm.valid) {
       this.editForm.value.created_by = this.api.userid.user_id;
+
+      
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
+      console.log(this.editForm.value)
       this.api
         .postAPI(
-          environment.API_URL + "master/class/details",
+          environment.API_URL + "master/dockyard/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -206,7 +221,7 @@ export class DockyardComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getClass();
+            this.getDockyard();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -246,7 +261,7 @@ export class DockyardComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getClass();
+      this.getDockyard();
     }
   }
   numberOnly(event:any): boolean {

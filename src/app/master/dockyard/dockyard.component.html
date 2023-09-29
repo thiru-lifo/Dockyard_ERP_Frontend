@@ -10,7 +10,7 @@
                      </div>
                      <div class="col-md-6">
                         <div class="text-right">
-                           <a href="#" data-toggle="modal" data-target="#crud-countries" (click)="create()" class="btn btn-primary btn-round-sm"  *ngIf="permission.add==true" >Create</a>
+                           <a href="#" data-toggle="modal" data-target="#open-dockyard" (click)="create()" class="btn btn-primary btn-round-sm"  *ngIf="permission.add==true" >Create</a>
                         </div>
                      </div>
                   </div>
@@ -38,11 +38,15 @@
 
                   <ng-container matColumnDef="name">
                      <th mat-header-cell *matHeaderCellDef><b> Name </b></th>
-                     <td mat-cell *matCellDef="let country"> {{country.name}} </td>
+                     <td mat-cell *matCellDef="let data"> {{data.name}} </td>
                   </ng-container>
                   <ng-container matColumnDef="code">
                      <th mat-header-cell *matHeaderCellDef><b> Code </b></th>
                      <td mat-cell *matCellDef="let country"> {{country.code}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="command">
+                     <th mat-header-cell *matHeaderCellDef><b> Command </b></th>
+                     <td mat-cell *matCellDef="let d"> {{d.command_id?d.command_id.name:'-'}} </td>
                   </ng-container>
                   <ng-container matColumnDef="status">
                      <th mat-header-cell *matHeaderCellDef><b> Status </b></th>
@@ -51,12 +55,12 @@
                   <ng-container matColumnDef="view" >
                      <th class="text-center" mat-header-cell *matHeaderCellDef ><ng-container *ngIf="permission.view==true" ><b>View</b></ng-container></th>
                      <td class="text-center" mat-cell *matCellDef="let country">
-                        <a href="#" data-toggle="modal" data-target="#crud-countries" class="edit-icon text-primary" *ngIf="permission.view==true" (click)="onView(country)"><span class="material-icons-outlined">remove_red_eye</span></a></td>
+                        <a href="#" data-toggle="modal" data-target="#open-dockyard" class="edit-icon text-primary" *ngIf="permission.view==true" (click)="onView(country)"><span class="material-icons-outlined">remove_red_eye</span></a></td>
                   </ng-container>
                   <ng-container matColumnDef="edit" >
                      <th class="text-center" mat-header-cell *matHeaderCellDef ><ng-container *ngIf="permission.edit==true" ><b>Edit</b></ng-container></th>
                      <td class="text-center" mat-cell *matCellDef="let country">
-                        <a href="#" data-toggle="modal" data-target="#crud-countries" class="edit-icon text-primary" (click)="editOption(country)" *ngIf="permission.edit==true" ><span class="material-icons-outlined">edit</span></a></td>
+                        <a href="#" data-toggle="modal" data-target="#open-dockyard" class="edit-icon text-primary" (click)="editOption(country)" *ngIf="permission.edit==true" ><span class="material-icons-outlined">edit</span></a></td>
                   </ng-container>
                   <ng-container matColumnDef="delete">
                      <th class="text-center" mat-header-cell *matHeaderCellDef ><ng-container *ngIf="permission.delete==true"><b>Delete</b></ng-container></th>
@@ -81,11 +85,11 @@
 </section>
 
 <!-- modal -->
-<div class="modal fade master-modal-style" id="crud-countries" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade master-modal-style" id="open-dockyard" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-lg">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{crudName}} Class</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{crudName}} Dockyard</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" matTooltip="Close" matTooltipClass="custom-tooltip">
                <span aria-hidden="true">&times;</span>
                </button>
@@ -123,14 +127,17 @@
                </div>
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>Descriptions </mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="description" maxlength="100"
-                        >
-                        <mat-error *ngIf="Error('description','required')">Enter description</mat-error>
-                     </mat-form-field>
+                      <mat-label>Command <b class="star">*</b></mat-label>
+                      <mat-form-field appearance="legacy">
+                            <mat-select formControlName="command_id" placeholder="Select Command">
+
+                            <mat-option *ngFor="let command of commands" [value]="command.id">{{command.name}}</mat-option>
+                            </mat-select>
+                        <mat-error *ngIf="Error('command_id','required')"></mat-error>
+                      </mat-form-field>
                   </div>
                </div>
+               
                <div class="col-md-6">
                   <div class="matt-group">
                      <mat-label>Code <b class="star">*</b></mat-label>
@@ -138,6 +145,16 @@
                         <input matInput placeholder="" class="code_field" formControlName="code" maxlength="15" >
                         <mat-error *ngIf="Error('code','required')">Enter code</mat-error>
                         <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error>
+                     </mat-form-field>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Descriptions </mat-label>
+                     <mat-form-field appearance="legacy">
+                        <input matInput placeholder="" formControlName="description" maxlength="100"
+                        >
+                        <mat-error *ngIf="Error('description','required')">Enter description</mat-error>
                      </mat-form-field>
                   </div>
                </div>

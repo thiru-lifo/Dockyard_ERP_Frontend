@@ -76,17 +76,18 @@ export class DockyardComponent implements OnInit {
    status = this.editForm.value.status;
   populate(data) {
 
+    //console.log(data,"GGGGGGGGGG")
     this.editForm.patchValue(data);
     //this.editForm.patchValue({project_id:data.project_id.id});
     //this.editForm.patchValue({trial_unit:data.trial_unit.id});
     /*this.getCommand(data.trial_unit.id);
     this.getSatelliteUnits(data.trial_unit.id,data.command.id);
-    this.getShips(data.trial_unit.id,data.satellite_unit.id);
+    this.getShips(data.trial_unit.id,data.satellite_unit.id);*/
     setTimeout(()=>{
-      this.editForm.patchValue({satellite_unit:data.satellite_unit.id});
-      this.editForm.patchValue({command:data.command?data.command.id:''});
-      this.editForm.patchValue({ship:data.ship.id});
-    },500);*/
+      //this.editForm.patchValue({satellite_unit:data.satellite_unit.id});
+      this.editForm.patchValue({command_id:data.command_id?data.command_id.id:''});
+      //this.editForm.patchValue({ship:data.ship.id});
+    },500);
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
     this.logger.info(data.status)
   }

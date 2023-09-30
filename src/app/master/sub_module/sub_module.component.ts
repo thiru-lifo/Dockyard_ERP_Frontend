@@ -22,8 +22,8 @@ export class SubModuleComponent implements OnInit {
   displayedColumns: string[] = [
     "module",
     "name",
-    "targetted_month_complex",
-    "targetted_month_moderate",
+    //"targetted_month_complex",
+    //"targetted_month_moderate",
     "status",
     "view",
     "edit",
@@ -61,8 +61,8 @@ export class SubModuleComponent implements OnInit {
   public editForm = new FormGroup({
     id: new FormControl(""),
     module: new FormControl("",[Validators.required]),
-    targetted_month_complex: new FormControl(""),
-    targetted_month_moderate: new FormControl(""),
+    //targetted_month_complex: new FormControl(""),
+    //targetted_month_moderate: new FormControl(""),
     name: new FormControl("", [
       Validators.required,
     ]),

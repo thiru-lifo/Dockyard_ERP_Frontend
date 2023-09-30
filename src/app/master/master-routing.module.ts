@@ -67,6 +67,8 @@ import { FormMappingComponent } from './form-mapping/form-mapping.component';
 
 
 import { DockyardGroupComponent } from './dockyard_group/dockyard_group.component';
+import { DockyardSubGroupComponent } from './dockyard_sub_group/dockyard_sub_group.component';
+
 import { TimeKeepingAttendanceComponent } from './time-keeping-attendance/time-keeping-attendance.component';
 
 
@@ -114,6 +116,9 @@ const routes: Routes = [
   { path: 'class', component: ClassComponent, data: { breadcrumb: 'Class'}  },
   { path: 'dockyard', component: DockyardComponent, data: { breadcrumb: 'Dockyard'}  },
   { path: 'dockyard-group', component: DockyardGroupComponent, data: { breadcrumb: 'Dockyard Group'}  },
+  { path: 'dockyard-sub-group', component: DockyardSubGroupComponent, data: { breadcrumb: 'Dockyard Sub Group'}  },
+
+  
   { path: 'ship', component: ShipComponent, data: { breadcrumb: 'Ship'}  },
   { path: 'ships', component: ShipsComponent, data: { breadcrumb: 'Ships'}  },
   { path: 'compartment', component: CompartmentComponent, data: { breadcrumb: 'Compartment'}  },

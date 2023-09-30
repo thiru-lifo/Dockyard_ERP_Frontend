@@ -23,9 +23,9 @@ export class CompartmentComponent implements OnInit {
   displayedColumns: string[] = [
     //'command_id',
     //"class_id",
-    "globalsection",
-    "globalsubsection",
-    "globalsubsubsection",
+    //"globalsection",
+    //"globalsubsection",
+    //"globalsubsubsection",
     //"department_id",
     "name",
     "code",
@@ -64,9 +64,9 @@ export class CompartmentComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
-    global_section: new FormControl("",[Validators.required]),
-    global_sub_section: new FormControl(""),
-    global_sub_sub_section: new FormControl(""),
+    // global_section: new FormControl("",[Validators.required]),
+    // global_sub_section: new FormControl(""),
+    // global_sub_sub_section: new FormControl(""),
     //command_id: new FormControl("",[Validators.required]),
     //class_id: new FormControl("",[Validators.required]),
     // section_id: new FormControl("",[Validators.required]),
@@ -197,7 +197,7 @@ sectiong:any;
   getCompartment() {
      if(this.param==undefined) this.param=""; else this.param;
     this.api
-      .getAPI(environment.API_URL + "master/compartment?"+this.param)
+      .getAPI(environment.API_URL + "master/compartment?order_type=desc"+this.param)
     
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);

@@ -31,7 +31,7 @@
                      </div>
                   </div>
                </div>
-      <div class="container-fluid">
+      <!-- <div class="container-fluid">
                <form [formGroup]="searchForm">
           <div class="form-row form-style-md">
             
@@ -93,7 +93,9 @@
  
 
    </form>
-</div>          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+</div> -->          
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                 <!-- <ng-container matColumnDef="command_id">
                   <th mat-header-cell *matHeaderCellDef><b> Command </b></th>
                   <td mat-cell *matCellDef="let country"> {{country.command_id.name}} </td>
@@ -104,7 +106,7 @@
                      <td mat-cell *matCellDef="let country"> {{country.class_id.name}} </td>
                   </ng-container> -->
 
-                  <ng-container matColumnDef="globalsection">
+                  <!-- <ng-container matColumnDef="globalsection">
                     <th mat-header-cell *matHeaderCellDef><b> Section</b></th>
                     <td mat-cell *matCellDef="let country"> {{country.global_section?country.global_section.name:'-'}}
                      </td>
@@ -116,7 +118,7 @@
                  <ng-container matColumnDef="globalsubsubsection">
                     <th mat-header-cell *matHeaderCellDef><b>SubSub Section</b></th>
                     <td mat-cell *matCellDef="let country"> {{country.global_sub_sub_section?country.global_sub_sub_section.name:'-'}} </td>
-                 </ng-container>
+                 </ng-container> -->
                 <!--  <ng-container matColumnDef="department_id">
                   <th mat-header-cell *matHeaderCellDef><b>Department</b></th>
                   <td mat-cell *matCellDef="let country"> {{country.department_id.name}} </td>
@@ -233,7 +235,7 @@
                   </mat-form-field>
                </div>
               </div> -->
-              <div class="col-md-6">
+              <!-- <div class="col-md-6">
                     <div class="matt-group">
                         <mat-label>Select GlobalSection <b class="star">*</b></mat-label>
                         <mat-form-field appearance="legacy">
@@ -273,7 +275,7 @@
                         </mat-form-field>
                     </div>
 
-                </div>
+                </div> -->
                  <div class="col-md-6">
                   <div class="matt-group">
                      <mat-label>Name <b class="star">*</b></mat-label>

@@ -21,9 +21,9 @@ export class SystemComponent implements OnInit {
 
 
   displayedColumns: string[] = [
-    "globalsection",
-    "globalsubsection",
-    "globalsubsubsection",
+    // "globalsection",
+    // "globalsubsection",
+    // "globalsubsubsection",
     "name",
     "code",
     "status",
@@ -61,9 +61,9 @@ export class SystemComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
-    global_section: new FormControl("",[Validators.required]),
-    global_sub_section: new FormControl(""),
-    global_sub_sub_section: new FormControl(""),
+    // global_section: new FormControl("",[Validators.required]),
+    // global_sub_section: new FormControl(""),
+    // global_sub_sub_section: new FormControl(""),
     name: new FormControl("", [
       Validators.required,
     ]),
@@ -160,7 +160,7 @@ sectiong:any;
   getSystem() {
     if(this.param==undefined) this.param=""; else this.param;
     this.api
-      .getAPI(environment.API_URL + "master/system?"+this.param)
+      .getAPI(environment.API_URL + "master/system?order_type=desc"+this.param)
    
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);

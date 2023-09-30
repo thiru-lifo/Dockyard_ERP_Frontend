@@ -1,13 +1,12 @@
 <section class="body-card">
    <div class="container-fluid">
-
       <div class="row">
          <div class="col-md-12">
             <div class="card">
                <div class="card-header">
                   <div class="row">
                      <div class="col-md-6">
-                        <h3>Ship</h3>
+                        <h3>DockYard Sub Group</h3>
                      </div>
                      <div class="col-md-6">
                         <div class="text-right">
@@ -30,99 +29,11 @@
                      </div>
                   </div>
                </div>
-               <div class="container-fluid">
-         <form [formGroup]="searchForm">
-         <div class="form-row form-style-md">
-               <div class="col-md-2" >
-
-                
-                    <div class="matt-group">
-                        <mat-label>Search Command </mat-label>
-                        <mat-form-field appearance="fill" >
-                        <mat-select formControlName="command" placeholder="Select Command" (selectionChange)="chooseCountry($event.value)">
-                          <mat-option *ngFor="let command of commands" [value]="command.id">{{command.name}}</mat-option>
-                            </mat-select>
-                      </mat-form-field>
-
-                   
-                </div>
-             </div>
-              <!-- <div class="col-md-2" >
-                
-                <div class="matt-group">
-                  <mat-label>Search Class </mat-label>
-                  <mat-form-field appearance="fill">
-                        <mat-select formControlName="class"
-                        placeholder="Select Class" (selectionChange)="chooseclass($event.value)">
-                        
-                        <mat-option *ngFor="let class of classes" [value]="class.id">{{class.name}}</mat-option>
-                        </mat-select>
-                     
-                  </mat-form-field>
-               </div>
-               
-            </div> -->
-          <!-- <div class="col-md-2" >
-               
-                <div class="matt-group">
-                  <mat-label>Search Project </mat-label>
-                  <mat-form-field appearance="fill">
-                        <mat-select formControlName="class"
-                        placeholder="Select Project" (selectionChange)="chooseproject($event.value)">
-                        
-                        <mat-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</mat-option>
-                        </mat-select>
-                     
-                  </mat-form-field>
-               </div>
-               
-            </div> -->
-             <!-- <div class="col-md-2" >
-                
-                <div class="matt-group">
-                  <mat-label>Search Authority </mat-label>
-                  <mat-form-field appearance="fill">
-                        <mat-select formControlName="class"
-                        placeholder="Select Authority" (selectionChange)="chooseauthority($event.value)">
-                        
-                        <mat-option *ngFor="let authority of authorities" [value]="authority.id">{{authority.name}}</mat-option>
-                        </mat-select>
-                     
-                  </mat-form-field>
-               </div>
-               
-            </div> -->
-          <div class="col-md-4">
-             <div class="button-group-lg button-group-md mt-4">
-                <a href="javascript:void(0);" class="btn btn-outline-primary btn-lg" (click)="clear()">Clear</a>
-                <a href="javascript:void(0);" class="btn btn-primary btn-lg" type="submit" (click)="search()">Search</a>
-             </div>
-          </div>
-          
-      
-    </div>
-
-   </form>
-</div>
                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                <ng-container matColumnDef="command_id">
-                  <th mat-header-cell *matHeaderCellDef><b> Command </b></th>
-                  <td mat-cell *matCellDef="let country"> {{country.command_id.name}} </td>
-               </ng-container>
 
-               	  <!-- <ng-container matColumnDef="class_id">
-                     <th mat-header-cell *matHeaderCellDef><b> Class </b></th>
-                     <td mat-cell *matCellDef="let country"> {{country.class_id.name}} </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="project_id">
-                    <th mat-header-cell *matHeaderCellDef><b> Project</b></th>
-                    <td mat-cell *matCellDef="let country"> {{country.project_id.name}} </td>
-                 </ng-container>
-
-                 <ng-container matColumnDef="authority_id">
-                  <th mat-header-cell *matHeaderCellDef><b> Authority</b></th>
-                  <td mat-cell *matCellDef="let country"> {{country.authority_id.name}} </td>
+                 <!-- <ng-container matColumnDef="project_id">
+                  <th mat-header-cell *matHeaderCellDef><b> Project</b></th>
+                  <td mat-cell *matCellDef="let country"> {{country.project_id.name}} </td>
                  </ng-container> -->
 
                   <ng-container matColumnDef="name">
@@ -174,7 +85,7 @@
    <div class="modal-dialog modal-lg">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{crudName}} Ship</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{crudName}} Dockyard Sub Group</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" matTooltip="Close" matTooltipClass="custom-tooltip">
                <span aria-hidden="true">&times;</span>
                </button>
@@ -186,61 +97,36 @@
             <div class="form-row">
                 <div class="col-md-6">
                   <div class="matt-group">
-                      <mat-label>Select Command <b class="star">*</b></mat-label>
+                      <mat-label>Select Dockyard <b class="star">*</b></mat-label>
                       <mat-form-field appearance="legacy">
-                            <mat-select formControlName="command_id"
-                            placeholder="Select Command">
-
-                            <mat-option *ngFor="let command of commands" [value]="command.id">{{command.name}}</mat-option>
+                            <mat-select formControlName="dockyard"
+                            placeholder="Select Dockyard">
+                            <mat-option *ngFor="let dock_yard of dockyard" [value]="dock_yard.id">{{dock_yard.name}}</mat-option>
                             </mat-select>
-                        <mat-error *ngIf="Error('command_id','required')"></mat-error>
+                        <mat-error *ngIf="Error('dockyard','required')">Select Dockyard</mat-error>
                       </mat-form-field>
                   </div>
                </div>
-               	<!-- <div class="col-md-6">
-                    <div class="matt-group">
-                        <mat-label>Select Class <b class="star">*</b></mat-label>
-                        <mat-form-field appearance="legacy">
-                              <mat-select formControlName="class_id"
-                              placeholder="Select Class">
 
-                              <mat-option *ngFor="let class of classes" [value]="class.id">{{class.name}}</mat-option>
-                              </mat-select>
-                           <mat-error *ngIf="Error('class_id','required')"></mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
+
                 <div class="col-md-6">
-                <div class="matt-group">
-                  <mat-label>Select Project <b class="star">*</b></mat-label>
-                  <mat-form-field appearance="legacy">
-                        <mat-select formControlName="project_id"
-                        placeholder="Select Project">
-
-                        <mat-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</mat-option>
-                        </mat-select>
-                     <mat-error *ngIf="Error('project_id','required')"></mat-error>
-                  </mat-form-field>
+                  <div class="matt-group">
+                      <mat-label>Select Dockyard Group <b class="star">*</b></mat-label>
+                      <mat-form-field appearance="legacy">
+                            <mat-select formControlName="dockyard_group"
+                            placeholder="Select Dockyard">
+                            <mat-option *ngFor="let dock_yard_group of dockyard_group" [value]="dock_yard_group.id">{{dock_yard_group.name}}</mat-option>
+                            </mat-select>
+                        <mat-error *ngIf="Error('dockyard_group','required')">Select Dockyard Group</mat-error>
+                      </mat-form-field>
+                  </div>
                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="matt-group">
-                  <mat-label>Select Authority <b class="star">*</b></mat-label>
-                  <mat-form-field appearance="legacy">
-                        <mat-select formControlName="authority_id"
-                        placeholder="Select Authority">
 
-                        <mat-option *ngFor="let authority of authorities" [value]="authority.id">{{authority.name}}</mat-option>
-                        </mat-select>
-                     <mat-error *ngIf="Error('authority_id','required')"></mat-error>
-                  </mat-form-field>
-               </div>
-              </div> -->
                <div class="col-md-6">
                   <div class="matt-group">
                      <mat-label>Name <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" (keypress)="numberOnly($event)" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*" >
+                        <input matInput placeholder="" (keypress)="numberOnly($event)" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*">
                         <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
                         <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error>
                      </mat-form-field>

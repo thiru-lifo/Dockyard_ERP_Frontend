@@ -22,9 +22,9 @@ export class ShipComponent implements OnInit {
 
   displayedColumns: string[] = [
     'command_id',
-    "class_id",
-    "project_id",
-    "authority_id",
+    //"class_id",
+    //"project_id",
+    //"authority_id",
     "name",
     "code",
     "status",
@@ -63,9 +63,9 @@ export class ShipComponent implements OnInit {
   public editForm = new FormGroup({
     id: new FormControl(""),
     command_id: new FormControl("",[Validators.required]),
-    class_id: new FormControl("",[Validators.required]),
-    project_id: new FormControl("",[Validators.required]),
-    authority_id: new FormControl("",[Validators.required]),
+    //class_id: new FormControl("",[Validators.required]),
+    //project_id: new FormControl("",[Validators.required]),
+    //authority_id: new FormControl("",[Validators.required]),
     name: new FormControl("", [
       Validators.required,
     ]),
@@ -82,9 +82,10 @@ export class ShipComponent implements OnInit {
 
     this.editForm.patchValue(data);
     this.editForm.patchValue({command_id:data.command_id.id});
-    this.editForm.patchValue({class_id:data.class_id.id});
+    /*this.editForm.patchValue({class_id:data.class_id.id});
     this.editForm.patchValue({project_id:data.project_id.id});
-    this.editForm.patchValue({authority_id:data.authority_id.id});
+    this.editForm.patchValue({authority_id:data.authority_id.id});*/
+    
     //this.editForm.patchValue({trial_unit:data.trial_unit.id});
     /*this.getCommand(data.trial_unit.id);
     this.getSatelliteUnits(data.trial_unit.id,data.command.id);

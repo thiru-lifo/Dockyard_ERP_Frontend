@@ -71,6 +71,8 @@ import { FormMappingComponent } from './form-mapping/form-mapping.component';
 
 import { DockyardGroupComponent } from './dockyard_group/dockyard_group.component';
 import { DockyardSubGroupComponent } from './dockyard_sub_group/dockyard_sub_group.component';
+import { CenterComponent } from './center/center.component';
+import { ShopFloorComponent } from './shop_floor/shop_floor.component';
 
 
 import { TimeKeepingAttendanceComponent } from './time-keeping-attendance/time-keeping-attendance.component';
@@ -133,6 +135,8 @@ import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.
 
     DockyardGroupComponent,
     DockyardSubGroupComponent,
+    CenterComponent,
+    ShopFloorComponent,
     TimeKeepingAttendanceComponent,
     ManPowerBookingComponent,
   ],

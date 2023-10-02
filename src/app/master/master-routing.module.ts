@@ -68,6 +68,8 @@ import { FormMappingComponent } from './form-mapping/form-mapping.component';
 
 import { DockyardGroupComponent } from './dockyard_group/dockyard_group.component';
 import { DockyardSubGroupComponent } from './dockyard_sub_group/dockyard_sub_group.component';
+import { CenterComponent } from './center/center.component';
+import { ShopFloorComponent } from './shop_floor/shop_floor.component';
 
 import { TimeKeepingAttendanceComponent } from './time-keeping-attendance/time-keeping-attendance.component';
 
@@ -117,6 +119,10 @@ const routes: Routes = [
   { path: 'dockyard', component: DockyardComponent, data: { breadcrumb: 'Dockyard'}  },
   { path: 'dockyard-group', component: DockyardGroupComponent, data: { breadcrumb: 'Dockyard Group'}  },
   { path: 'dockyard-sub-group', component: DockyardSubGroupComponent, data: { breadcrumb: 'Dockyard Sub Group'}  },
+
+  { path: 'center', component: CenterComponent, data: { breadcrumb: 'Center'}  },
+  { path: 'shop-floor', component: ShopFloorComponent, data: { breadcrumb: 'Shop Floor'}  },
+  
 
   
   { path: 'ship', component: ShipComponent, data: { breadcrumb: 'Ship'}  },

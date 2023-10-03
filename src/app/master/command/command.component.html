@@ -100,7 +100,7 @@
                   <div class="matt-group">
                      <mat-label>Name <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*" (keypress)="numberOnly($event)">
+                        <input matInput placeholder="" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*" >
                         <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
                         <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error>
                      </mat-form-field>

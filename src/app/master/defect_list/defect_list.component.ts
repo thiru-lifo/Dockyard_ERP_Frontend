@@ -122,6 +122,10 @@ export class DefectListComponent implements OnInit {
     return this.editForm.controls[controlName].hasError(errorName);
   };
 
+  Error1 = (controlName: string, errorName: string) => {
+    return this.editFormImport.controls[controlName] ? this.editFormImport.controls[controlName].hasError(errorName) : false;
+  };
+
   ngOnInit(): void {
      this.getDefect();
      //this.getClass();
@@ -385,5 +389,72 @@ refit_types=[];
   this.getRefitType();
     
   }
+
+
+  /** Import **/
+
+  public editFormImport = new FormGroup({
+    file_name: new FormControl("", [Validators.required]),
+    created_by: new FormControl("")
+  });
+
+  clearEditFormImport() {
+    this.editFormImport.reset({
+      'file_name': '',
+      'type_name': ''
+    });
+  }
+
+
+  onSubmitImport() {
+
+    const formData = new FormData();
+    formData.append('excel_file_upload', this.fileToUpload);
+    formData.append('created_by', this.api.userid.user_id);
+    this.api
+      .postAPI(
+        environment.API_URL + "master/defect/excel",
+        formData
+      )
+      .subscribe((res) => {
+        this.logger.log('response', res);
+        //alert(res.status)
+        //this.error= res.status;
+        if (res.status == environment.SUCCESS_CODE) {
+          // this.logger.log('Formvalue',this.editForm.value);
+          this.clearEditFormImport()
+          this.notification.success(res.message);
+
+          this.closebutton.nativeElement.click();
+          this.getDefect();
+          //res.data['type']='edit';
+
+          //localStorage.setItem('trial_form',this.api.encryptData(res.data));
+        } else if (res.status == environment.ERROR_CODE) {
+          this.error_msg = true;
+          this.ErrorMsg = res.message;
+          setTimeout(() => {
+            this.error_msg = false;
+          }, 2000);
+        } else {
+          this.notification.displayMessage(language[environment.DEFAULT_LANG].unableSubmit);
+        }
+
+      });
+  }
+
+
+  fileToUpload: File | null = null;
+  onFileHandler(event) {
+    console.log(event, event.target.files[0])
+    if (event.target.files.length > 0) {
+      this.fileToUpload = event.target.files[0];
+      // console.log("ghjgjhri",file);
+      // this.form.patchValue({files:file});
+    };
+
+  }
+
+
 }
 

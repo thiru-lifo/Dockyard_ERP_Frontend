@@ -43,6 +43,7 @@ export class EquipmentComponent implements OnInit {
   moduleAccess:any;
   ErrorMsg:any;
   error_msg=false;
+  showError =false;
 
   public permission={
     add:false,
@@ -425,6 +426,9 @@ searchForm= new FormGroup({
   }
 
   onSubmitImport() {
+    this.showError = true;
+    if (this.editFormImport.valid) {
+
 
     const formData = new FormData();
     formData.append('excel_file_upload', this.fileToUpload);
@@ -459,6 +463,7 @@ searchForm= new FormGroup({
         }
 
       });
+  }
   }
 
 

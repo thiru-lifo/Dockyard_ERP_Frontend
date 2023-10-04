@@ -75,7 +75,7 @@ export class EquipmentComponent implements OnInit {
     description: new FormControl(""),
     //code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
     code: new FormControl("", [Validators.required]),
-    equipment_type_name: new FormControl("", [Validators.required]),
+    equipment_type_name: new FormControl(""),
 
     section_id: new FormControl(""),
     ship: new FormControl("", [Validators.required]),
@@ -482,6 +482,18 @@ searchForm= new FormGroup({
     };
 
   }
+
+
+     downloadFile(){
+      //let url = environment.API_URL + document.file_name;
+      //alert(environment.API_URL + document.file_name);
+      //window.open(url, '_self');
+      //e.preventDefault();
+      //console.log(environment.API_URL+'/media/Excel/sample/docyard_equipment.xlsx')
+      let url = environment.API_URL+'/media/Excel/sample/docyard_equipment.xlsx';
+      window.location.href = url;
+
+   }
 
 
 }

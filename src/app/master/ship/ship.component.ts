@@ -412,5 +412,11 @@ searchForm= new FormGroup({
 
   }
 
+     downloadFile(){
+      let url = environment.API_URL+'/media/Excel/sample/docyard_ship.xlsx';
+      window.location.href = url;
+
+   }
+
 }
 

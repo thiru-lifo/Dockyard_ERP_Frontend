@@ -465,5 +465,12 @@ refit_types=[];
   }
 
 
+    downloadFile(){
+      let url = environment.API_URL+'/media/Excel/sample/docyard_defect.xlsx';
+      window.location.href = url;
+
+   }
+
+
 }
 

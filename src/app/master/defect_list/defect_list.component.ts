@@ -428,6 +428,9 @@ refit_types=[];
         if (res.status == environment.SUCCESS_CODE) {
           // this.logger.log('Formvalue',this.editForm.value);
           this.clearEditFormImport()
+          formData.append('user_import', '');
+          this.editFormImport.get('file_name').reset();
+          this.editFormImport.controls['file_name'].reset();
           this.notification.success(res.message);
 
           this.closebutton.nativeElement.click();

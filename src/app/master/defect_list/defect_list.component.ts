@@ -44,6 +44,8 @@ export class DefectListComponent implements OnInit {
   moduleAccess:any;
   ErrorMsg:any;
   error_msg=false;
+  showError = false;
+
 
   public permission={
     add:false,
@@ -407,6 +409,9 @@ refit_types=[];
 
 
   onSubmitImport() {
+    this.showError = true;
+    if (this.editFormImport.valid) {
+
 
     const formData = new FormData();
     formData.append('excel_file_upload', this.fileToUpload);
@@ -441,6 +446,7 @@ refit_types=[];
         }
 
       });
+  }
   }
 
 

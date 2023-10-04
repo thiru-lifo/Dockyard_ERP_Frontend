@@ -403,6 +403,7 @@ searchForm= new FormGroup({
 }
 onClose() {
   this.showError=false;
+  this.editFormImport.controls['file_name'].reset();
 }
 
 

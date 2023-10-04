@@ -454,6 +454,7 @@ refit_types=[];
   }
   onClose() {
     this.showError=false;
+    this.editFormImport.controls['file_name'].reset();
   }
 
 

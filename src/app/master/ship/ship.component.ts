@@ -43,6 +43,7 @@ export class ShipComponent implements OnInit {
   moduleAccess:any;
   ErrorMsg:any;
   error_msg=false;
+  showError = false;
 
   public permission={
     add:false,
@@ -355,6 +356,8 @@ searchForm= new FormGroup({
   }
 
   onSubmitImport() {
+    this.showError = true;
+    if (this.editFormImport.valid) {
 
     const formData = new FormData();
     formData.append('excel_file_upload', this.fileToUpload);
@@ -368,6 +371,8 @@ searchForm= new FormGroup({
         this.logger.log('response', res);
         //alert(res.status)
         //this.error= res.status;
+        
+
         if (res.status == environment.SUCCESS_CODE) {
           // this.logger.log('Formvalue',this.editForm.value);
           this.clearEditFormImport()
@@ -390,6 +395,7 @@ searchForm= new FormGroup({
 
       });
   }
+}
 
 
   fileToUpload: File | null = null;

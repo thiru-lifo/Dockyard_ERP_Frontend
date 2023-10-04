@@ -319,7 +319,14 @@
                   <div class="matt-group">
                       <mat-label>Attachment <b class="star">*</b></mat-label>
                       <input type="file" name="" value="" formControlName="file_name" (change)="onFileHandler($event)">
-                      <!-- <mat-error *ngIf="Error('file_name','required')">Upload File</mat-error> -->
+                      <mat-error
+                        *ngIf="editFormImport.get('file_name')?.errors?.required && showError">Select File</mat-error>
+                  
+                  
+                  
+                  
+                
+                       <!-- <mat-error *ngIf="Error('file_name','required')">Upload File</mat-error>  -->
                   </div>
               </div>
             </div>

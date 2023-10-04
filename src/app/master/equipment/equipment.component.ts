@@ -54,6 +54,8 @@ export class EquipmentComponent implements OnInit {
 
   @ViewChild(MatPaginator) pagination: MatPaginator;
   @ViewChild("closebutton") closebutton;
+  @ViewChild("closebutton_excel") closebutton_excel;
+  
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
   constructor(public api: ApiService, private notification : NotificationService,
@@ -445,12 +447,12 @@ searchForm= new FormGroup({
         if (res.status == environment.SUCCESS_CODE) {
           // this.logger.log('Formvalue',this.editForm.value);
           this.clearEditFormImport()
-          formData.append('user_import', '');
+          //formData.append('user_import', '');
           this.editFormImport.get('file_name').reset();
           this.editFormImport.controls['file_name'].reset();
           this.notification.success(res.message);
 
-          this.closebutton.nativeElement.click();
+          this.closebutton_excel.nativeElement.click();
           this.getEquipment();
           //res.data['type']='edit';
 

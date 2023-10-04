@@ -55,6 +55,7 @@ export class ShipComponent implements OnInit {
   @ViewChild(MatPaginator) pagination: MatPaginator;
   @ViewChild("closebutton") closebutton;
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
+  @ViewChild("closebuttonimport") closebuttonimport;
 
   constructor(public api: ApiService, private notification : NotificationService,
     private dialog:MatDialog, private router : Router, private elementref : ElementRef,private logger:ConsoleService) {
@@ -374,6 +375,7 @@ searchForm= new FormGroup({
         
 
         if (res.status == environment.SUCCESS_CODE) {
+          this.showError = false
           // this.logger.log('Formvalue',this.editForm.value);
           this.clearEditFormImport()
           formData.append('user_import', '');
@@ -398,6 +400,9 @@ searchForm= new FormGroup({
 
       });
   }
+}
+onClose() {
+  this.showError=false;
 }
 
 

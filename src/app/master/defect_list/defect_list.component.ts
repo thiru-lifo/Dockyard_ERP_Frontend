@@ -426,6 +426,7 @@ refit_types=[];
         //alert(res.status)
         //this.error= res.status;
         if (res.status == environment.SUCCESS_CODE) {
+          this.showError = false;
           // this.logger.log('Formvalue',this.editForm.value);
           this.clearEditFormImport()
           formData.append('user_import', '');
@@ -450,6 +451,9 @@ refit_types=[];
 
       });
   }
+  }
+  onClose() {
+    this.showError=false;
   }
 
 

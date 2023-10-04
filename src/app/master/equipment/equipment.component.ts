@@ -75,6 +75,7 @@ export class EquipmentComponent implements OnInit {
     equipment_type_name: new FormControl("", [Validators.required]),
 
     section_id: new FormControl(""),
+    ship: new FormControl("", [Validators.required]),
     equipment_model: new FormControl(""),
     nomenclature: new FormControl(""),
     equipment_ship_id: new FormControl(""),
@@ -91,6 +92,8 @@ export class EquipmentComponent implements OnInit {
    status = this.editForm.value.status;
   populate(data) {
 
+
+    console.log(data,"asdasdasd")
     this.editForm.patchValue(data);
     this.editForm.patchValue({global_section:data.global_section.id});
     this.getSubSections(data.global_section.id);
@@ -117,12 +120,24 @@ export class EquipmentComponent implements OnInit {
 
   ngOnInit(): void {
      this.getEquipment();
+     this.getShip();
      this.getSection();
      this.getSystem();
      this.getAccess();
      this.getgSection();
      this.getSectionF();
   }
+
+ships:any;
+  getShip() {
+    this.api
+      .getAPI(environment.API_URL + "master/ship?status=1&order_type=asc")
+      .subscribe((res) => {
+        this.ships = res.data;
+
+      });
+  }
+
 sectiong:any;
   getgSection() {
     this.api
@@ -393,5 +408,71 @@ searchForm= new FormGroup({
  close(){
     this.editForm.reset();
   }
+
+
+  /** Import **/
+
+  public editFormImport = new FormGroup({
+    file_name: new FormControl("", [Validators.required]),
+    created_by: new FormControl("")
+  });
+
+  clearEditFormImport() {
+    this.editFormImport.reset({
+      'file_name': '',
+      'type_name': ''
+    });
+  }
+
+  onSubmitImport() {
+
+    const formData = new FormData();
+    formData.append('excel_file_upload', this.fileToUpload);
+    formData.append('created_by', this.api.userid.user_id);
+    this.api
+      .postAPI(
+        environment.API_URL + "master/ship/excel",
+        formData
+      )
+      .subscribe((res) => {
+        this.logger.log('response', res);
+        //alert(res.status)
+        //this.error= res.status;
+        if (res.status == environment.SUCCESS_CODE) {
+          // this.logger.log('Formvalue',this.editForm.value);
+          this.clearEditFormImport()
+          this.notification.success(res.message);
+
+          this.closebutton.nativeElement.click();
+          this.getEquipment();
+          //res.data['type']='edit';
+
+          //localStorage.setItem('trial_form',this.api.encryptData(res.data));
+        } else if (res.status == environment.ERROR_CODE) {
+          this.error_msg = true;
+          this.ErrorMsg = res.message;
+          setTimeout(() => {
+            this.error_msg = false;
+          }, 2000);
+        } else {
+          this.notification.displayMessage(language[environment.DEFAULT_LANG].unableSubmit);
+        }
+
+      });
+  }
+
+
+  fileToUpload: File | null = null;
+  onFileHandler(event) {
+    console.log(event, event.target.files[0])
+    if (event.target.files.length > 0) {
+      this.fileToUpload = event.target.files[0];
+      // console.log("ghjgjhri",file);
+      // this.form.patchValue({files:file});
+    };
+
+  }
+
+
 }
 

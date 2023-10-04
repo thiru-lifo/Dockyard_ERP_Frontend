@@ -431,7 +431,7 @@ searchForm= new FormGroup({
     formData.append('created_by', this.api.userid.user_id);
     this.api
       .postAPI(
-        environment.API_URL + "master/ship/excel",
+        environment.API_URL + "master/equipment/excel",
         formData
       )
       .subscribe((res) => {

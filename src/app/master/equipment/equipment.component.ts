@@ -57,6 +57,7 @@ export class EquipmentComponent implements OnInit {
   @ViewChild("closebutton_excel") closebutton_excel;
   
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
+  @ViewChild("closebuttonimport") closebuttonimport;
 
   constructor(public api: ApiService, private notification : NotificationService,
     private dialog:MatDialog, private router : Router, private elementref : ElementRef,private logger:ConsoleService) {
@@ -424,6 +425,8 @@ searchForm= new FormGroup({
     this.editFormImport.reset({
       'file_name': '',
       'type_name': ''
+  
+      
     });
   }
 
@@ -445,6 +448,7 @@ searchForm= new FormGroup({
         //alert(res.status)
         //this.error= res.status;
         if (res.status == environment.SUCCESS_CODE) {
+          this.showError = false;
           // this.logger.log('Formvalue',this.editForm.value);
           this.clearEditFormImport()
           //formData.append('user_import', '');
@@ -458,6 +462,7 @@ searchForm= new FormGroup({
 
           //localStorage.setItem('trial_form',this.api.encryptData(res.data));
         } else if (res.status == environment.ERROR_CODE) {
+         
           this.error_msg = true;
           this.ErrorMsg = res.message;
           setTimeout(() => {
@@ -469,6 +474,10 @@ searchForm= new FormGroup({
 
       });
   }
+  }
+  onClose() {
+    this.showError=false;
+    this.editFormImport.controls['file_name'].reset();
   }
 
 

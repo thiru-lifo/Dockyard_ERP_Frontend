@@ -41,11 +41,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 
 @Component({
-  selector: 'app-dart',
-  templateUrl: './dart.component.html',
-  styleUrls: ['./dart.component.scss']
+  selector: 'app-ra',
+  templateUrl: './ra.component.html',
+  styleUrls: ['./ra.component.scss']
 })
-export class DartComponent implements OnInit {
+export class RaComponent implements OnInit {
   @ViewChild('localform')localform:HTMLFormElement;
   dartDate:any;
   rectifiedDate:any;
@@ -246,13 +246,13 @@ export class DartComponent implements OnInit {
 
   getListing() {
     this.api
-      .getAPI(environment.API_URL + "transaction/dart")
+      .getAPI(environment.API_URL + "transaction/ra")
       .subscribe((res) => {
         this.dataSourcePending = new MatTableDataSource(res.data);
         //this.initiationList = res.data;
         this.dataListPending = res.data;
         this.dataSourcePending.paginator = this.paginationPending;
-        this.logger.log('Dart',res.data)
+        this.logger.log('RA',res.data)
       });
    } 
 
@@ -319,7 +319,7 @@ export class DartComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "transaction/dart/crud", {
+        this.api.postAPI(environment.API_URL + "transaction/ra/crud", {
           id: data.id,
           status: 3
         }).subscribe((res)=>{
@@ -364,7 +364,7 @@ export class DartComponent implements OnInit {
       //return false;
       this.api
         .postAPI(
-          environment.API_URL + "transaction/dart/crud",
+          environment.API_URL + "transaction/ra/crud",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -544,7 +544,7 @@ numberOnly(event:any): boolean {
     formData.append('created_by', this.api.userid.user_id);
     this.api
       .postAPI(
-        environment.API_URL + "transaction/dart/excel",
+        environment.API_URL + "transaction/ra/excel",
         formData
       )
       .subscribe((res) => {
@@ -561,7 +561,7 @@ numberOnly(event:any): boolean {
           this.notification.success(res.message);
 
           this.closebutton_excel.nativeElement.click();
-          //this.getEquipment();
+          this.getListing();
           //res.data['type']='edit';
 
           //localStorage.setItem('trial_form',this.api.encryptData(res.data));
@@ -594,7 +594,7 @@ numberOnly(event:any): boolean {
   }
 
   downloadFile(){
-      let url = environment.API_URL+'/media/Excel/sample/dart.xlsx';
+      let url = environment.API_URL+'/media/Excel/sample/ra.xlsx';
       window.location.href = url;
    }
 

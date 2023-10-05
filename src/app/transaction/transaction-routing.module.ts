@@ -6,6 +6,10 @@ const routes: Routes = [
     path: 'dart',
      loadChildren: () => import('./dart/dart.module').then(m => m.PsrModule), data: { breadcrumb: 'DART'}
    },
+   {
+    path: 'ra',
+     loadChildren: () => import('./ra/ra.module').then(m => m.RaModule), data: { breadcrumb: 'RA'}
+   },
 
 ];
 @NgModule({

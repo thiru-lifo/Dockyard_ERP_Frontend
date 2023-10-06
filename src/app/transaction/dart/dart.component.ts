@@ -321,6 +321,7 @@ export class DartComponent implements OnInit {
       if(result) {
         this.api.postAPI(environment.API_URL + "transaction/dart/crud", {
           id: data.id,
+          DepartmentID: data.DepartmentID,
           status: 3
         }).subscribe((res)=>{
           this.logger.log('response',res);

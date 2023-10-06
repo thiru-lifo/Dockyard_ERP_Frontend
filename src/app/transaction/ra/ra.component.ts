@@ -313,6 +313,9 @@ export class RaComponent implements OnInit {
 
   onDelete(data) {
 
+
+    //console.log(data)
+    //return false;
     let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
       data: language[environment.DEFAULT_LANG].confirmMessage
@@ -321,6 +324,7 @@ export class RaComponent implements OnInit {
       if(result) {
         this.api.postAPI(environment.API_URL + "transaction/ra/crud", {
           id: data.id,
+          DepartmentID: data.DepartmentID,
           status: 3
         }).subscribe((res)=>{
           this.logger.log('response',res);

@@ -1,0 +1,407 @@
+<section class="body-card">
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="card">
+               <div class="card-header">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <h3>Job Card</h3>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="text-right">
+                           <!-- <a href="#" data-toggle="modal" data-target="#import-modal" class="btn btn-primary btn-round-sm">Import</a>
+                           &nbsp; -->
+                           <a href="#" data-toggle="modal" data-target="#crud-countries" class="btn btn-primary btn-round-sm" (click)="add()">Add</a>
+
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="tabs-external tabstyle2">
+                      <div class="container table-options">
+                         <div class="row">
+                            <div class="col-md-6">
+                               <mat-paginator [pageSize]="10" #paginationPending="matPaginator"
+                               [length]="this.dataSourcePending?.filteredData?.length"  [pageSizeOptions]="[10,20,30,50,100]" aria-label="Select page" >
+                               </mat-paginator>
+                            </div>
+                            <div class="col-md-6">
+                               <mat-form-field appearance="standard">
+                                   <mat-label>Search your text here</mat-label>
+                                   <input matInput (keyup)="applyFilterPending($event)" class="search-mat-table" #input >
+                               </mat-form-field>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="table-responsive">
+                      	<table mat-table [dataSource]="dataSourcePending" class="mat-elevation-z8">
+                         <ng-container matColumnDef="man_days">
+                            <th mat-header-cell *matHeaderCellDef><b> Mandays</b></th>
+                            <td mat-cell *matCellDef="let country"> {{country.man_days}} </td>
+                         </ng-container>
+                         <ng-container matColumnDef="start_date">
+                            <th mat-header-cell *matHeaderCellDef><b> Start Date </b></th>
+                            <td mat-cell *matCellDef="let country">
+                            {{moment(country.start_date).format('DD-MM-YYYY')}}</td>
+                         </ng-container>
+
+                         <ng-container matColumnDef="end_date">
+                            <th mat-header-cell *matHeaderCellDef><b> End Date </b></th>
+                            <td mat-cell *matCellDef="let country"> {{moment(country.end_date).format('DD-MM-YYYY')}} </td>
+                         </ng-container>
+
+                           <ng-container matColumnDef="job_card_close_date">
+                            <th mat-header-cell *matHeaderCellDef><b> Job Card Close Date </b></th>
+                            <td mat-cell *matCellDef="let country"> {{moment(country.job_card_close_date).format('DD-MM-YYYY')}} </td>
+                         </ng-container>
+
+                          <ng-container matColumnDef="status">
+                             <th mat-header-cell *matHeaderCellDef><b> Status </b></th>
+                             <td mat-cell *matCellDef="let country"> <a href="javascript:void(0)" class="status-field {{country.status=='1'?'text-success':'text-danger'}}" >{{country.status=='1'?'Active':'Inactive'}}</a>  </td>
+                          </ng-container>
+
+                         <ng-container matColumnDef="qc">
+                            <th mat-header-cell *matHeaderCellDef><b> QC </b></th>
+                            <td mat-cell *matCellDef="let country"> <a href="javascript:void(0)" data-toggle="modal" data-target="#activity-modal" (click)="QC(country)">
+                            <span class="material-icons">check_box</span></a>
+                            &nbsp;
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#activity-qc-modal" (click)="openQCStatus(country.id)" title="QC History Status" >
+                            <span class="material-icons">remove_red_eye</span></a>
+                         </td>
+                        </ng-container>
+
+                         <ng-container matColumnDef="view" >
+                           <th class="text-center" mat-header-cell *matHeaderCellDef ><ng-container *ngIf="permission.view==true" ><b>View</b></ng-container></th>
+                           <td class="text-center" mat-cell *matCellDef="let project">
+                              <a href="#" data-toggle="modal" data-target="#crud-countries" class="edit-icon text-primary" *ngIf="permission.view==true" (click)="onView(project)"><span class="material-icons-outlined">remove_red_eye</span></a></td>
+                        </ng-container>
+
+                         <ng-container matColumnDef="edit" >
+                            <th class="text-center" mat-header-cell *matHeaderCellDef ><ng-container *ngIf="permission.edit==true" ><b>Edit</b></ng-container></th>
+                            <td class="text-center" mat-cell *matCellDef="let country">
+                               <a href="#" data-toggle="modal" data-target="#crud-countries" class="edit-icon text-primary"  (click)="editOption(country)" *ngIf="permission.edit==true" ><span class="material-icons-outlined">edit</span></a></td>
+                         </ng-container>
+                         <ng-container matColumnDef="delete">
+                            <th class="text-center" mat-header-cell *matHeaderCellDef ><ng-container *ngIf="permission.delete==true"><b>Delete</b></ng-container></th>
+                            <td class="text-center" mat-cell *matCellDef="let country"><a href="javascript:void(0)" class="edit-icon text-danger" (click)="onDelete(country)" *ngIf="permission.delete==true" ><span class="material-icons-outlined">delete</span></a></td>
+                         </ng-container>
+                         <ng-container matColumnDef="noData">
+                            <th mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumnsPending.length" class="norecord">
+                                No Records Found!
+                            </th >
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="displayedColumnsPending"></tr>
+                          <ng-container *ngIf="dataListPending.length>0">
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsPending;"></tr>
+                           </ng-container>
+                          <tr mat-footer-row *matFooterRowDef="['noData']" [hidden]="dataSourcePending && dataSourcePending.data.length > 0"></tr>
+                          <tr class="mat-row" *matNoDataRow>
+                            <td *ngIf='filterValue' class="norecord"  colspan="4"><b>No data matching with "{{input.value}}"</b></td>
+                         </tr>
+
+                      </table>
+                      </div>
+
+             </div>
+
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+<!-- modal -->
+<div class="modal fade master-modal-style modalhg-xl modal-header-sticky" id="crud-countries" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-xl cardbody-style1">
+    <form [formGroup]="this.editForm" (ngSubmit)="onSubmit()" >
+         <div class="modal-content">
+               <div class="modal-header">
+                  <div class="row">
+                     <div class="col-md-7">
+                        <h5 class="modal-title" id="exampleModalLabel">{{crudName}} Job Card</h5>
+                     </div>
+                     <div class="col-md-5">
+                        <div class="button-group-lg text-right">
+                           <button type="submit" class="btn btn-light" *ngIf="!isReadonly" >{{crudName}}</button>
+                              <button type="button" class="btn btn-light"   #closebutton data-dismiss="modal">Close</button>
+                        </div>
+                     </div>
+
+                  </div>
+         </div>
+
+         <div class="modal-body form-style-md form-style-font linux">
+            <div id="hide_alert" class="alert alert-danger form-error-message my-4" *ngIf="error_msg==true">{{ErrorMsg}}
+            </div>
+
+            <div class="form-row">
+
+               <div class="col-md-12">
+                    <div class="matt-group project-relative">
+                        <mat-label>Name <b class="star">*</b></mat-label>
+                        <mat-form-field appearance="legacy">
+                              <input type="text" matInput name="" value="" formControlName="name">
+                           <!-- <mat-error *ngIf="Error('project','required')">Select Project</mat-error> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="matt-group">
+                        <mat-label>Work Instruction <b class="star">*</b></mat-label>
+                        <mat-form-field appearance="legacy">
+                        <mat-select  formControlName="work_instruction" placeholder="Select Work Instruction">
+                           <mat-option *ngFor="let wi of wis" [value]="wi.id">{{wi.name}}</mat-option>
+                           </mat-select>
+                           <!-- <mat-error *ngIf="Error('standard','required')">Select Standard</mat-error> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="matt-group">
+                        <mat-label>Start Date <b class="star">*</b></mat-label>
+                        <mat-form-field appearance="legacy">
+                        <input matInput [matDatepicker]="picker1" formControlName="start_date" placeholder=""[(ngModel)]="startDate" onclick="$('#date1').trigger('click'); return false;" (keydown)="disableDate()">
+                        <mat-datepicker-toggle id="date1" matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1 ></mat-datepicker>
+                        <!-- <mat-error *ngIf="Error('DartDate','required')">Enter DartDate</mat-error> -->
+                      </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="matt-group">
+                        <mat-label>End Date <b class="star">*</b></mat-label>
+                        <mat-form-field appearance="legacy">
+                        <input matInput [matDatepicker]="picker2" formControlName="end_date" placeholder=""[(ngModel)]="endDate" onclick="$('#date2').trigger('click'); return false;" (keydown)="disableDate()">
+                        <mat-datepicker-toggle id="date2" matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2 ></mat-datepicker>
+                        <!-- <mat-error *ngIf="Error('RectifiedDate','required')">Enter RectifiedDate</mat-error> -->
+                      </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="matt-group">
+                        <mat-label>Mandays <b class="star">*</b></mat-label>
+                        <mat-form-field appearance="legacy">
+                              <input (keypress)="numberOnly($event)" matInput name="" value="" formControlName="man_days">
+                              <!-- <mat-error *ngIf="Error('RepairID','required')">RepairID</mat-error> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="matt-group">
+                        <mat-label>Instruction <b class="star">*</b></mat-label>
+                        <mat-form-field appearance="legacy">
+                              <input type="text" matInput name="" value="" formControlName="instruction">
+                              <!-- <mat-error *ngIf="Error('RepairCode','required')">RepairCode</mat-error> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="matt-group">
+                        <mat-label>Job Card Close Date <b class="star">*</b></mat-label>
+                        <mat-form-field appearance="legacy">
+                        <input matInput [matDatepicker]="picker3" formControlName="job_card_close_date" placeholder=""[(ngModel)]="JBCloseDate" onclick="$('#date3').trigger('click'); return false;" (keydown)="disableDate()">
+                        <mat-datepicker-toggle id="date3" matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker>
+                        <!-- <mat-error *ngIf="Error('RectifiedDate','required')">Enter RectifiedDate</mat-error> -->
+                      </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="matt-group">
+                        <mat-label>QC Status<b class="star">*</b></mat-label>
+                        <mat-form-field appearance="legacy">
+                        <mat-select formControlName="qc_status" placeholder="Select QC Status">
+                           <mat-option [value]="1">Accept</mat-option>
+                           <mat-option [value]="2">Reject</mat-option>
+                           <mat-option [value]="3">Recommend</mat-option>
+                        </mat-select>
+                           <!-- <mat-error *ngIf="Error('standard','required')">Select Standard</mat-error> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+
+               <div class="col-md-12">
+                  <div class="form-group form-check">
+                     <input type="checkbox" class="form-check-input " id="exampleCheck1" formControlName="status" >
+                      <label style="cursor:pointer;"class="form-check-label" for="exampleCheck1" >Status</label>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </form>
+   </div>
+</div>
+
+
+<!-- Import Modal -->
+<div class="modal fade master-modal-style" id="import-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Import</h5>
+         </div>
+         <div class="modal-body form-style-md form-style-font linux">
+            <div id="hide_alert" class="alert alert-danger form-error-message my-4" *ngIf="error_msg==true">{{ErrorMsg}}
+            </div>
+            <form [formGroup]="this.editFormImport" (ngSubmit)="onSubmitImport()" >
+            <div class="form-row">
+                <div class="col-md-12">
+                  <div class="matt-group">
+                      <mat-label>Attachment <b class="star">*</b></mat-label>
+                      <input type="file" name="" value="" formControlName="file_name" (change)="onFileHandler($event)">
+                      <mat-error
+                        *ngIf="editFormImport.get('file_name')?.errors?.required && showError">Select File</mat-error>
+                  </div>
+              </div>
+            </div>
+            <div class="form-row button-group-lg mt-2">
+               <div class="col-md-12">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button type="button" class="btn btn-outline-primary" #closebutton_excel data-dismiss="modal" (click)="onClose()">Close</button>
+               </div>
+            </div>
+            </form>
+
+
+            <a href="javascript:;" (click)="downloadFile()" >Sample Excel</a>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- End -->
+
+
+<!-- modal -->
+<div class="modal fade master-modal-style" id="activity-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-xl">
+
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Quality Check</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" matTooltip="Close" matTooltipClass="custom-tooltip">
+               <span aria-hidden="true">&times;</span>
+               </button>
+         </div>
+         <div class="modal-body form-style-md form-style-font linux">
+            <div id="hide_alert" class="alert alert-danger form-error-message my-4" *ngIf="error_msg==true">{{ErrorMsg}}
+            </div>
+            <form [formGroup]="this.editFormQC" (ngSubmit)="onSubmitQC()" >
+            <div class="form-row">
+                  <!-- <div class="col-md-12">
+                    <div class="matt-group">
+                        <div class="matt-group">
+                        <mat-label>Status <b class="star">*</b></mat-label>
+                        <mat-form-field appearance="legacy">
+                              <mat-select formControlName="approved_status" placeholder="Select Status" >
+                                 
+                                 <mat-option *ngFor="let global_statuse of global_statuses" [value]="global_statuse.id">{{global_statuse.name}}</mat-option>
+                              </mat-select>
+                           <mat-error *ngIf="Error('approved_status','required')">Select Status</mat-error>
+                        </mat-form-field>
+                    </div>
+                    </div>
+                </div> -->
+                <div class="col-md-12">
+                    <div class="matt-group">
+                        <mat-label>Status <b class="star">*</b></mat-label>
+                        <mat-form-field appearance="legacy">
+                            <mat-select formControlName="qc_status" placeholder="Select Status">
+                               <mat-option [value]="1">Accept</mat-option>
+                               <mat-option [value]="2">Reject</mat-option>
+                               <mat-option [value]="3">Recommend</mat-option>
+                            </mat-select>
+                            <!-- <mat-error *ngIf="Error('qc_status','required')">Enter Approved By</mat-error> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="matt-group">
+                        <mat-label>Remarks <b class="star">*</b></mat-label>
+                        <angular-editor formControlName="remarks" [config]="editorConfig" ></angular-editor>
+                     </div>
+                </div>
+            </div>
+            <div class="form-row button-group-lg mt-2">
+               <div class="col-md-12">
+                  <button type="submit" class="btn btn-primary" *ngIf="!isReadonly" >Save</button>
+                  <button type="button" class="btn btn-outline-primary" #closebuttonapproval data-dismiss="modal" (click)="QCclose()">Close</button>
+               </div>
+            </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+
+<div class="modal fade master-modal-style" id="activity-qc-modal" data-keyboard="false" data-backdrop="static"
+ tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog modal-lg">
+
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="exampleModalLabel">History</h5>
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <div class="modal-body form-style-md form-style-font linux">
+
+       <div class="form-row">
+         <div class="col-md-12">
+
+           <div class="row d-flex justify-content-center mt-4 mb-70 timeline"
+             *ngIf="qcHistory && qcHistory.length>0">
+             <div class="col-md-12">
+               <div class="main-card mb-3 card">
+                 <div class="card-body">
+                   <h5 class="card-title">Log</h5>
+                   <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
+                     <ng-container *ngFor="let history of qcHistory">
+                       <div class="vertical-timeline-item vertical-timeline-element">
+                         <div>
+                           <span class="vertical-timeline-element-icon bounce-in" *ngIf="history.qc_status==1">
+                             <i class="badge badge-success">Accept</i>
+                           </span>
+                           <span class="vertical-timeline-element-icon bounce-in" *ngIf="history.qc_status==2">
+                             <i class="badge badge-danger">Reject</i>
+                           </span>
+                           <span class="vertical-timeline-element-icon bounce-in" *ngIf="history.qc_status==3">
+                             <i class="badge badge-primary">Recommend</i>
+                           </span>
+                           <div class="vertical-timeline-element-content bounce-in">
+                             <h4 class="timeline-title">{{(history.created_by__first_name+'
+                               '+history.created_by__last_name) }}</h4>
+                             <p>{{ history.remarks }}</p>
+                             <span
+                               class="vertical-timeline-element-date">{{moment(history.created_on).format('DD-MM-YYYY
+                               hh:mm A')}}</span>
+                           </div>
+                         </div>
+                       </div>
+                     </ng-container>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+
+
+     </div>
+   </div>
+ </div>
+</div>

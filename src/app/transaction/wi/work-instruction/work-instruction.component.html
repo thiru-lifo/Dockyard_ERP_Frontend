@@ -68,11 +68,11 @@
 
                          <ng-container matColumnDef="qc">
                             <th mat-header-cell *matHeaderCellDef><b> QC </b></th>
-                            <td mat-cell *matCellDef="let country"> <a href="javascript:void(0)" data-toggle="modal" data-target="#activity-modal" (click)="QC(country)">
-                            <span class="material-icons">check_box</span></a>
+                            <td mat-cell *matCellDef="let country"> <a href="javascript:void(0)" data-toggle="modal" data-target="#activity-modal" (click)="QC(country)" class="edit-icon text-primary">
+                            <span class="material-icons">feed</span></a>
                             &nbsp;
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#activity-qc-modal" (click)="openQCStatus(country.id)" title="QC History Status" >
-                            <span class="material-icons">remove_red_eye</span></a>
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#activity-qc-modal" (click)="openQCStatus(country.id)" title="QC History Status" class="edit-icon text-primary">
+                            <span class="material-icons">timeline</span></a>
                          </td>
                         </ng-container>
 

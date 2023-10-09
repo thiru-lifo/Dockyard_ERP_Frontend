@@ -121,7 +121,7 @@ export class CenterComponent implements OnInit {
 equipment:any;
   getEquipment() {
     this.api
-      .getAPI(environment.API_URL + "master/equipment?status=1")
+      .getAPI(environment.API_URL + "master/equipment_list")
       .subscribe((res) => {
         this.equipment = res.data;
       });

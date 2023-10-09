@@ -11,6 +11,10 @@ const routes: Routes = [
      loadChildren: () => import('./ra/ra.module').then(m => m.RaModule), data: { breadcrumb: 'RA'}
    },
    {
+    path: 'opdef',
+     loadChildren: () => import('./opdef/opdef.module').then(m => m.OPDEFModule), data: { breadcrumb: 'OPDEF'}
+   },
+   {
     path: 'wi',
      loadChildren: () => import('./wi/wi.module').then(m => m.WIModule), data: { breadcrumb: 'WI'}
    },

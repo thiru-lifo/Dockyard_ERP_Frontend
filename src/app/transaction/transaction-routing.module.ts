@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'job-card',
      loadChildren: () => import('./job-card/job-card.module').then(m => m.JobCardModule), data: { breadcrumb: 'Job Card'}
    },
+   {
+    path: 'attendance',
+     loadChildren: () => import('./attendance/attendance.module').then(m => m.AttendanceModule), data: { breadcrumb: 'Attendance'}
+   },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

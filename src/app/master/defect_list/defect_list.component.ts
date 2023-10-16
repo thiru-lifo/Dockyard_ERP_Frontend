@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input, ElementRef } from "@angular/core";
 import { ApiService } from "src/app/service/api.service";
 import { environment } from "src/environments/environment";
-import { FormGroup, FormControl, Validators, FormGroupDirective } from "@angular/forms";
+import { FormGroup, FormControl, Validators, FormGroupDirective, FormBuilder, FormArray } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { NotificationService } from "src/app/service/notification.service";
@@ -24,9 +24,9 @@ export class DefectListComponent implements OnInit {
     //"command",
     //"satellite_unit",
     //'class_id',
-    'refit_type',
     "name",
     "code",
+    'refit_type',
     "status",
     "view",
     "edit",
@@ -59,31 +59,32 @@ export class DefectListComponent implements OnInit {
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
   constructor(public api: ApiService, private notification : NotificationService,
-    private dialog:MatDialog, private router : Router, private elementref : ElementRef,private logger:ConsoleService) {
+    private dialog:MatDialog, private router : Router, private elementref : ElementRef,private logger:ConsoleService, private formBuilder: FormBuilder) {
 
   }
 
   public editForm = new FormGroup({
     id: new FormControl(""),
     name: new FormControl("", [Validators.required]),
-    description: new FormControl(""),
+    //description: new FormControl(""),
     code: new FormControl("", [Validators.required]),
     //class_id: new FormControl("", [Validators.required]),
-    refit_type: new FormControl("", [Validators.required]),
+    //refit_type: new FormControl("", [Validators.required]),
 
-    dl_1: new FormControl(""),
-    dl_2: new FormControl(""),
-    dl_3: new FormControl(""),
-    sdl: new FormControl(""),
-    awrf_1: new FormControl(""),
-    awrf_2: new FormControl(""),
-    awrf_3: new FormControl(""),
+    // dl_1: new FormControl(""),
+    // dl_2: new FormControl(""),
+    // dl_3: new FormControl(""),
+    // sdl: new FormControl(""),
+    // awrf_1: new FormControl(""),
+    // awrf_2: new FormControl(""),
+    // awrf_3: new FormControl(""),
 
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
     sequence : new FormControl("", [Validators.pattern("^[0-9]*$")]),
     status: new FormControl(""),
+    recommender: this.formBuilder.array([]),
   });
    //status = this.editForm.value.status;
   populate(data) {
@@ -103,6 +104,34 @@ export class DefectListComponent implements OnInit {
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
     this.logger.info(data.status)
     console.log('dsd',data.status)
+
+    /////////////////
+    //this.api.displayLoading(true)
+     this.api
+     .getAPI(environment.API_URL + "master/get_defect_detail?id="+data.id)
+    .subscribe((res) => {
+      //this.api.displayLoading(false)
+
+      let recommender_data = res.data.recommender;
+
+      //console.log(data,"Form level hierarachy")
+      //this.showErrors=false;
+      this.clearHierarchyFormArray(this.recommender);
+
+      // //setTimeout(()=>{
+        if(recommender_data.length>0)
+        {
+          for(let i=0;i<recommender_data.length;i++)
+          {
+            this.addRecommender(recommender_data[i])                  
+          }
+        }
+      // //},2000)
+
+    });    
+
+
+
   }
 
   initForm() {
@@ -475,6 +504,42 @@ refit_types=[];
       window.location.href = url;
 
    }
+
+
+   /***********888 ******************/
+
+  // Recommender //
+  onRecommenderAdd()
+  { 
+    this.addRecommender();
+  }
+
+  get recommender() : FormArray {
+    return this.editForm.get("recommender") as FormArray
+  }
+
+  addRecommender(data='') {
+     this.recommender.push(this.newRecommender(data));
+  }
+
+  newRecommender(data): FormGroup {
+   return this.formBuilder.group({
+      //recommender_level: new FormControl((data && data.recommender_level ? data.recommender_level : '')),
+      recommender: new FormControl((data && data.refit_type_id ? data.refit_type_id : ''))
+   });
+  }
+
+ removeRecommender(i:number){
+    this.recommender.removeAt(i);
+  }
+
+
+
+ clearHierarchyFormArray = (formArray: FormArray) => {
+    while (formArray.length !== 0) {
+      formArray.removeAt(0)
+    }
+  }
 
 
 }

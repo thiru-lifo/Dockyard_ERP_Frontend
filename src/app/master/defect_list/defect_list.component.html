@@ -8,7 +8,7 @@
                <div class="card-header">
                   <div class="row">
                      <div class="col-md-6">
-                        <h3>Defect</h3>
+                        <h3>Defect List</h3>
                      </div>
                      <div class="col-md-6">
                         <div class="text-right">
@@ -99,18 +99,21 @@
                      <th mat-header-cell *matHeaderCellDef><b> Class </b></th>
                      <td mat-cell *matCellDef="let project"> {{project.class_id.name}} </td>
                   </ng-container> -->
-                  <ng-container matColumnDef="refit_type">
-                     <th mat-header-cell *matHeaderCellDef><b> Refit Type </b></th>
-                     <td mat-cell *matCellDef="let project"> {{project.refit_type_det?project.refit_type_det.name:'-'}} </td>
-                  </ng-container>
                   <ng-container matColumnDef="name">
-                     <th mat-header-cell *matHeaderCellDef><b> Name </b></th>
+                     <th mat-header-cell *matHeaderCellDef><b> Defect List Name </b></th>
                      <td mat-cell *matCellDef="let project"> {{project.name}} </td>
                   </ng-container>
+
                   <ng-container matColumnDef="code">
-                     <th mat-header-cell *matHeaderCellDef><b> Code </b></th>
+                     <th mat-header-cell *matHeaderCellDef><b> Defect List Code </b></th>
                      <td mat-cell *matCellDef="let project"> {{project.code}} </td>
                   </ng-container>
+                  <ng-container matColumnDef="refit_type">
+                     <th mat-header-cell *matHeaderCellDef><b> Refit Type Code</b></th>
+                     <td mat-cell *matCellDef="let project"> {{project.refit_type_det?project.refit_type_det.code:'-'}} </td>
+                  </ng-container>
+
+
                   <ng-container matColumnDef="description">
                      <th mat-header-cell *matHeaderCellDef><b> Description </b></th>
                      <td mat-cell *matCellDef="let project"> {{project.description}} </td>
@@ -167,35 +170,8 @@
             </div>
             <form [formGroup]="this.editForm" (ngSubmit)="onSubmit()" >
             <div class="form-row">
-               <div class="col-md-6">
-                  <div class="matt-group">
-                      <mat-label>Select Refit Type<b class="star">*</b></mat-label>
-                      <mat-form-field appearance="legacy">
-                            <mat-select formControlName="refit_type"
-                            placeholder="Select Refit Type">
 
-                            <mat-option *ngFor="let refit of refit_types" [value]="refit.id">{{refit.name}}</mat-option>
-                            </mat-select>
-
-                      </mat-form-field>
-                      <mat-error *ngIf="Error('refit_type','required')"></mat-error>
-                  </div>
-              </div>
-               <!-- <div class="col-md-6">
-                  <div class="matt-group">
-                      <mat-label>Select Class<b class="star">*</b></mat-label>
-                      <mat-form-field appearance="legacy">
-                            <mat-select formControlName="class_id"
-                            placeholder="Select Class">
-
-                            <mat-option *ngFor="let class of classes" [value]="class.id">{{class.name}}</mat-option>
-                            </mat-select>
-
-                      </mat-form-field>
-                      <mat-error *ngIf="Error('class_id','required')"></mat-error>
-                  </div>
-              </div> -->
-               <div class="col-md-6">
+               <div class="col-md-10">
                   <div class="matt-group">
                      <mat-label>Name <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
@@ -205,93 +181,7 @@
                   </div>
                </div>
 
-
-               <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>DL-I <b class="star"></b></mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="dl_1" maxlength="100"  >
-                        <!-- <mat-error *ngIf="Error('dl_1','required')">Enter name</mat-error> -->
-                     </mat-form-field>
-                  </div>
-               </div>
-
-               <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>DL-II <b class="star"></b></mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="dl_2" maxlength="100"  >
-                        <!-- <mat-error *ngIf="Error('name','required')">Enter name</mat-error> -->
-                     </mat-form-field>
-                  </div>
-               </div>
-
-               <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>Dl-III <b class="star"></b></mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="dl_3" maxlength="100"  >
-                        <!-- <mat-error *ngIf="Error('name','required')">Enter name</mat-error> -->
-                     </mat-form-field>
-                  </div>
-               </div>
-
-               <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>SDL <b class="star"></b></mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="sdl" maxlength="100"  >
-                        <!-- <mat-error *ngIf="Error('name','required')">Enter name</mat-error> -->
-                     </mat-form-field>
-                  </div>
-               </div>
-
-
-
-               <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>AWRF-I <b class="star"></b></mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="awrf_1" maxlength="100"  >
-                        <!-- <mat-error *ngIf="Error('name','required')">Enter name</mat-error> -->
-                     </mat-form-field>
-                  </div>
-               </div>
-
-               <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>AWRF-II <b class="star"></b></mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="awrf_2" maxlength="100"  >
-                        <!-- <mat-error *ngIf="Error('name','required')">Enter name</mat-error> -->
-                     </mat-form-field>
-                  </div>
-               </div>
-
-               <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>AWRF-III <b class="star"></b></mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="awrf_3" maxlength="100"  >
-                        <!-- <mat-error *ngIf="Error('name','required')">Enter name</mat-error> -->
-                     </mat-form-field>
-                  </div>
-               </div>
-
-
-
-
-               <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>Descriptions </mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="description" maxlength="100"
-                        >
-                        <mat-error *ngIf="Error('description','required')">Enter description</mat-error>
-                     </mat-form-field>
-                  </div>
-               </div>
-               <div class="col-md-6">
+               <div class="col-md-10">
                   <div class="matt-group">
                      <mat-label>Code <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
@@ -301,6 +191,46 @@
                      </mat-form-field>
                   </div>
                </div>
+
+              <div class="col-md-10">
+               <div>Refit Type
+                  <div class="matt-group float-right">
+                    <mat-label>&nbsp;</mat-label>
+                    <button type="button" class="btn btn-primary" (click)="onRecommenderAdd()"><mat-icon>add</mat-icon></button>
+                 </div>
+               </div>
+               <div >
+               <div formArrayName="recommender">
+                     <div class="example-box" *ngFor="let recommender of recommender.controls; let j=index">
+                        <ng-container [formGroupName]="j">
+                           <div class="">
+                              <div class="row align-items-center">
+                                  <div class="col-md-8">
+                                     <div class="matt-group">
+                                         <mat-form-field appearance="fill" >
+                                            <mat-select formControlName="recommender" placeholder="Select Refit Type" >
+                                                <mat-option *ngFor="let refit of refit_types" [value]="refit.id">{{refit.name}}</mat-option>
+                                             </mat-select>
+                                          </mat-form-field>
+                                     </div>
+                                  </div>
+                                  <div class="col-md-2">
+                                     <div class="matt-group col-md-1 matt-append-button pos-relative">
+                                       <ng-container >
+                                          <button class="add-intermediate-referral" type="button"  (click)="removeRecommender(j)" mat-fab color="warn"><mat-icon>remove</mat-icon></button>
+                                       </ng-container>
+                                    </div>
+                                  </div>
+                              </div>
+                           </div>
+                  </ng-container>
+               </div>
+               
+               </div>
+               </div>
+              </div>
+
+
                <div class="col-md-6" hidden>
                   <div class="matt-group">
                      <mat-form-field appearance="legacy">

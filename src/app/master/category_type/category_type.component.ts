@@ -151,7 +151,7 @@ export class CategoryTypeComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/catagory_type/details", {
+        this.api.postAPI(environment.API_URL + "master/category_type/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
@@ -178,7 +178,7 @@ export class CategoryTypeComponent implements OnInit {
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/catagory_type/details",
+          environment.API_URL + "master/category_type/details",
           this.editForm.value
         )
         .subscribe((res) => {

@@ -75,6 +75,8 @@ import { TimeKeepingAttendanceComponent } from './time-keeping-attendance/time-k
 
 
 import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.component';
+import { CategoryTypeComponent } from './category_type/category_type.component';
+import { PayScaleComponent } from './pay_scale/pay_scale.component';
 
 
 const routes: Routes = [
@@ -122,8 +124,10 @@ const routes: Routes = [
 
   { path: 'center', component: CenterComponent, data: { breadcrumb: 'Center'}  },
   { path: 'shop-floor', component: ShopFloorComponent, data: { breadcrumb: 'Shop Floor'}  },
+  { path: 'category_type', component: CategoryTypeComponent, data: { breadcrumb: 'Category Type'}  },
   
-
+  { path: 'pay_scale', component: PayScaleComponent, data: { breadcrumb: 'Pay Scale'}  },
+  
   
   { path: 'ship', component: ShipComponent, data: { breadcrumb: 'Ship'}  },
   { path: 'ships', component: ShipsComponent, data: { breadcrumb: 'Ships'}  },

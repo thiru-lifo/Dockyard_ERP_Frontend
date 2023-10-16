@@ -202,8 +202,8 @@
                           [ngModelOptions]="{standalone: true}"
                           (change)="toggleAllSelection()">Select All</mat-checkbox> -->
                        </div>
-                          <mat-option (click)="optionClick()" *ngFor="let des of DesList" [value]="des.id">
-                       {{des.name}}
+                          <mat-option (click)="optionClick()" *ngFor="let catTypes of CatTypeList" [value]="catTypes.id">
+                       {{catTypes.name}}
                        </mat-option>
                        </mat-select>
                        <!-- <mat-error *ngIf="Error('user_role_id','required')">Please user role</mat-error> -->
@@ -240,8 +240,8 @@
                           [ngModelOptions]="{standalone: true}"
                           (change)="toggleAllSelection()">Select All</mat-checkbox> -->
                        </div>
-                          <mat-option (click)="optionClick()" *ngFor="let des of DesList" [value]="des.id">
-                       {{des.name}}
+                          <mat-option (click)="optionClick()" *ngFor="let payScales of PayScaleList" [value]="payScales.id">
+                       {{payScales.name}}
                        </mat-option>
                        </mat-select>
                        <!-- <mat-error *ngIf="Error('user_role_id','required')">Please user role</mat-error> -->

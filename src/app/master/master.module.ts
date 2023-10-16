@@ -73,6 +73,10 @@ import { DockyardGroupComponent } from './dockyard_group/dockyard_group.componen
 import { DockyardSubGroupComponent } from './dockyard_sub_group/dockyard_sub_group.component';
 import { CenterComponent } from './center/center.component';
 import { ShopFloorComponent } from './shop_floor/shop_floor.component';
+import {  PayScaleComponent } from './pay_scale/pay_scale.component';
+import {  CategoryTypeComponent } from './category_type/category_type.component';
+
+
 
 
 import { TimeKeepingAttendanceComponent } from './time-keeping-attendance/time-keeping-attendance.component';
@@ -131,6 +135,8 @@ import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.
     DesignationComponent,
     SSSMappingComponent,
     FormMappingComponent,
+    PayScaleComponent,
+    CategoryTypeComponent,
 
 
     DockyardGroupComponent,

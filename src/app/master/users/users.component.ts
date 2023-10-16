@@ -95,7 +95,8 @@ export class UsersComponent implements OnInit {
     //department : new FormControl('',[Validators.required]),
     user_role_id : new FormControl('',[Validators.required]),
     // data_access : new FormControl('',[Validators.required]),
-    desig : new FormControl('',[Validators.required]),
+    //desig : new FormControl('',[Validators.required]),
+    design : new FormControl('',[Validators.required]),
     created_by: new FormControl(""),
     modified_by: new FormControl(""),
     status: new FormControl(""),
@@ -119,7 +120,11 @@ export class UsersComponent implements OnInit {
 
     this.items = this.docForm.get('items') as FormArray;
     this.clearFormArray(this.items);
-    this.editForm.patchValue({id:data.id,first_name:data.first_name,last_name:data.last_name,loginname:data.loginname,email:data.email,desig:data.desig,created_by:data.created_by,modified_by:this.api.userid.user_id,status:data.status});
+    //this.editForm.patchValue({id:data.id,first_name:data.first_name,last_name:data.last_name,loginname:data.loginname,email:data.email,desig:data.desig,created_by:data.created_by,modified_by:this.api.userid.user_id,status:data.status});
+
+    this.editForm.patchValue({id:data.id,first_name:data.first_name,last_name:data.last_name,loginname:data.loginname,email:data.email,design:data.design,created_by:data.created_by,modified_by:this.api.userid.user_id,status:data.status});
+
+
     //this.editForm.patchValue({department:data.department.id,process:data.process.id});
     // let actions = data.roles.map(function(a){console.log(a.user_role);return a.user_role['id'];});
     // this.editForm.patchValue({user_role_id:actions});
@@ -267,7 +272,7 @@ export class UsersComponent implements OnInit {
 
   getUserList() {
      this.api
-    .getAPI(environment.API_URL + "api/auth/users")
+    .getAPI(environment.API_URL + "api/auth/users?order_type=desc")
     .subscribe((res) => {
       this.dataSource = new MatTableDataSource(res.data);
       this.dataSource.paginator = this.pagination;
@@ -277,7 +282,7 @@ export class UsersComponent implements OnInit {
   }
 
 
-  getDesignation(){
+  getDesignationOld(){
     let searchString='?status=1';
    this.api
    .getAPI(environment.API_URL + "master/unit"+searchString)
@@ -286,6 +291,17 @@ export class UsersComponent implements OnInit {
       console.log('DesList',this.DesList)
     });
   }
+
+getDesignation(){
+    let searchString='?status=1';
+   this.api
+   .getAPI(environment.API_URL + "master/designation"+searchString)
+    .subscribe((res) => {
+      this.DesList = res.data;
+      console.log('DesList',this.DesList)
+    });
+  }
+
 
   getUserRoles(process_id='') {
     let searchString='?status=1';

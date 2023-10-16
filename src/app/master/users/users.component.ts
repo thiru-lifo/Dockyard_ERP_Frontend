@@ -41,6 +41,8 @@ export class UsersComponent implements OnInit {
   UserList = [];
   RolesList = [];
   DesList = [];
+  CatTypeList = [];
+  PayScaleList = [];
   trials = [];
   satellite = [];
   ships=[];
@@ -96,7 +98,9 @@ export class UsersComponent implements OnInit {
     user_role_id : new FormControl('',[Validators.required]),
     // data_access : new FormControl('',[Validators.required]),
     //desig : new FormControl('',[Validators.required]),
+    category_type : new FormControl('',[Validators.required]),
     design : new FormControl('',[Validators.required]),
+    pay_scale : new FormControl('',[Validators.required]),
     created_by: new FormControl(""),
     modified_by: new FormControl(""),
     status: new FormControl(""),
@@ -223,6 +227,8 @@ export class UsersComponent implements OnInit {
      this.getAccess();
      this.getUserList();
      this.getDesignation();
+     this.getPayScale();
+     this.getCategoryType();
      // this.getModule();
      // this.getSubModule();
      this.getforms();
@@ -292,6 +298,17 @@ export class UsersComponent implements OnInit {
     });
   }
 
+
+getCategoryType(){
+    let searchString='?status=1';
+   this.api
+   .getAPI(environment.API_URL + "master/category_type"+searchString)
+    .subscribe((res) => {
+      this.CatTypeList = res.data;
+      console.log('CatTypeList',this.CatTypeList)
+    });
+  }
+
 getDesignation(){
     let searchString='?status=1';
    this.api
@@ -299,6 +316,16 @@ getDesignation(){
     .subscribe((res) => {
       this.DesList = res.data;
       console.log('DesList',this.DesList)
+    });
+  }
+
+getPayScale(){
+    let searchString='?status=1';
+   this.api
+   .getAPI(environment.API_URL + "master/pay_scale"+searchString)
+    .subscribe((res) => {
+      this.PayScaleList = res.data;
+      console.log('PayScaleList',this.PayScaleList)
     });
   }
 

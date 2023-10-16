@@ -194,6 +194,25 @@
               </div> -->
               <div class="col-md-4">
                    <div class="matt-group">
+                    <mat-label>Category Type<b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                          <mat-select  #select formControlName="category_type" placeholder="Select Category Type">
+                          <div class="select-all">
+                          <!-- <mat-checkbox [(ngModel)]="allSelected"
+                          [ngModelOptions]="{standalone: true}"
+                          (change)="toggleAllSelection()">Select All</mat-checkbox> -->
+                       </div>
+                          <mat-option (click)="optionClick()" *ngFor="let catTypes of CatTypeList" [value]="catTypes.id">
+                       {{catTypes.name}}
+                       </mat-option>
+                       </mat-select>
+                       <!-- <mat-error *ngIf="Error('user_role_id','required')">Please user role</mat-error> -->
+                    </mat-form-field>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                   <div class="matt-group">
                     <mat-label>Designation<b class="star">*</b></mat-label>
                     <mat-form-field appearance="legacy">
                           <mat-select  #select formControlName="design" placeholder="Select Designation">
@@ -210,6 +229,26 @@
                     </mat-form-field>
                 </div>
               </div>
+
+              <div class="col-md-4">
+                   <div class="matt-group">
+                    <mat-label>Pay Scale<b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                          <mat-select  #select formControlName="pay_scale" placeholder="Select Pay Scale">
+                          <div class="select-all">
+                          <!-- <mat-checkbox [(ngModel)]="allSelected"
+                          [ngModelOptions]="{standalone: true}"
+                          (change)="toggleAllSelection()">Select All</mat-checkbox> -->
+                       </div>
+                          <mat-option (click)="optionClick()" *ngFor="let payScales of PayScaleList" [value]="payScales.id">
+                       {{payScales.name}}
+                       </mat-option>
+                       </mat-select>
+                       <!-- <mat-error *ngIf="Error('user_role_id','required')">Please user role</mat-error> -->
+                    </mat-form-field>
+                </div>
+              </div>
+              <br>
               <div class="col-md-4">
                    <div class="matt-group">
                     <mat-label>User role <b class="star">*</b></mat-label>

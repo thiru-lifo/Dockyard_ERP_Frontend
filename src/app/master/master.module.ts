@@ -77,6 +77,11 @@ import {  PayScaleComponent } from './pay_scale/pay_scale.component';
 import {  CategoryTypeComponent } from './category_type/category_type.component';
 import {  DemandMasterComponent } from './demand_master/demand_master.component';
 import {  ItemsMasterComponent } from './items_master/items_master.component';
+import {  DeductionsMasterComponent } from './deductions_master/deductions_master.component';
+import {  AllowancesMasterComponent } from './allowances_master/allowances_master.component';
+
+
+
 
 
 
@@ -143,6 +148,8 @@ import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.
     CategoryTypeComponent,
     DemandMasterComponent,
     ItemsMasterComponent,
+    DeductionsMasterComponent,
+    AllowancesMasterComponent,
 
 
     DockyardGroupComponent,

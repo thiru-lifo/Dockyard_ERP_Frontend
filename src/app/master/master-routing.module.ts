@@ -79,6 +79,9 @@ import { CategoryTypeComponent } from './category_type/category_type.component';
 import { PayScaleComponent } from './pay_scale/pay_scale.component';
 import { DemandMasterComponent } from './demand_master/demand_master.component';
 import { ItemsMasterComponent } from './items_master/items_master.component';
+import { AllowancesMasterComponent } from './allowances_master/allowances_master.component';
+import { DeductionsMasterComponent } from './deductions_master/deductions_master.component';
+
 
 
 
@@ -134,6 +137,10 @@ const routes: Routes = [
   { path: 'pay_scale', component: PayScaleComponent, data: { breadcrumb: 'Pay Scale'}  },
   { path: 'demand-master', component: DemandMasterComponent, data: { breadcrumb: 'Demand Master'}  },
   { path: 'items-master', component: ItemsMasterComponent, data: { breadcrumb: 'Items Master'}  },
+  { path: 'allowances-master', component: AllowancesMasterComponent, data: { breadcrumb: 'Allowances Master'}  },
+  { path: 'deductions-master', component: DeductionsMasterComponent, data: { breadcrumb: 'Deductions Master'}  },
+  
+  
   
   
   { path: 'ship', component: ShipComponent, data: { breadcrumb: 'Ship'}  },

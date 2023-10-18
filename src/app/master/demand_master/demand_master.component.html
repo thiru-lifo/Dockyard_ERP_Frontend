@@ -10,7 +10,7 @@
                      </div>
                      <div class="col-md-6">
                         <div class="text-right">
-                           <a href="#" data-toggle="modal" data-target="#crud-countries" (click)="create()" class="btn btn-primary btn-round-sm"  *ngIf="permission.add==false" >Create</a>
+                           <a href="#" data-toggle="modal" data-target="#crud-countries" (click)="create()" class="btn btn-primary btn-round-sm"  *ngIf="permission.add==true">Create</a>
                         </div>
                      </div>
                   </div>
@@ -114,8 +114,26 @@
                     <!-- </mat-form-field>
                   </div>
               </div> --> 
+              <div class="col-md-6">
 
-               <div class="col-md-6">
+               <div class="matt-group matt-date-pickers">
+
+                  <mat-label>Demand Date</mat-label>
+
+                  <mat-form-field appearance="fill">
+
+                     <input matInput [matDatepicker]="picker" formControlName="demand_date">
+                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                     <mat-datepicker #picker></mat-datepicker>
+                     <mat-error *ngIf="Error('demand_date','required')">Enter Demand date</mat-error>
+
+                  </mat-form-field>
+
+               </div>
+
+               </div>
+
+               <!-- <div class="col-md-6">
                   <div class="matt-group">
                      <mat-label>Demand Date </mat-label>
                      <mat-form-field appearance="legacy">
@@ -124,14 +142,15 @@
                         <mat-error *ngIf="Error('demand_date','required')">Enter Demand date</mat-error>
                      </mat-form-field>
                   </div>
-               </div>
+               </div> -->
                <div class="col-md-6">
                   <div class="matt-group">
                      <mat-label>Code <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" class="code_field" formControlName="code" maxlength="15" >
+                        <input matInput placeholder="" class="code_field" formControlName="code" maxlength="15"  >
+                        
                         <mat-error *ngIf="Error('code','required')">Enter code</mat-error>
-                        <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error>
+                        <!-- <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error> -->
                      </mat-form-field>
                   </div>
                </div>
@@ -139,9 +158,11 @@
                   <div class="matt-group">
                      <mat-label> Center Number <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="center_no" maxlength="15" >
-                        <mat-error *ngIf="Error('center_no','required')">Enter Center Number</mat-error>
-                        <mat-error *ngIf="Error('center_no','pattern')">Alpha-numeric characters only</mat-error>
+                        <mat-select formControlName ="center_no" placeholder="Select Center" maxlength="15" >
+                           <mat-option *ngFor="let center of centers" [value]="center.id">{{center.name}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="Error('center_no','required')">Enter Center </mat-error>
+                        <!-- <mat-error *ngIf="Error('center_no','pattern')">Alpha-numeric characters only</mat-error> -->
                      </mat-form-field>
                   </div>
                </div>
@@ -149,9 +170,11 @@
                   <div class="matt-group">
                      <mat-label> WI Number <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="wi_number" maxlength="15" >
-                        <mat-error *ngIf="Error('wi_number','required')">Enter Center Number</mat-error>
-                        <mat-error *ngIf="Error('wi_number','pattern')">Alpha-numeric characters only</mat-error>
+                        <mat-select formControlName="wi_number" placeholder="Select Work Instruction" maxlength="15" >
+                           <mat-option *ngFor="let wi of wis" [value]="wi.id">{{wi.name}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="Error('wi_number','required')">Enter WI </mat-error>
+                        <!-- <mat-error *ngIf="Error('wi_number','pattern')">Alpha-numeric characters only</mat-error> -->
                      </mat-form-field>
                   </div>
                </div>
@@ -178,7 +201,7 @@
             </div>
             <div class="form-row button-group-lg button-auto mt-2">
                <div class="col-md-12">
-                  <button type="submit" class="btn btn-primary" *ngIf="!isReadonly" >Save</button>
+                  <button type="submit" class="btn btn-primary" >Save</button>
                   <button type="button" class="btn btn-outline-primary" #closebutton data-dismiss="modal">Cancel</button>
                </div>
             </div>

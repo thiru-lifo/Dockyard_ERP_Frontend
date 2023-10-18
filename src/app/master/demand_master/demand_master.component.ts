@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { ConsoleService } from "src/app/service/console.service";
 import { of } from 'rxjs';
 import { AngularEditorConfig } from "@kolkov/angular-editor/lib/config";
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 declare var $;
 declare var arrayColumn;
 declare var moment:any;
@@ -19,87 +20,19 @@ declare function openModal(selector):any;
 declare function closeModal(selector):any;
 declare function formSubmit(selector):any;
 declare function triggerClick(selector):any;
-export interface PeriodicElement {
-  name: string;
-  //position: number;
-  remarks: string;
-  actions: string;
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {name: 'test', remarks: 'test', actions: 'test'},
-  {name: 'test', remarks: 'test', actions: 'test'},
-  {name: 'test', remarks: 'test', actions: 'test'},
-  {name: 'test', remarks: 'test', actions: 'test'},
-];
 @Component({
   selector: 'app-demand_master',
   templateUrl: './demand_master.component.html',
   styleUrls: ['./demand_master.component.scss']
 })
 export class DemandMasterComponent implements OnInit {
-//   @ViewChild('localform')localform:HTMLFormElement;
-//   demand_date:any;
-//   rectifiedDate:any;
-//   cancelDate:any;
-
-//   selected:any = '18'
-//     displayedColumns: string[] = ['name', 'remarks', 'actions'];
-//     dataSource2 = ELEMENT_DATA;
-
-//    active = 1;
-
-//    editorConfig: AngularEditorConfig = {
-//     editable: true,
-//       spellcheck: true,
-//       height: 'auto',
-//       minHeight: '0',
-//       maxHeight: 'auto',
-//       width: 'auto',
-//       minWidth: '0',
-//       translate: 'yes',
-//       enableToolbar: true,
-//       showToolbar: true,
-//       placeholder: 'Enter remarks here...',
-//       defaultParagraphSeparator: '',
-//       defaultFontName: '',
-//       defaultFontSize: '',
-//       fonts: [
-//         {class: 'arial', name: 'Arial'},
-//         {class: 'times-new-roman', name: 'Times New Roman'},
-//         {class: 'calibri', name: 'Calibri'},
-//         {class: 'comic-sans-ms', name: 'Comic Sans MS'}
-//       ],
-//       customClasses: [
-//       {
-//         name: 'quote',
-//         class: 'quote',
-//       },
-//       {
-//         name: 'redText',
-//         class: 'redText'
-//       },
-//       {
-//         name: 'titleText',
-//         class: 'titleText',
-//         tag: 'h1',
-//       },
-//     ],
-//     uploadWithCredentials: false,
-//     sanitize: false,
-//     toolbarPosition: 'top',
-//     toolbarHiddenButtons: [
-//       ['bold', 'italic'],
-//       ['fontSize','toggleEditorMode','customClasses']
-//     ]
-// };
-
 
 
  displayedColumns: string[] = [
     "qty",
     "code",
-    "demand_date",
+    // "demand_date",
   
     "status",
     "view",
@@ -171,6 +104,27 @@ export class DemandMasterComponent implements OnInit {
   ngOnInit(): void {
      this.getDemandMaster();
      this.getAccess();
+     this.getCenter();
+     this.getWI();
+  }
+  centers:any;
+  getCenter() {
+    this.api
+      .getAPI(environment.API_URL + "master/center?status=1")
+      .subscribe((res) => {
+        this.centers = res.data;
+        console.log("centersssss",this.centers)
+      });
+  }
+  wis:any
+  getWI(){
+    this.api
+      .getAPI(environment.API_URL + "transaction/wi?status=1")
+      .subscribe((res) => {
+        this.wis = res.data;
+        console.log("workinstructionnnn",this.wis)
+      });
+
   }
   demandmaster:any
   getDemandMaster() {

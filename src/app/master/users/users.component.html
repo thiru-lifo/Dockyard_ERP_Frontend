@@ -248,6 +248,26 @@
                     </mat-form-field>
                 </div>
               </div>
+
+              <div class="col-md-4">
+                   <div class="matt-group">
+                    <mat-label>Center<b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                          <mat-select  #select formControlName="center" placeholder="Select Center">
+                          <div class="select-all">
+                          <!-- <mat-checkbox [(ngModel)]="allSelected"
+                          [ngModelOptions]="{standalone: true}"
+                          (change)="toggleAllSelection()">Select All</mat-checkbox> -->
+                       </div>
+                          <mat-option *ngFor="let center of centerList" [value]="center.id">
+                       {{center.name}}
+                       </mat-option>
+                       </mat-select>
+                       <!-- <mat-error *ngIf="Error('user_role_id','required')">Please user role</mat-error> -->
+                    </mat-form-field>
+                </div>
+              </div>
+
               <br>
               <div class="col-md-4">
                    <div class="matt-group">

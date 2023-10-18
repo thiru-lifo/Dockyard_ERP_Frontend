@@ -43,6 +43,7 @@ export class UsersComponent implements OnInit {
   DesList = [];
   CatTypeList = [];
   PayScaleList = [];
+  centerList = [];
   trials = [];
   satellite = [];
   ships=[];
@@ -101,6 +102,7 @@ export class UsersComponent implements OnInit {
     category_type : new FormControl('',[Validators.required]),
     design : new FormControl('',[Validators.required]),
     pay_scale : new FormControl('',[Validators.required]),
+    center : new FormControl('',[Validators.required]),
     created_by: new FormControl(""),
     modified_by: new FormControl(""),
     status: new FormControl(""),
@@ -126,7 +128,7 @@ export class UsersComponent implements OnInit {
     this.clearFormArray(this.items);
     //this.editForm.patchValue({id:data.id,first_name:data.first_name,last_name:data.last_name,loginname:data.loginname,email:data.email,desig:data.desig,created_by:data.created_by,modified_by:this.api.userid.user_id,status:data.status});
 
-    this.editForm.patchValue({id:data.id,first_name:data.first_name,last_name:data.last_name,loginname:data.loginname,email:data.email,design:data.design,created_by:data.created_by,modified_by:this.api.userid.user_id,status:data.status});
+    this.editForm.patchValue({id:data.id,first_name:data.first_name,last_name:data.last_name,loginname:data.loginname,email:data.email,design:data.design,created_by:data.created_by,modified_by:this.api.userid.user_id,status:data.status,category_type:data.category_type[0].id,pay_scale:data.pay_scale[0].id,center:data.center[0].id});
 
 
     //this.editForm.patchValue({department:data.department.id,process:data.process.id});
@@ -232,6 +234,7 @@ export class UsersComponent implements OnInit {
      // this.getModule();
      // this.getSubModule();
      this.getforms();
+     this.getCenter();
 
   }
 
@@ -328,6 +331,19 @@ getPayScale(){
       console.log('PayScaleList',this.PayScaleList)
     });
   }
+
+
+getCenter(){
+    let searchString='?status=1';
+   this.api
+   .getAPI(environment.API_URL + "master/center"+searchString)
+    .subscribe((res) => {
+      this.centerList = res.data;
+      console.log('centerList',this.centerList)
+    });
+  }
+
+  
 
 
   getUserRoles(process_id='') {

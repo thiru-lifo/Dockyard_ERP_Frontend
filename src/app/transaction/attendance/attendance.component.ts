@@ -215,12 +215,15 @@ export class AttendanceComponent implements OnInit {
 
 
   ngOnInit(): void {
-   this.getListing();
-   this.getCenter();
+   //this.getListing();
+   //this.getCenter();
    this.getEmployee();
+   this.getAttendance();
    this.getAccess();
    //var element = <HTMLInputElement>document.getElementById("exampleCheck1");
    //element.checked = true;
+
+
   }
   public FinalArray = [];
   projects=[];
@@ -391,15 +394,38 @@ export class AttendanceComponent implements OnInit {
       });
   }
 
-  employees:any;
+  // employees:any;
+  // getEmployee() {
+  //   this.api
+  //     .getAPI(environment.API_URL + "api/auth/users?status=1")
+  //     .subscribe((res) => {
+  //       this.employees = res.data;
+  //       console.log(this.employees,"employees")
+  //     });
+  // }
+
+
+  employee:{};
   getEmployee() {
     this.api
-      .getAPI(environment.API_URL + "api/auth/users?status=1")
+      .postAPI(environment.API_URL + "api/auth/user/get_user",{})
       .subscribe((res) => {
-        this.employees = res.data;
-        console.log(this.employees,"employees")
+        this.employee = res.data[0];
+        console.log(this.employee,"employee")
       });
   }
+
+
+  attendance:any;
+  getAttendance() {
+    this.api
+      .postAPI(environment.API_URL + "transaction/attendance/get_attendance",{})
+      .subscribe((res) => {
+        this.attendance = res.data;
+        console.log(this.attendance,"attendance")
+      });
+  }
+
 
   trialPage:any;
   getAccess() {
@@ -667,16 +693,17 @@ numberOnly(event:any): boolean {
   }
 
 
-  onCheckInOut(country, type){
+  onCheckInOut(type){
 
+    this.api.displayLoading(true)
     this.api.postAPI(environment.API_URL + "transaction/attendance/check_in_out", {
-      attendance_id: country,
       check_type: type
     }).subscribe((res) => {
 
         if(res.status==environment.SUCCESS_CODE){
-          this.notification.success(res.message);
-          this.getListing();
+          this.api.displayLoading(false)
+          //this.notification.success(res.message);
+          this.getAttendance();
         } else if(res.status==environment.ERROR_CODE) {
           this.error_msg=true;
           this.ErrorMsg=res.message;

@@ -75,6 +75,10 @@ import { CenterComponent } from './center/center.component';
 import { ShopFloorComponent } from './shop_floor/shop_floor.component';
 import {  PayScaleComponent } from './pay_scale/pay_scale.component';
 import {  CategoryTypeComponent } from './category_type/category_type.component';
+import {  DemandMasterComponent } from './demand_master/demand_master.component';
+import {  ItemsMasterComponent } from './items_master/items_master.component';
+
+
 
 
 
@@ -137,6 +141,8 @@ import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.
     FormMappingComponent,
     PayScaleComponent,
     CategoryTypeComponent,
+    DemandMasterComponent,
+    ItemsMasterComponent,
 
 
     DockyardGroupComponent,

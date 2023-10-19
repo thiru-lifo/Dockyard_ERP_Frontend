@@ -13,16 +13,17 @@ import { ConsoleService } from "src/app/service/console.service";
 import { of } from 'rxjs';
 declare var $;
 @Component({
-  selector: 'app-allowances_master',
-  templateUrl: './allowances_master.component.html',
-  styleUrls: ['./allowances_master.component.scss']
+  selector: 'app-pay_grade',
+  templateUrl: './pay_grade.component.html',
+  styleUrls: ['./pay_grade.component.scss']
 })
-export class AllowancesMasterComponent implements OnInit {
+export class PayGradeComponent implements OnInit {
 
 
   displayedColumns: string[] = [
     "name",
     "code",
+    "pg_band",
     "status",
     "view",
     "edit",
@@ -60,12 +61,11 @@ export class AllowancesMasterComponent implements OnInit {
     name: new FormControl("", [
       Validators.required,
     ]),
-    description: new FormControl(""),
-    code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    on_per_of_basic_pay : new FormControl("",[Validators.required]),
-    per_of_basic_pay : new FormControl("",[Validators.required]),
-    on_fixed_amount : new FormControl("",[Validators.required]),
-    amount_of_allowance : new FormControl("",[Validators.required]),
+    pg_band :new FormControl("", [Validators.required,]),
+    pg_band_range : new FormControl("", [Validators.required,]),
+    pg_id : new FormControl("", [Validators.required,]),
+    description: new FormControl("",[Validators.required,]),
+    code: new FormControl("", [Validators.required,]),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -92,18 +92,18 @@ export class AllowancesMasterComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getAllowancesMaster();
+     this.getPayGrade();
      this.getAccess();
   }
-  allowans
-  getAllowancesMaster() {
+  paygrades:any
+  getPayGrade() {
     this.api
-      .getAPI(environment.API_URL + "master/allowances_master")
+      .getAPI(environment.API_URL + "master/pay_grade")
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
-        this.allowans = res.data;
+        this.paygrades = res.data;
         this.dataSource.paginator = this.pagination;
-        this.logger.log('country',this.allowans)
+        this.logger.log('paygrades',this.paygrades)
       });
   }
 
@@ -155,15 +155,15 @@ export class AllowancesMasterComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/allowances_master/details", {
+        this.api.postAPI(environment.API_URL + "master/pay_grade/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('Deductions Master '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getAllowancesMaster();
+            this.notification.warn('PayGrade '+language[environment.DEFAULT_LANG].deleteMsg);
+            this.getPayGrade();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -179,7 +179,7 @@ export class AllowancesMasterComponent implements OnInit {
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/allowances_master/details",
+          environment.API_URL + "master/pay_grade/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -188,7 +188,7 @@ export class AllowancesMasterComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getAllowancesMaster();
+            this.getPayGrade();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -228,7 +228,7 @@ export class AllowancesMasterComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getAllowancesMaster();
+      this.getPayGrade();
     }
   }
 

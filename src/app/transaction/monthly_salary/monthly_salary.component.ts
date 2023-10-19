@@ -8,27 +8,43 @@ import { NotificationService } from "src/app/service/notification.service";
 import { ConfirmationDialogComponent } from "src/app/confirmation-dialog/confirmation-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { language } from "src/environments/language";
-import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
+
 import { ConsoleService } from "src/app/service/console.service";
+import { Router,ActivatedRoute } from '@angular/router';
+
+
 import { of } from 'rxjs';
+import { AngularEditorConfig } from "@kolkov/angular-editor/lib/config";
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 declare var $;
+declare var arrayColumn;
+declare var moment:any;
+declare function openModal(selector):any;
+declare function closeModal(selector):any;
+declare function formSubmit(selector):any;
+declare function triggerClick(selector):any;
+
 @Component({
-  selector: 'app-allowances_master',
-  templateUrl: './allowances_master.component.html',
-  styleUrls: ['./allowances_master.component.scss']
+  selector: 'app-monthly_salary',
+  templateUrl: './monthly_salary.component.html',
+  styleUrls: ['./monthly_salary.component.scss']
 })
-export class AllowancesMasterComponent implements OnInit {
+export class MonthlySalaryComponent implements OnInit {
 
 
-  displayedColumns: string[] = [
-    "name",
-    "code",
+ displayedColumns: string[] = [
+    "employee",
+    "total_credits",
+    "total_debits",
+  
     "status",
     "view",
     "edit",
     "delete",
   ];
   dataSource: MatTableDataSource<any>;
+  public formattedDate: string;
 
   country: any;
   public crudName = "Add";
@@ -57,15 +73,15 @@ export class AllowancesMasterComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
-    name: new FormControl("", [
+    user: new FormControl("", [
       Validators.required,
     ]),
-    description: new FormControl(""),
-    code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    on_per_of_basic_pay : new FormControl("",[Validators.required]),
-    per_of_basic_pay : new FormControl("",[Validators.required]),
-    on_fixed_amount : new FormControl("",[Validators.required]),
-    amount_of_allowance : new FormControl("",[Validators.required]),
+   
+    for_month: new FormControl("moment().format('YYYY-MM-DD')"),
+    total_credits: new FormControl("",[Validators.required]),
+    total_debits: new FormControl("",[Validators.required]),
+    gross_salary: new FormControl("",[Validators.required]),
+    net_salary: new FormControl("", [Validators.required,]),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -92,18 +108,42 @@ export class AllowancesMasterComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getAllowancesMaster();
+     this.getMonthlySalary();
      this.getAccess();
+     this.getUsers();
+     this.formatDate(new Date());
+     
   }
-  allowans
-  getAllowancesMaster() {
+  // users:any;
+  // getUsers() {
+  //   this.api
+  //     .getAPI(environment.API_URL + "master/center?status=1")
+  //     .subscribe((res) => {
+  //       this.users = res.data;
+  //       console.log("userssssss",this.users)
+  //     });
+  // }
+
+
+  users=[];
+  getUsers() {
     this.api
-      .getAPI(environment.API_URL + "master/allowances_master")
+      .postAPI(environment.API_URL + "api/auth/user/get_user",{})
+      .subscribe((res) => {
+        this.users = res.data;
+        console.log(this.users,"userrrr")
+      });
+  }
+  
+  monthlysalary:any
+  getMonthlySalary() {
+    this.api
+      .getAPI(environment.API_URL + "transaction/monthly_salary")
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
-        this.allowans = res.data;
+        this.monthlysalary = res.data;
         this.dataSource.paginator = this.pagination;
-        this.logger.log('country',this.allowans)
+        this.logger.log('monthlysalary',this.monthlysalary)
       });
   }
 
@@ -155,15 +195,15 @@ export class AllowancesMasterComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/allowances_master/details", {
+        this.api.postAPI(environment.API_URL + "transaction/monthly_salary/crud", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('Deductions Master '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getAllowancesMaster();
+            this.notification.warn('DemandMaster '+language[environment.DEFAULT_LANG].deleteMsg);
+            this.getMonthlySalary();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -172,6 +212,9 @@ export class AllowancesMasterComponent implements OnInit {
       dialogRef=null;
     });
   }
+  // getCategoryType() {
+  //   throw new Error("Method not implemented.");
+  // }
 
   onSubmit() {
      if (this.editForm.valid) {
@@ -179,7 +222,7 @@ export class AllowancesMasterComponent implements OnInit {
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/allowances_master/details",
+          environment.API_URL + "transaction/monthly_salary/crud",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -188,7 +231,7 @@ export class AllowancesMasterComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getAllowancesMaster();
+            this.getMonthlySalary();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -202,6 +245,10 @@ export class AllowancesMasterComponent implements OnInit {
 
         });
     }
+  }
+  formatDate(date: Date) {
+    const datePipe = new DatePipe('en-US');
+    this.formattedDate = datePipe.transform(date, 'yyyy-MM-dd');
   }
 
 
@@ -228,7 +275,7 @@ export class AllowancesMasterComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getAllowancesMaster();
+      this.getMonthlySalary();
     }
   }
 

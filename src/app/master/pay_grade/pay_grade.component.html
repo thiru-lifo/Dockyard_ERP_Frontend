@@ -6,7 +6,7 @@
                <div class="card-header">
                   <div class="row">
                      <div class="col-md-6">
-                        <h3>Deductions Master</h3>
+                        <h3>Pay Grade</h3>
                      </div>
                      <div class="col-md-6">
                         <div class="text-right">
@@ -37,6 +37,10 @@
                   <ng-container matColumnDef="code">
                      <th mat-header-cell *matHeaderCellDef><b> Code </b></th>
                      <td mat-cell *matCellDef="let country"> {{country.code}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="pg_band">
+                     <th mat-header-cell *matHeaderCellDef><b> Pg Band </b></th>
+                     <td mat-cell *matCellDef="let country"> {{country.pg_band}} </td>
                   </ng-container>
                   <ng-container matColumnDef="status">
                      <th mat-header-cell *matHeaderCellDef><b> Status </b></th>
@@ -79,7 +83,7 @@
    <div class="modal-dialog modal-lg">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{crudName}} </h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{crudName}} Pay Grade</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" matTooltip="Close" matTooltipClass="custom-tooltip">
               <span aria-hidden="true">&times;</span>
               </button>
@@ -93,9 +97,19 @@
                   <div class="matt-group">
                      <mat-label>Name <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*" id="name" >
+                        <input  matInput placeholder="" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*"  >
                         <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
                         <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error>
+                     </mat-form-field>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Code <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <input matInput placeholder=""  formControlName="code" maxlength="15" >
+                        <mat-error *ngIf="Error('code','required')">Enter code</mat-error>
+                        <!-- <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error> -->
                      </mat-form-field>
                   </div>
                </div>
@@ -111,11 +125,31 @@
                </div>
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>Code <b class="star">*</b></mat-label>
+                     <mat-label>Pg Band <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" class="code_field" formControlName="code" maxlength="15" >
-                        <mat-error *ngIf="Error('code','required')">Enter code</mat-error>
-                        <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error>
+                        <input matInput placeholder="" formControlName="pg_band" maxlength="15" >
+                        <mat-error *ngIf="Error('pg_band','required')">Enter Pg Band</mat-error>
+                        <!-- <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error> -->
+                     </mat-form-field>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Pg Band Range <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <input matInput placeholder="" formControlName="pg_band_range" maxlength="15" >
+                        <mat-error *ngIf="Error('pg_band_range','required')">Enter Pg Band Range</mat-error>
+                        <!-- <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error> -->
+                     </mat-form-field>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Pg Id <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <input matInput placeholder="" formControlName="pg_id" maxlength="15" >
+                        <mat-error *ngIf="Error('pg_id','required')">Enter Pg Id</mat-error>
+                        <!-- <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error> -->
                      </mat-form-field>
                   </div>
                </div>

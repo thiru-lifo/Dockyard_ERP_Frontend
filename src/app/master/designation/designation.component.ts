@@ -22,6 +22,7 @@ export class DesignationComponent implements OnInit {
 
   displayedColumns: string[] = [
     "name",
+    "personnel_type",
     "code",
     "status",
     "view",
@@ -60,8 +61,9 @@ export class DesignationComponent implements OnInit {
     name: new FormControl("", [
       Validators.required,
     ]),
-    description: new FormControl(""),
+    description: new FormControl("",[Validators.required]),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    personnel_type: new FormControl(""),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -90,6 +92,7 @@ export class DesignationComponent implements OnInit {
   ngOnInit(): void {
      this.getProjectType();
      this.getAccess();
+     this.getPersoneltype();
   }
 
   getProjectType() {
@@ -100,6 +103,17 @@ export class DesignationComponent implements OnInit {
         this.countryList = res.data;
         this.dataSource.paginator = this.pagination;
         this.logger.log('country',this.countryList)
+      });
+  }
+  personaltypes:any
+  getPersoneltype() {
+    this.api
+      .getAPI(environment.API_URL + "master/personnel_type")
+      .subscribe((res) => {
+        this.dataSource = new MatTableDataSource(res.data);
+        this.personaltypes = res.data;
+        this.dataSource.paginator = this.pagination;
+        this.logger.log('personaltypes',this.personaltypes)
       });
   }
 

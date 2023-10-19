@@ -27,6 +27,10 @@ const routes: Routes = [
      loadChildren: () => import('./attendance/attendance.module').then(m => m.AttendanceModule), data: { breadcrumb: 'Attendance'}
    },
    {
+    path: 'attendance-report',
+     loadChildren: () => import('./attendance-report/attendance-report.module').then(m => m.AttendanceReportModule), data: { breadcrumb: 'Attendance Report'}
+   },
+   {
     path: 'monthly-credits-debits',
      loadChildren: () => import('./monthly-credits-debits/monthly-credits-debits.module').then(m => m.MonthlyCreditsDebitsModule), data: { breadcrumb: 'Monthly Credits Debits'}
    },

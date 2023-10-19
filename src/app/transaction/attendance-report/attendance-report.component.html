@@ -1,0 +1,122 @@
+<section class="body-card">
+   <div class="container-fluid">
+
+
+      <div class="row">
+         <div class="col-md-12">
+            <div class="card">
+               <div class="card-header">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <h3>Attendance Report</h3>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="text-right">
+                           <span class="btn xbtn-primary xbtn-round-sm">&nbsp;</span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="container table-options">
+                  <div class="row">
+                     <div class="col-md-6">
+                        <mat-paginator [length]="100" [pageSize]="10"  [pageSizeOptions]="[10,20,30,50,100]" aria-label="Select page" >
+                        </mat-paginator>
+                     </div>
+                     <div class="col-md-6">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Search your text here</mat-label>
+                            <input matInput (keyup)="applyFilter($event)" class="search-mat-table" #input >
+                        </mat-form-field>
+                     </div>
+                  </div>
+               </div>
+      <div class="container-fluid">
+        <form [formGroup]="searchForm">
+          <div class="form-row form-style-md">
+
+            <div class="col-md-3">
+                <div class="matt-group">
+                    <mat-label>Start Date <b class="star">*</b></mat-label>
+                    <mat-form-field appearance="fill">
+                    <input matInput [matDatepicker]="picker1" formControlName="start_date" placeholder=""[(ngModel)]="startDate" onclick="$('#date1').trigger('click'); return false;" (keydown)="disableDate()">
+                    <mat-datepicker-toggle id="date1" matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                    <!-- <mat-error *ngIf="Error('start_date','required')">Choose start dater</mat-error> -->
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="col-md-3">
+                <div class="matt-group">
+                  <mat-label>End Date <b class="star">*</b></mat-label>
+                  <mat-form-field appearance="fill">
+                    <input matInput [matDatepicker]="picker2" formControlName="end_date" placeholder=""[(ngModel)]="endDate" onclick="$('#date2').trigger('click'); return false;" (keydown)="disableDate()">
+                    <mat-datepicker-toggle id="date2" matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                  </mat-form-field>
+               </div>
+            </div>  
+
+            <div class="col-md-9">
+                 <div class="button-group-lg button-group-md mt-4">
+                    <a href="javascript:void(0);" class="btn btn-outline-primary btn-lg" (click)="clear()">Clear</a>
+                    <a href="javascript:void(0);" class="btn btn-primary btn-lg" type="submit" (click)="search()">Search</a>
+                </div>
+            </div>
+         </div>
+       </form>
+    </div>   
+
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                  <ng-container matColumnDef="employee">
+                    <th mat-header-cell *matHeaderCellDef><b> Employee</b></th>
+                    <td mat-cell *matCellDef="let country"> {{country.user_id__loginname?country.user_id__loginname:'-'}}
+                     </td>
+                 </ng-container>
+
+                  <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef><b>Date</b></th>
+                    <td mat-cell *matCellDef="let country"> {{country.attendance_date?country.attendance_date:'-'}} </td>
+                 </ng-container>
+                  
+                  <ng-container matColumnDef="check_in"> 
+                     <th mat-header-cell *matHeaderCellDef><b> Check In </b></th>
+                     <td mat-cell *matCellDef="let country"> {{country.check_in?moment(country.check_in).format('hh:mm A'):'-'}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="check_out">
+                     <th mat-header-cell *matHeaderCellDef><b> Check Out </b></th>
+                     <td mat-cell *matCellDef="let country">
+                     {{country.check_out?moment(country.check_out).format('hh:mm A'):'-'}}
+                     </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="status">
+                     <th mat-header-cell *matHeaderCellDef><b> Status </b></th>
+                     <td mat-cell *matCellDef="let country">{{country.attendance_status=='1'?'Present':'Absent'}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="center">
+                     <th mat-header-cell *matHeaderCellDef><b> Center </b></th>
+                     <td mat-cell *matCellDef="let country">{{country.center_id__name?country.center_id__name:'-'}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="noData">
+                     <th mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length" class="norecord">
+                         No Records Found!
+                     </th >
+                   </ng-container>
+                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                   <tr mat-footer-row *matFooterRowDef="['noData']" [hidden]="dataSource && dataSource.data.length > 0"></tr>
+                   <tr class="mat-row" *matNoDataRow>
+                     <td *ngIf='filterValue' class="norecord"  colspan="4"><b>No data matching with "{{input.value}}"</b></td>
+                  </tr>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>

@@ -38,6 +38,10 @@
                      <th mat-header-cell *matHeaderCellDef><b> Code </b></th>
                      <td mat-cell *matCellDef="let country"> {{country.code}} </td>
                   </ng-container>
+                  <ng-container matColumnDef="personnel_type">
+                     <th mat-header-cell *matHeaderCellDef><b> Personnel Type </b></th>
+                     <td mat-cell *matCellDef="let country"> {{country.personnel_type}} </td>
+                  </ng-container>
                   <ng-container matColumnDef="status">
                      <th mat-header-cell *matHeaderCellDef><b> Status </b></th>
                      <td mat-cell *matCellDef="let country"> <a href="javascript:void(0)" class="status-field {{country.status=='1'?'text-success':'text-danger'}}" >{{country.status=='1'?'Active':'Inactive'}}</a>  </td>
@@ -116,6 +120,20 @@
                         <input matInput placeholder="" class="code_field" formControlName="code" maxlength="15" >
                         <mat-error *ngIf="Error('code','required')">Enter code</mat-error>
                         <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error>
+                     </mat-form-field>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Personnel Type <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <mat-select formControlName="personnel_type"
+                              placeholder="Select personneltype">
+
+                              <mat-option *ngFor="let personneltype of personaltypes" [value]="personneltype.id">{{personneltype.name}}</mat-option>
+                              </mat-select>
+                        <mat-error *ngIf="Error('personnel_type','required')">Enter code</mat-error>
+                        
                      </mat-form-field>
                   </div>
                </div>

@@ -26,6 +26,10 @@ const routes: Routes = [
     path: 'attendance',
      loadChildren: () => import('./attendance/attendance.module').then(m => m.AttendanceModule), data: { breadcrumb: 'Attendance'}
    },
+   {
+    path: 'monthly-salary',
+     loadChildren: () => import('./monthly_salary/monthly_salary.module').then(m => m.MonthlySalaryModule), data: { breadcrumb: 'Monthly Salary'}
+   },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

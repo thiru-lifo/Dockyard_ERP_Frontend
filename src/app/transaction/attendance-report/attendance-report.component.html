@@ -58,6 +58,27 @@
                </div>
             </div>  
 
+            <!-- <div class="col-md-3">
+                <div class="matt-group">
+<mat-form-field appearance = "fill">  
+  <mat-label> enter the start date and end date </mat-label>  
+  <mat-date-range-input [rangePicker] = "picker">  
+    <input matStartDate placeholder = "Start date">  
+    <input matEndDate placeholder = "End date">  
+  </mat-date-range-input>  
+  <mat-datepicker-toggle matSuffix [for] = "picker"> </mat-datepicker-toggle>  
+  <mat-date-range-picker #picker> </mat-date-range-picker>  
+</mat-form-field>  
+
+
+  <mat-error *ngIf = "range.controls.start.hasError('matStartDateInvalid')"> Invalid start date </mat-error>  
+  <mat-error *ngIf = "range.controls.end.hasError('matEndDateInvalid')"> Invalid end date </mat-error>  
+
+
+                </div>
+            </div> -->
+
+
             <div class="col-md-9">
                  <div class="button-group-lg button-group-md mt-4">
                     <a href="javascript:void(0);" class="btn btn-outline-primary btn-lg" (click)="clear()">Clear</a>

@@ -83,6 +83,7 @@ export class AttendanceReportComponent implements OnInit {
 
   ngOnInit(): void {
      //this.getAttendance()
+    this.getAccess()
   }
 
   
@@ -247,6 +248,9 @@ searchForm= new FormGroup({
           // }
 
 
+
+
+
           this.dataSource = new MatTableDataSource(res.data);
           this.countryList = res.data;
           this.dataSource.paginator = this.pagination;
@@ -254,6 +258,11 @@ searchForm= new FormGroup({
         });
       }
   }
+
+  // range = new FormGroup({  
+  //   start: new FormControl(),  
+  //   end: new FormControl()  
+  // });  
 
 
 }

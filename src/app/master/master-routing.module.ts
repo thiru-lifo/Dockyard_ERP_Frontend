@@ -81,7 +81,8 @@ import { DemandMasterComponent } from './demand_master/demand_master.component';
 import { ItemsMasterComponent } from './items_master/items_master.component';
 import { AllowancesMasterComponent } from './allowances_master/allowances_master.component';
 import { DeductionsMasterComponent } from './deductions_master/deductions_master.component';
-
+import { PayGradeComponent } from './pay_grade/pay_grade.component';
+import { PersonnelTypeComponent } from './personnel_type/personnel_type.component';
 
 
 
@@ -139,6 +140,11 @@ const routes: Routes = [
   { path: 'items-master', component: ItemsMasterComponent, data: { breadcrumb: 'Items Master'}  },
   { path: 'allowances-master', component: AllowancesMasterComponent, data: { breadcrumb: 'Allowances Master'}  },
   { path: 'deductions-master', component: DeductionsMasterComponent, data: { breadcrumb: 'Deductions Master'}  },
+  
+  { path: 'pay-grade', component: PayGradeComponent, data: { breadcrumb: 'Pay Grade'}  },
+  { path: 'personnel-type', component: PersonnelTypeComponent, data: { breadcrumb: 'Personnel Type'}  },
+  
+  
   
   
   

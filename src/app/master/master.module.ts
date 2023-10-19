@@ -79,6 +79,10 @@ import {  DemandMasterComponent } from './demand_master/demand_master.component'
 import {  ItemsMasterComponent } from './items_master/items_master.component';
 import {  DeductionsMasterComponent } from './deductions_master/deductions_master.component';
 import {  AllowancesMasterComponent } from './allowances_master/allowances_master.component';
+import {  PayGradeComponent } from './pay_grade/pay_grade.component';
+import { PersonnelTypeComponent } from './personnel_type/personnel_type.component';
+
+
 
 
 
@@ -150,6 +154,8 @@ import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.
     ItemsMasterComponent,
     DeductionsMasterComponent,
     AllowancesMasterComponent,
+    PayGradeComponent,
+    PersonnelTypeComponent,
 
 
     DockyardGroupComponent,

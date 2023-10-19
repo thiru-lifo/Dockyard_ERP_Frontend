@@ -29,9 +29,12 @@ const routes: Routes = [
    {
     path: 'monthly-salary',
      loadChildren: () => import('./monthly_salary/monthly_salary.module').then(m => m.MonthlySalaryModule), data: { breadcrumb: 'Monthly Salary'}
+   },
+   {
     path: 'monthly-credits-debits',
      loadChildren: () => import('./monthly-credits-debits/monthly-credits-debits.module').then(m => m.MonthlyCreditsDebitsModule), data: { breadcrumb: 'Monthly Credits Debits'}
    },
+
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

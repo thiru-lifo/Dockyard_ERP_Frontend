@@ -10,7 +10,7 @@
                      </div>
                      <div class="col-md-6">
                         <div class="text-right">
-                           <a href="#" data-toggle="modal" data-target="#crud-countries" (click)="create()" class="btn btn-primary btn-round-sm"  *ngIf="permission.add==true">Create</a>
+                           <a href="#" data-toggle="modal" data-target="#crud-countries" (click)="create()" class="btn btn-primary btn-round-sm"  *ngIf="permission.add==false">Create</a>
                         </div>
                      </div>
                   </div>
@@ -30,8 +30,8 @@
                   </div>
                </div>
                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                  <ng-container matColumnDef="user">
-                     <th mat-header-cell *matHeaderCellDef><b> User </b></th>
+                  <ng-container matColumnDef="employee">
+                     <th mat-header-cell *matHeaderCellDef><b> Employee</b></th>
                      <td mat-cell *matCellDef="let country"> {{country.user}} </td>
                   </ng-container>
                   <ng-container matColumnDef="total_credits">
@@ -95,7 +95,7 @@
             <div class="form-row">
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>User<b class="star">*</b></mat-label>
+                     <mat-label>Employee<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
                         <mat-select  placeholder="Select user" formControlName="user" maxlength="100" >
                            <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action"><b> {{user['name']}}</a> -->

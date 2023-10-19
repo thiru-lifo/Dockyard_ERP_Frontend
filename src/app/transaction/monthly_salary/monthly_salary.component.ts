@@ -34,7 +34,7 @@ export class MonthlySalaryComponent implements OnInit {
 
 
  displayedColumns: string[] = [
-    "user",
+    "employee",
     "total_credits",
     "total_debits",
   

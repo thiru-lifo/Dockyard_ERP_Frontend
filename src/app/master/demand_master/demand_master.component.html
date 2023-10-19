@@ -156,7 +156,7 @@
                </div>
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label> Center Number <b class="star">*</b></mat-label>
+                     <mat-label> Center <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
                         <mat-select formControlName ="center_no" placeholder="Select Center" maxlength="15" >
                            <mat-option *ngFor="let center of centers" [value]="center.id">{{center.name}}</mat-option>
@@ -168,7 +168,7 @@
                </div>
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label> WI Number <b class="star">*</b></mat-label>
+                     <mat-label> Work Instruction(WI)  <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
                         <mat-select formControlName="wi_number" placeholder="Select Work Instruction" maxlength="15" >
                            <mat-option *ngFor="let wi of wis" [value]="wi.id">{{wi.name}}</mat-option>

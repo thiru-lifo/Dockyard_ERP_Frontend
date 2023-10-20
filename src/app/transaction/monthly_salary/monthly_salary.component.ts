@@ -128,7 +128,7 @@ export class MonthlySalaryComponent implements OnInit {
   users=[];
   getUsers() {
     this.api
-      .postAPI(environment.API_URL + "api/auth/user/get_user",{})
+      .postAPI(environment.API_URL + "api/auth/user/get_all_user",{})
       .subscribe((res) => {
         this.users = res.data;
         console.log(this.users,"userrrr")

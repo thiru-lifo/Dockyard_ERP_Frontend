@@ -23,7 +23,7 @@ export class StatusComponent implements OnInit {
   displayedColumns: string[] = [
     "name",
     "code",
-    "status",
+    
     "view",
     "edit",
     "delete",

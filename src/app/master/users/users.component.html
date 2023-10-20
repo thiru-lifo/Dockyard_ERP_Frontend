@@ -251,6 +251,22 @@
 
               <div class="col-md-4">
                    <div class="matt-group">
+                    <mat-label>Rank<b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                          <mat-select  #select formControlName="rank" placeholder="Select Rank">
+                          <div class="select-all">
+                       </div>
+                          <mat-option *ngFor="let ranks of rankList" [value]="ranks.id">
+                       {{ranks.name}}
+                       </mat-option>
+                       </mat-select>
+                    </mat-form-field>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                   <div class="matt-group">
                     <mat-label>Center<b class="star">*</b></mat-label>
                     <mat-form-field appearance="legacy">
                           <mat-select  #select formControlName="center" placeholder="Select Center">

@@ -46,6 +46,7 @@ export class UsersComponent implements OnInit {
   centerList = [];
   shopFloorList = [];
   payGradeList = [];
+  rankList = [];
   trials = [];
   satellite = [];
   ships=[];
@@ -112,6 +113,8 @@ export class UsersComponent implements OnInit {
     current_basic_salary : new FormControl('',[Validators.required]),
     icard_number : new FormControl('',[Validators.required]),
 
+    rank : new FormControl('',[Validators.required]),
+
     created_by: new FormControl(""),
     modified_by: new FormControl(""),
     status: new FormControl(""),
@@ -137,11 +140,15 @@ export class UsersComponent implements OnInit {
     this.clearFormArray(this.items);
     //this.editForm.patchValue({id:data.id,first_name:data.first_name,last_name:data.last_name,loginname:data.loginname,email:data.email,desig:data.desig,created_by:data.created_by,modified_by:this.api.userid.user_id,status:data.status});
 
-    this.editForm.patchValue({id:data.id,first_name:data.first_name,last_name:data.last_name,loginname:data.loginname,email:data.email,design:data.design,created_by:data.created_by,modified_by:this.api.userid.user_id,status:data.status,category_type:data.category_type[0].id,pay_scale:data.pay_scale[0].id,center:data.center[0].id,
-      shop_floor:data.shop_floor[0].id,
-      pay_grade:data.pay_grade[0].id,
+    this.editForm.patchValue({id:data.id,first_name:data.first_name,last_name:data.last_name,loginname:data.loginname,email:data.email,design:data.design,created_by:data.created_by,modified_by:this.api.userid.user_id,status:data.status,
+      category_type:data.category_type[0]?data.category_type[0].id:'',
+      pay_scale:data.pay_scale[0]?data.pay_scale[0].id:'',
+      center:data.center[0] ? data.center[0].id:'',
+      shop_floor:data.shop_floor[0] ? data.shop_floor[0].id:'',
+      pay_grade:data.pay_grade[0] ? data.pay_grade[0].id:'',
       icard_number:data.icard_number,
       current_basic_salary:data.current_basic_salary,
+      rank:data.rank[0]?data.rank[0].id:'',
       });
 
 
@@ -252,6 +259,7 @@ export class UsersComponent implements OnInit {
 
      this.getShopFloor();
      this.getPayGrade();
+     this.getRank();
   }
 
   moduleList=[];
@@ -378,6 +386,18 @@ getPayGrade(){
       console.log('payGradeList',this.payGradeList)
     });
   }
+
+getRank(){
+    let searchString='?status=1';
+   this.api
+   .getAPI(environment.API_URL + "master/rank"+searchString)
+    .subscribe((res) => {
+      this.rankList = res.data;
+      console.log('rankList',this.rankList)
+    });
+  }
+
+  
 
   getUserRoles(process_id='') {
     let searchString='?status=1';

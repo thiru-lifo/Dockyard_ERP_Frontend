@@ -97,9 +97,9 @@
                   <div class="matt-group">
                      <mat-label>Name <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input  matInput placeholder="" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*"  >
+                        <input  matInput placeholder="" formControlName="name" maxlength="100" pattern="[a-zA-Z0-9 ]+"  >
                         <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
-                        <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error>
+                        <mat-error *ngIf="Error('name','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
                   </div>
                </div>
@@ -127,9 +127,9 @@
                   <div class="matt-group">
                      <mat-label>Pg Band <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="pg_band" maxlength="15" >
+                        <input matInput placeholder="" formControlName="pg_band" maxlength="15" pattern="[a-zA-Z0-9 ]+" >
                         <mat-error *ngIf="Error('pg_band','required')">Enter Pg Band</mat-error>
-                        <!-- <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error> -->
+                        <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
                   </div>
                </div>
@@ -147,9 +147,9 @@
                   <div class="matt-group">
                      <mat-label>Pg Id <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="pg_id" maxlength="15" >
+                        <input matInput placeholder="" formControlName="pg_id" maxlength="15" pattern="[a-zA-Z0-9 ]+">
                         <mat-error *ngIf="Error('pg_id','required')">Enter Pg Id</mat-error>
-                        <!-- <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error> -->
+                        <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
                   </div>
                </div>

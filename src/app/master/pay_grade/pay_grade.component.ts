@@ -59,7 +59,7 @@ export class PayGradeComponent implements OnInit {
   public editForm = new FormGroup({
     id: new FormControl(""),
     name: new FormControl("", [
-      Validators.required,
+      Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")
     ]),
     pg_band :new FormControl("", [Validators.required,]),
     pg_band_range : new FormControl("", [Validators.required,]),

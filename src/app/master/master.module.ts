@@ -81,6 +81,7 @@ import {  DeductionsMasterComponent } from './deductions_master/deductions_maste
 import {  AllowancesMasterComponent } from './allowances_master/allowances_master.component';
 import {  PayGradeComponent } from './pay_grade/pay_grade.component';
 import { PersonnelTypeComponent } from './personnel_type/personnel_type.component';
+import { RankComponent } from './rank/rank.component';
 
 
 
@@ -156,6 +157,7 @@ import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.
     AllowancesMasterComponent,
     PayGradeComponent,
     PersonnelTypeComponent,
+    RankComponent,
 
 
     DockyardGroupComponent,

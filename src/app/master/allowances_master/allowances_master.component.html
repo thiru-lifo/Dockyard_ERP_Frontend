@@ -123,8 +123,12 @@
                   <div class="matt-group">
                      <mat-label>On Percentage Of Basicpay </mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="on_per_of_basic_pay" maxlength="100"
-                        >
+									   <mat-select placeholder="Select option" formControlName="on_per_of_basic_pay">
+									   	
+                                 <mat-option value="1">Yes</mat-option> 
+                                 <mat-option value="2">No</mat-option>        
+                               </mat-select>
+                                       
                         <mat-error *ngIf="Error('on_per_of_basic_pay','required')">Enter On Percentage Of Basicpay</mat-error>
                      </mat-form-field>
                   </div>
@@ -143,8 +147,11 @@
                   <div class="matt-group">
                      <mat-label>On fixed Amount </mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="on_fixed_amount" maxlength="100"
-                        >
+                        <mat-select placeholder="Select option" formControlName="on_fixed_amount">
+									   	
+                           <mat-option value="1">Yes</mat-option> 
+                           <mat-option value="2">No</mat-option>        
+                       </mat-select>
                         <mat-error *ngIf="Error('on_fixed_amount','required')">Enter On fixed Amount</mat-error>
                      </mat-form-field>
                   </div>

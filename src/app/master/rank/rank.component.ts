@@ -60,12 +60,12 @@ export class RankComponent implements OnInit {
   public editForm = new FormGroup({
     id: new FormControl(""),
     name: new FormControl("", [
-      Validators.required,
+      Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")
     ]),
     
     code: new FormControl("", [Validators.required]),
     description: new FormControl(""),
-    pay_grade: new FormControl("",[Validators.required]),
+    pay_grade: new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
     personnel_type: new FormControl("",[Validators.required]),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),

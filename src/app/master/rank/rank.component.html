@@ -101,9 +101,9 @@
                   <div class="matt-group">
                      <mat-label>Name <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*"  >
+                        <input matInput placeholder="" formControlName="name" maxlength="100" pattern="[a-zA-Z0-9 ]*"  >
                         <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
-                        <!-- <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error> -->
+                        <mat-error *ngIf="Error('name','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
                   </div>
                </div>
@@ -132,10 +132,11 @@
                      <mat-label>Pay Grade<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
                         <mat-select formControlName="pay_grade"
-                        placeholder="Select Pay Grade">
+                        placeholder="Select Pay Grade" pattern="[a-zA-Z0-9 ]*">
                         <mat-option *ngFor="let paygrade of paygrades" [value]="paygrade.id">{{paygrade.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="Error('pay_grade','required')">Enter Center</mat-error>
+                        <mat-error *ngIf="Error('name','pattern')">Alpha-numeric characters only</mat-error>
                        
                      </mat-form-field>
                   </div>

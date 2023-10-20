@@ -93,9 +93,9 @@
                   <div class="matt-group">
                      <mat-label>Name <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*" id="name" >
+                        <input matInput placeholder="" formControlName="name" maxlength="100" >
                         <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
-                        <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error>
+                        <!-- <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error> -->
                      </mat-form-field>
                   </div>
                </div>
@@ -115,7 +115,7 @@
                      <mat-form-field appearance="legacy">
                         <input matInput placeholder="" class="code_field" formControlName="code" maxlength="15" >
                         <mat-error *ngIf="Error('code','required')">Enter code</mat-error>
-                        <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error>
+                        <!-- <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error> -->
                      </mat-form-field>
                   </div>
                </div>

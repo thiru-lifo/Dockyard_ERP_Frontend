@@ -30,9 +30,9 @@
                   </div>
                </div>
                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                  <ng-container matColumnDef="name">
-                     <th mat-header-cell *matHeaderCellDef><b> Name </b></th>
-                     <td mat-cell *matCellDef="let country"> {{country.name}} </td>
+                  <ng-container matColumnDef="qty">
+                     <th mat-header-cell *matHeaderCellDef><b> Qty</b></th>
+                     <td mat-cell *matCellDef="let country"> {{country.qty}} </td>
                   </ng-container>
                   <ng-container matColumnDef="code">
                      <th mat-header-cell *matHeaderCellDef><b> Code </b></th>
@@ -91,21 +91,11 @@
             <div class="form-row">
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>Name <b class="star">*</b></mat-label>
+                     <mat-label>Qty <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="name" maxlength="100" pattern="[a-zA-Z ]*" id="name" >
-                        <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
-                        <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error>
-                     </mat-form-field>
-                  </div>
-               </div>
-               <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>Descriptions </mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="description" maxlength="100"
-                        >
-                        <mat-error *ngIf="Error('description','required')">Enter description</mat-error>
+                        <input matInput placeholder=""  formControlName="qty" maxlength="15" >
+                        <mat-error *ngIf="Error('qty','required')">Enter Qty</mat-error>
+                        
                      </mat-form-field>
                   </div>
                </div>
@@ -116,6 +106,62 @@
                         <input matInput placeholder="" class="code_field" formControlName="code" maxlength="15" >
                         <mat-error *ngIf="Error('code','required')">Enter code</mat-error>
                         <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error>
+                     </mat-form-field>
+                  </div>
+               </div>
+               
+               <!-- <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Descriptions </mat-label>
+                     <mat-form-field appearance="legacy">
+                        <input matInput placeholder="" formControlName="description" maxlength="100"
+                        >
+                        <!-- <mat-error *ngIf="Error('description','required')">Enter description</mat-error> -->
+                     <!-- </mat-form-field>
+                  </div>
+               </div> --> 
+            
+               <div class="col-md-6">
+
+                  <div class="matt-group matt-date-pickers">
+   
+                     <mat-label>Demand Date</mat-label>
+   
+                     <mat-form-field appearance="fill">
+   
+                        <input matInput [matDatepicker]="picker"  formControlName="demand_date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="Error('demand_date','required')">Enter Demand Date</mat-error>
+   
+                     </mat-form-field>
+   
+                  </div>
+   
+                  </div>
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Center<b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <mat-select formControlName="center_no"
+                        placeholder="Select Center">
+                        <mat-option *ngFor="let center of centers" [value]="center.id">{{center.name}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="Error('center_no','required')">Enter Center</mat-error>
+                       
+                     </mat-form-field>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Work Instruction(WI)<b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <mat-select formControlName="wi_number"
+                        placeholder="Select CWork Instruction">
+                        <mat-option *ngFor="let wi of wis" [value]="wi.id">{{wi.name}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="Error('wi_number','required')">Enter Work Instruction</mat-error>
+                       
                      </mat-form-field>
                   </div>
                </div>

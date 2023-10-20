@@ -73,8 +73,8 @@ export class DemandMasterComponent implements OnInit {
     ]),
    
     demand_date: new FormControl("moment().format('MM/DD/yyyy')"),
-    center_no: new FormControl(""),
-    wi_number: new FormControl(""),
+    center_no: new FormControl("",[Validators.required]),
+    wi_number: new FormControl("",[Validators.required]),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),

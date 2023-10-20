@@ -30,6 +30,7 @@ export class DesignationComponent implements OnInit {
     "delete",
   ];
   dataSource: MatTableDataSource<any>;
+  dataSource1: MatTableDataSource<any>;
 
   country: any;
   public crudName = "Add";
@@ -63,7 +64,7 @@ export class DesignationComponent implements OnInit {
     ]),
     description: new FormControl("",[Validators.required]),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    personnel_type: new FormControl(""),
+    personnel_type: new FormControl("",[Validators.required]),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -99,16 +100,16 @@ export class DesignationComponent implements OnInit {
     this.api
       .getAPI(environment.API_URL + "master/designation")
       .subscribe((res) => {
-        this.dataSource = new MatTableDataSource(res.data);
+        this.dataSource1= new MatTableDataSource(res.data);
         this.countryList = res.data;
-        this.dataSource.paginator = this.pagination;
+        this.dataSource1.paginator = this.pagination;
         this.logger.log('country',this.countryList)
       });
   }
   personaltypes:any
   getPersoneltype() {
     this.api
-      .getAPI(environment.API_URL + "master/personnel_type")
+      .getAPI(environment.API_URL + "master/personnel_type?status=1")
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
         this.personaltypes = res.data;

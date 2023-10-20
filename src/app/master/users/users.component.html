@@ -268,6 +268,61 @@
                 </div>
               </div>
 
+              <div class="col-md-4">
+                   <div class="matt-group">
+                    <mat-label>Shop Floor<b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                          <mat-select  #select formControlName="shop_floor" placeholder="Select Shop Floor">
+                          <div class="select-all">
+                       </div>
+                          <mat-option *ngFor="let shopfloor of shopFloorList" [value]="shopfloor.id">
+                       {{shopfloor.name}}
+                       </mat-option>
+                       </mat-select>
+                    </mat-form-field>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                   <div class="matt-group">
+                    <mat-label>Pay Grade<b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                          <mat-select  #select formControlName="pay_grade" placeholder="Select Pay Grade">
+                          <div class="select-all">
+                       </div>
+                          <mat-option *ngFor="let paygrade of payGradeList" [value]="paygrade.id">
+                       {{paygrade.name}}
+                       </mat-option>
+                       </mat-select>
+                    </mat-form-field>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                 <div class="matt-group">
+                    <mat-label>Current Basic Salary <b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                       <input matInput placeholder="" formControlName="current_basic_salary" maxlength="100">
+                       <mat-error *ngIf="Error('current_basic_salary','required')">Please enter Current basic salary</mat-error>
+                       <!-- <mat-error *ngIf="Error('first_name','required')">Please enter First name</mat-error>
+                       <mat-error *ngIf="Error('first_name','pattern')">Alphabets characters only</mat-error> -->
+                    </mat-form-field>
+                 </div>
+              </div>
+
+
+              <div class="col-md-4">
+                 <div class="matt-group">
+                    <mat-label>iCard Number <b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                       <input matInput placeholder="" formControlName="icard_number" maxlength="100">
+                       <mat-error *ngIf="Error('icard_number','required')">Please enter iCard Number</mat-error>
+                       <!-- <mat-error *ngIf="Error('first_name','required')">Please enter First name</mat-error>
+                       <mat-error *ngIf="Error('first_name','pattern')">Alphabets characters only</mat-error> -->
+                    </mat-form-field>
+                 </div>
+              </div>
+
               <br>
               <div class="col-md-4">
                    <div class="matt-group">

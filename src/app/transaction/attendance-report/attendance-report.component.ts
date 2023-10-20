@@ -28,7 +28,11 @@ export class AttendanceReportComponent implements OnInit {
     "check_in",
     "check_out",
     "status",
-    "center"
+    "center",
+    "total_work",
+    "view",
+    "edit",
+    "delete",
   ];
 
   dataSource: MatTableDataSource<any>;
@@ -142,43 +146,7 @@ export class AttendanceReportComponent implements OnInit {
         return true;
   
       }
-sectionF:any;
-getSectionF() {
-    this.api
-      .getAPI(environment.API_URL + "master/global_section?status=1&order_type=asc")
-      .subscribe((res) => {
-        this.sectionF = res.data;
 
-      });
-  }
-   subSectionF:any;
-  getSubSectionF(global_section_id='') {
-
-    let filter='?status=1&order_type=asc';
-    filter+=global_section_id?'&global_section_id='+global_section_id:'';
-    //alert(filter)
-    this.api
-      .getAPI(environment.API_URL + "master/global_sub_section"+filter)
-      .subscribe((res) => {
-        this.subSectionF = res.data;
-
-        
-      });
-  }
-   subsubSectionF:any;
-  getSubSubSectionF(global_section_id='', global_sub_section_id='') {
-
-    let filter='?status=1&order_type=asc';
-    filter+=global_section_id?'&global_section_id='+global_section_id+'&global_sub_section_id='+global_sub_section_id:'';
-    //alert(filter)
-    this.api
-      .getAPI(environment.API_URL + "master/global_sub_sub_section"+filter)
-      .subscribe((res) => {
-        this.subsubSectionF = res.data;
-
-        
-      });
-  }
 
 start_date = new FormControl(new Date());
  //start_date = new FormControl(new Date().toISOString());

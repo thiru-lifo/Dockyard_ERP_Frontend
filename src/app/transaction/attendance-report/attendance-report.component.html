@@ -124,6 +124,26 @@
                      <td mat-cell *matCellDef="let country">{{country.center_id__name?country.center_id__name:'-'}} </td>
                   </ng-container>
 
+                  <ng-container matColumnDef="total_work">
+                     <th mat-header-cell *matHeaderCellDef><b> Total Works </b></th>
+                     <td mat-cell *matCellDef="let country">{{country.total_work?country.total_work:'-'}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="view" >
+                     <th class="text-center" mat-header-cell *matHeaderCellDef ><ng-container *ngIf="permission.view==true" ><b>View</b></ng-container></th>
+                     <td class="text-center" mat-cell *matCellDef="let country">
+                        <a href="#" data-toggle="modal" data-target="#crud-countries" class="edit-icon text-primary" *ngIf="permission.view==true" (click)="onView(country)"><span class="material-icons-outlined">remove_red_eye</span></a></td>
+                  </ng-container>
+                  <ng-container matColumnDef="edit" >
+                     <th class="text-center" mat-header-cell *matHeaderCellDef ><ng-container *ngIf="permission.edit==true" ><b>Edit</b></ng-container></th>
+                     <td class="text-center" mat-cell *matCellDef="let country">
+                        <a href="#" data-toggle="modal" data-target="#crud-countries" class="edit-icon text-primary" (click)="editOption(country)" *ngIf="permission.edit==true" ><span class="material-icons-outlined">edit</span></a></td>
+                  </ng-container>
+                  <ng-container matColumnDef="delete">
+                     <th class="text-center" mat-header-cell *matHeaderCellDef ><ng-container *ngIf="permission.delete==true"><b>Delete</b></ng-container></th>
+                     <td class="text-center" mat-cell *matCellDef="let country"><a href="javascript:void(0)" class="edit-icon text-danger"  *ngIf="permission.delete==true" ><span class="material-icons-outlined">delete</span></a></td>
+                  </ng-container>
+
                   <ng-container matColumnDef="noData">
                      <th mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns.length" class="norecord">
                          No Records Found!

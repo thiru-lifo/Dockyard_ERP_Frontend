@@ -71,6 +71,7 @@ export class DemandMasterComponent implements OnInit {
     qty: new FormControl("", [
       Validators.required,
     ]),
+    
    
     demand_date: new FormControl("moment().format('MM/DD/yyyy')"),
     center_no: new FormControl("",[Validators.required]),

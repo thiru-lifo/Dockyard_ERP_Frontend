@@ -149,6 +149,7 @@ const routes: Routes = [
   
   
   
+  
   { path: 'ship', component: ShipComponent, data: { breadcrumb: 'Ship'}  },
   { path: 'ships', component: ShipsComponent, data: { breadcrumb: 'Ships'}  },
   { path: 'compartment', component: CompartmentComponent, data: { breadcrumb: 'Compartment'}  },

@@ -11,23 +11,24 @@ import { language } from "src/environments/language";
 import { Router } from '@angular/router';
 import { ConsoleService } from "src/app/service/console.service";
 import { of } from 'rxjs';
-declare var $;
+
 @Component({
-  selector: 'app-allowances_master',
-  templateUrl: './allowances_master.component.html',
-  styleUrls: ['./allowances_master.component.scss']
+  selector: 'app-item_type',
+  templateUrl: './item_type.component.html',
+  styleUrls: ['./item_type.component.scss']
 })
-export class AllowancesMasterComponent implements OnInit {
+export class ItemTypeComponent implements OnInit {
 
 
   displayedColumns: string[] = [
     "name",
     "code",
-    "status",
+    
     "view",
     "edit",
     "delete",
   ];
+
   dataSource: MatTableDataSource<any>;
 
   country: any;
@@ -62,10 +63,6 @@ export class AllowancesMasterComponent implements OnInit {
     ]),
     description: new FormControl(""),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    on_per_of_basic_pay : new FormControl("",[Validators.required]),
-    per_of_basic_pay : new FormControl("",[Validators.required]),
-    on_fixed_amount : new FormControl("",[Validators.required]),
-    amount_of_allowance : new FormControl("",[Validators.required]),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -76,7 +73,7 @@ export class AllowancesMasterComponent implements OnInit {
   populate(data) {
 
     this.editForm.patchValue(data);
-    //this.editForm.patchValue({section_id:data.section_id.id});
+
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
     this.logger.info(data.status)
   }
@@ -91,21 +88,19 @@ export class AllowancesMasterComponent implements OnInit {
     return this.editForm.controls[controlName].hasError(errorName);
   };
 
-  
-
   ngOnInit(): void {
-     this.getAllowancesMaster();
+     this.getStatus();
      this.getAccess();
   }
-  allowans
-  getAllowancesMaster() {
+
+  getStatus() {
     this.api
-      .getAPI(environment.API_URL + "master/allowances_master")
+      .getAPI(environment.API_URL + "master/status_master")
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
-        this.allowans = res.data;
+        this.countryList = res.data;
         this.dataSource.paginator = this.pagination;
-        this.logger.log('country',this.allowans)
+        this.logger.log('country',this.countryList)
       });
   }
 
@@ -157,15 +152,15 @@ export class AllowancesMasterComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/allowances_master/details", {
+        this.api.postAPI(environment.API_URL + "master/status_master/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('Deductions Master '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getAllowancesMaster();
+            this.notification.warn('Status '+language[environment.DEFAULT_LANG].deleteMsg);
+            this.getStatus();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -181,7 +176,7 @@ export class AllowancesMasterComponent implements OnInit {
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/allowances_master/details",
+          environment.API_URL + "master/status_master/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -190,7 +185,7 @@ export class AllowancesMasterComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getAllowancesMaster();
+            this.getStatus();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -230,18 +225,16 @@ export class AllowancesMasterComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getAllowancesMaster();
+      this.getStatus();
     }
   }
-
-numberOnly(event:any): boolean {
-  var key = event.keyCode;
-        if (key > 31 && (key < 65 || key > 90) &&
-            (key < 97 || key > 122)) {
-        return false;
+  numberOnly(event:any): boolean {
+    var key = event.keyCode;
+          if (key > 31 && (key < 65 || key > 90) &&
+              (key < 97 || key > 122)) {
+          return false;
+        }
+        return true;
+  
       }
-      return true;
-
-    }
-
 }

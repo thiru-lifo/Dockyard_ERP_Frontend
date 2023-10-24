@@ -83,6 +83,9 @@ import {  PayGradeComponent } from './pay_grade/pay_grade.component';
 import { PersonnelTypeComponent } from './personnel_type/personnel_type.component';
 import { RankComponent } from './rank/rank.component';
 import { StatusMasterComponent } from './status_master/status_master.component';
+import { ItemTypeComponent } from './item_type/item_type.component';
+
+
 
 
 
@@ -160,6 +163,7 @@ import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.
     PersonnelTypeComponent,
     RankComponent,
     StatusMasterComponent,
+    ItemTypeComponent,
 
 
     DockyardGroupComponent,

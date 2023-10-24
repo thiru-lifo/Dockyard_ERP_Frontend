@@ -85,6 +85,8 @@ import { PayGradeComponent } from './pay_grade/pay_grade.component';
 import { PersonnelTypeComponent } from './personnel_type/personnel_type.component';
 import { RankComponent } from './rank/rank.component';
 import { StatusMasterComponent } from './status_master/status_master.component';
+import { ItemTypeComponent } from './item_type/item_type.component';
+
 
 
 
@@ -149,6 +151,7 @@ const routes: Routes = [
   
   { path: 'rank', component: RankComponent, data: { breadcrumb: 'Rank'}  },
   {path: 'status-master', component: StatusMasterComponent, data: { breadcrumb: 'Status Master'}  },
+  {path: 'item-type', component: ItemTypeComponent, data: { breadcrumb: 'Item Type'}  },
   
   
   

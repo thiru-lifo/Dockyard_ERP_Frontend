@@ -11,24 +11,26 @@ import { language } from "src/environments/language";
 import { Router } from '@angular/router';
 import { ConsoleService } from "src/app/service/console.service";
 import { of } from 'rxjs';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+declare var $;
+declare var moment:any
 
 @Component({
-  selector: 'app-item_type',
-  templateUrl: './item_type.component.html',
-  styleUrls: ['./item_type.component.scss']
+  selector: 'app-issue',
+  templateUrl: './issue.component.html',
+  styleUrls: ['./issue.component.scss']
 })
-export class ItemTypeComponent implements OnInit {
+export class IssueComponent implements OnInit {
 
 
   displayedColumns: string[] = [
-    "name",
-    "code",
-    
+    "issued_qty",
+    "issued_dt",
+    "status",
     "view",
     "edit",
     "delete",
   ];
-
   dataSource: MatTableDataSource<any>;
 
   country: any;
@@ -39,6 +41,7 @@ export class ItemTypeComponent implements OnInit {
   moduleAccess:any;
   ErrorMsg:any;
   error_msg=false;
+  moment = moment;
 
   public permission={
     add:false,
@@ -58,11 +61,13 @@ export class ItemTypeComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
-    name: new FormControl("", [
-      Validators.required,
-    ]),
+    issued_qty : new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    issued_dt : new FormControl(new FormControl("moment().format('MM/DD/yyyy')")),
+    name: new FormControl(""),
     description: new FormControl(""),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    demand: new FormControl("", [Validators.required,]),
+    
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -73,7 +78,7 @@ export class ItemTypeComponent implements OnInit {
   populate(data) {
 
     this.editForm.patchValue(data);
-
+    //this.editForm.patchValue({section_id:data.section_id.id});
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
     this.logger.info(data.status)
   }
@@ -89,18 +94,33 @@ export class ItemTypeComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getItemType();
+     this.getIssue();
      this.getAccess();
+     this.getDemand();
   }
-  Itemtype:any
-  getItemType() {
+  issue:any
+  getIssue() {
     this.api
-      .getAPI(environment.API_URL + "master/item_type")
+      .getAPI(environment.API_URL + "master/issue")
       .subscribe((res) => {
-        this.dataSource = new MatTableDataSource(res.data);
-        this.Itemtype = res.data;
-        this.dataSource.paginator = this.pagination;
-        this.logger.log('country',this.Itemtype)
+        
+          this.dataSource = new MatTableDataSource(res.data);
+          this.issue = res.data;
+          this.dataSource.paginator = this.pagination;
+          this.logger.log('issue',this.issue)
+        
+      });
+  }
+  demands:any
+  getDemand() {
+    this.api
+      .getAPI(environment.API_URL + "master/demand_master")
+      .subscribe((res) => {
+        
+        this.demands = res.data;
+        
+        
+        console.log("demands",this.demands)
       });
   }
 
@@ -152,15 +172,15 @@ export class ItemTypeComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/item_type/details", {
+        this.api.postAPI(environment.API_URL + "master/issue/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('Status '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getItemType();
+            this.notification.warn('CatagoryType '+language[environment.DEFAULT_LANG].deleteMsg);
+            this.getIssue();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -169,6 +189,9 @@ export class ItemTypeComponent implements OnInit {
       dialogRef=null;
     });
   }
+  // getCategoryType() {
+  //   throw new Error("Method not implemented.");
+  // }
 
   onSubmit() {
      if (this.editForm.valid) {
@@ -176,7 +199,7 @@ export class ItemTypeComponent implements OnInit {
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/item_type/details",
+          environment.API_URL + "master/issue/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -185,7 +208,7 @@ export class ItemTypeComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getItemType();
+            this.getIssue();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -225,16 +248,18 @@ export class ItemTypeComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getItemType();
+      this.getIssue();
     }
   }
-  numberOnly(event:any): boolean {
-    var key = event.keyCode;
-          if (key > 31 && (key < 65 || key > 90) &&
-              (key < 97 || key > 122)) {
-          return false;
-        }
-        return true;
-  
+
+numberOnly(event:any): boolean {
+  var key = event.keyCode;
+        if (key > 31 && (key < 65 || key > 90) &&
+            (key < 97 || key > 122)) {
+        return false;
       }
+      return true;
+
+    }
+
 }

@@ -6,7 +6,7 @@
                <div class="card-header">
                   <div class="row">
                      <div class="col-md-6">
-                        <h3>Items Master</h3>
+                        <h3>Course</h3>
                      </div>
                      <div class="col-md-6">
                         <div class="text-right">
@@ -30,14 +30,23 @@
                   </div>
                </div>
                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-            
+
+                 
+                  <ng-container matColumnDef="name">
+                     <th mat-header-cell *matHeaderCellDef><b> Name </b></th>
+                     <td mat-cell *matCellDef="let country"> {{country.name}} </td>
+                  </ng-container>
                   <ng-container matColumnDef="code">
                      <th mat-header-cell *matHeaderCellDef><b> Code </b></th>
                      <td mat-cell *matCellDef="let country"> {{country.code}} </td>
                   </ng-container>
-                  <ng-container matColumnDef="item_type">
-                     <th mat-header-cell *matHeaderCellDef><b> Item Type  </b></th>
-                     <td mat-cell *matCellDef="let country"> {{country.item_type_det?country.item_type_det.name:'-'}} </td>
+                  <ng-container matColumnDef="course_st_date">
+                     <th mat-header-cell *matHeaderCellDef><b> Course Start Date </b></th>
+                     <td mat-cell *matCellDef="let country"> {{moment(country.course_st_date).format('MM/DD/yyyy')}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="course_end_date">
+                     <th mat-header-cell *matHeaderCellDef><b>Course End Date </b></th>
+                     <td mat-cell *matCellDef="let country"> {{moment(country.course_end_date).format('MM/DD/yyyy')}} </td>
                   </ng-container>
                   <ng-container matColumnDef="status">
                      <th mat-header-cell *matHeaderCellDef><b> Status </b></th>
@@ -80,10 +89,10 @@
    <div class="modal-dialog modal-lg">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{crudName}} Items Master</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{crudName}} Course</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" matTooltip="Close" matTooltipClass="custom-tooltip">
-              <span aria-hidden="true">&times;</span>
-              </button>
+               <span aria-hidden="true">&times;</span>
+               </button>
          </div>
          <div class="modal-body form-style-md form-style-font linux">
             <div id="hide_alert" class="alert alert-danger form-error-message my-4" *ngIf="error_msg==true">{{ErrorMsg}}
@@ -91,6 +100,17 @@
             <form [formGroup]="this.editForm" (ngSubmit)="onSubmit()" >
             <div class="form-row">
          
+                <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Name <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <input matInput placeholder=""  formControlName="name" maxlength="100" pattern="[a-zA-Z ]*">
+                        <mat-error *ngIf="Error('name','required')">Enter name</mat-error>
+                        <mat-error *ngIf="Error('name','pattern')">Alphabets characters only</mat-error>
+                     </mat-form-field>
+                  </div>
+               </div>
+               
                <div class="col-md-6">
                   <div class="matt-group">
                      <mat-label>Code <b class="star">*</b></mat-label>
@@ -103,55 +123,85 @@
                </div>
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>Descriptions </mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="description" maxlength="100"
-                        >
-                        <mat-error *ngIf="Error('description','required')">Enter description</mat-error>
-                     </mat-form-field>
+                      <mat-label>Select Rank <b class="star">*</b></mat-label>
+                      <mat-form-field appearance="legacy">
+                            <mat-select formControlName="rank"
+                            placeholder="Select Rank">
+                            <mat-option *ngFor="let rank of ranks" [value]="rank.id">{{rank.name}}</mat-option>
+                            </mat-select>
+                        <mat-error *ngIf="Error('rank','required')">Select Rank</mat-error>
+                      </mat-form-field>
                   </div>
                </div>
                <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>Item Type <b class="star">*</b></mat-label>
-                     <mat-form-field appearance="legacy">
-                        <mat-select formControlName="item_type"
-                              placeholder="Select Itemtype">
+                  <div class="matt-group matt-date-pickers">
 
-                        <mat-option *ngFor="let itemtype of itemtypes" [value]="itemtype.id">{{itemtype.name}}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="Error('item_type','required')">Enter Item Type </mat-error>
-                        <mat-error *ngIf="Error('item_type','pattern')">Alpha-numeric characters only</mat-error>
+                     <mat-label>Course Start Date</mat-label>
+   
+                     <mat-form-field appearance="fill">
+   
+                        <input matInput [matDatepicker]="picker1"  formControlName="course_st_date">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        <mat-error *ngIf="Error('course_st_date','required')">Course Start Date</mat-error>
+   
+                     </mat-form-field>
+   
+               </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="matt-group matt-date-pickers">
+
+                     <mat-label>Course End Date</mat-label>
+   
+                     <mat-form-field appearance="fill">
+   
+                        <input matInput [matDatepicker]="picker2"  formControlName="course_end_date">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                        <mat-error *ngIf="Error('course_end_date','required')">Course End Date</mat-error>
+   
+                     </mat-form-field>
+   
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Qualification Course Id<b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <input matInput placeholder=""  formControlName="qualification_course_id" maxlength="15" >
+                        <mat-error *ngIf="Error('qualification_course_id','required')">Enter Qualification Course Id</mat-error>
+                        <mat-error *ngIf="Error('qualification_course_id','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>Min Stock Level <b class="star">*</b></mat-label>
+                     <mat-label>Qualification Course Marks<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="min_stock_level" maxlength="15" >
-                        <mat-error *ngIf="Error('min_stock_level','required')">Enter Min Stock Level</mat-error>
-                        <mat-error *ngIf="Error('min_stock_level','pattern')">Alpha-numeric characters only</mat-error>
+                        <input matInput placeholder=""  formControlName="qualification_course_marks" maxlength="15" >
+                        <mat-error *ngIf="Error('qualification_course_marks','required')">Enter Qualification Course Marks</mat-error>
+                        <mat-error *ngIf="Error('qualification_course_marks','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>BarCode <b class="star">*</b></mat-label>
+                     <mat-label>Course Selection Marks<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="bar_code" maxlength="15" >
-                        <mat-error *ngIf="Error('bar_code','required')">Enter BarCode</mat-error>
-                        <!-- <mat-error *ngIf="Error('bar_code','pattern')">Alpha-numeric characters only</mat-error> -->
+                        <input matInput placeholder=""  formControlName="course_selection_marks" maxlength="15" >
+                        <mat-error *ngIf="Error('course_selection_marks','required')">Enter Course Selection Marks</mat-error>
+                        <mat-error *ngIf="Error('course_selection_marks','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>Available Qty <b class="star">*</b></mat-label>
+                     <mat-label>Course Selection Seniority<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="available_qty" maxlength="15" >
-                        <mat-error *ngIf="Error('available_qty','required')">Enter Available Qty</mat-error>
-                        <!-- <mat-error *ngIf="Error('available_qty','pattern')">Alpha-numeric characters only</mat-error> -->
+                        <input matInput placeholder=""  formControlName="course_selection_seniority" maxlength="15" >
+                        <mat-error *ngIf="Error('course_selection_seniority','required')">EnterCourse Selection Seniority</mat-error>
+                        <mat-error *ngIf="Error('course_selection_seniority','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
                   </div>
                </div>

@@ -23,7 +23,7 @@ export class ItemsMasterComponent implements OnInit {
   displayedColumns: string[] = [
     
     "code",
-    "item_type_id",
+    "item_type",
     "status",
     "view",
     "edit",
@@ -58,10 +58,12 @@ export class ItemsMasterComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
-    item_type_id : new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    item_type : new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
     min_stock_level : new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
     description: new FormControl(""),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    available_qty: new FormControl("",[Validators.required]),
+    bar_code: new FormControl("",[Validators.required]),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -90,16 +92,31 @@ export class ItemsMasterComponent implements OnInit {
   ngOnInit(): void {
      this.getItemsMaster();
      this.getAccess();
+     this.getItemtype();
   }
   itemsmaster:any
   getItemsMaster() {
     this.api
       .getAPI(environment.API_URL + "master/items_master")
       .subscribe((res) => {
-        this.dataSource = new MatTableDataSource(res.data);
-        this.itemsmaster = res.data;
-        this.dataSource.paginator = this.pagination;
-        this.logger.log('ITEMSMASTER',this.itemsmaster)
+        if (res.data.length>0){
+          this.dataSource = new MatTableDataSource(res.data);
+          this.itemsmaster = res.data;
+          this.dataSource.paginator = this.pagination;
+          this.logger.log('ITEMSMASTER',this.itemsmaster)
+        }
+      });
+  }
+  itemtypes:any
+  getItemtype() {
+    this.api
+      .getAPI(environment.API_URL + "master/item_type")
+      .subscribe((res) => {
+        
+        this.itemtypes = res.data;
+        
+        this.logger.log('itemtypes',this.itemtypes)
+        console.log("itemstype",this.itemtypes)
       });
   }
 

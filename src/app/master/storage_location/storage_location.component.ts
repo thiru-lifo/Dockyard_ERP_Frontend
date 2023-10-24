@@ -13,11 +13,11 @@ import { ConsoleService } from "src/app/service/console.service";
 import { of } from 'rxjs';
 
 @Component({
-  selector: 'app-item_type',
-  templateUrl: './item_type.component.html',
-  styleUrls: ['./item_type.component.scss']
+  selector: 'app-storage_location',
+  templateUrl: './storage_location.component.html',
+  styleUrls: ['./storage_location.component.scss']
 })
-export class ItemTypeComponent implements OnInit {
+export class StorageLocationComponent implements OnInit {
 
 
   displayedColumns: string[] = [
@@ -89,18 +89,18 @@ export class ItemTypeComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getItemType();
+     this.getStorageLocation();
      this.getAccess();
   }
-  Itemtype:any
-  getItemType() {
+  Storagelocation:any
+  getStorageLocation() {
     this.api
-      .getAPI(environment.API_URL + "master/item_type")
+      .getAPI(environment.API_URL + "master/storage_location")
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
-        this.Itemtype = res.data;
+        this.Storagelocation = res.data;
         this.dataSource.paginator = this.pagination;
-        this.logger.log('country',this.Itemtype)
+        this.logger.log('Storagelocation',this.Storagelocation)
       });
   }
 
@@ -152,7 +152,7 @@ export class ItemTypeComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/item_type/details", {
+        this.api.postAPI(environment.API_URL + "master/storage_location/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
@@ -160,7 +160,7 @@ export class ItemTypeComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
             this.notification.warn('Status '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getItemType();
+            this.getStorageLocation();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -176,7 +176,7 @@ export class ItemTypeComponent implements OnInit {
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/item_type/details",
+          environment.API_URL + "master/storage_location/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -185,7 +185,7 @@ export class ItemTypeComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getItemType();
+            this.getStorageLocation();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -225,7 +225,7 @@ export class ItemTypeComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getItemType();
+      this.getStorageLocation();
     }
   }
   numberOnly(event:any): boolean {

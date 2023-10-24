@@ -11,24 +11,101 @@ import { language } from "src/environments/language";
 import { Router } from '@angular/router';
 import { ConsoleService } from "src/app/service/console.service";
 import { of } from 'rxjs';
+import { AngularEditorConfig } from "@kolkov/angular-editor/lib/config";
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+declare var arrayColumn;
+declare var moment:any;
+declare function openModal(selector):any;
+declare function closeModal(selector):any;
+declare function formSubmit(selector):any;
+declare function triggerClick(selector):any;
+
+const ELEMENT_DATA: PeriodicElement[] = [
+  {name: 'test', remarks: 'test', actions: 'test'},
+  {name: 'test', remarks: 'test', actions: 'test'},
+  {name: 'test', remarks: 'test', actions: 'test'},
+  {name: 'test', remarks: 'test', actions: 'test'},
+];
+
+export interface PeriodicElement {
+  name: string;
+  //position: number;
+  remarks: string;
+  actions: string;
+}
 
 @Component({
-  selector: 'app-item_type',
-  templateUrl: './item_type.component.html',
-  styleUrls: ['./item_type.component.scss']
+  selector: 'app-course',
+  templateUrl: './course.component.html',
+  styleUrls: ['./course.component.scss']
 })
-export class ItemTypeComponent implements OnInit {
+export class CourseComponent implements OnInit {
 
+//   forMonthDate:any;
+
+//   selected:any = '18'
+//     displayedColumns: string[] = ['name', 'remarks', 'actions'];
+//     dataSource2 = ELEMENT_DATA;
+
+//    active = 1;
+
+//    editorConfig: AngularEditorConfig = {
+//     editable: true,
+//       spellcheck: true,
+//       height: 'auto',
+//       minHeight: '0',
+//       maxHeight: 'auto',
+//       width: 'auto',
+//       minWidth: '0',
+//       translate: 'yes',
+//       enableToolbar: true,
+//       showToolbar: true,
+//       placeholder: 'Enter remarks here...',
+//       defaultParagraphSeparator: '',
+//       defaultFontName: '',
+//       defaultFontSize: '',
+//       fonts: [
+//         {class: 'arial', name: 'Arial'},
+//         {class: 'times-new-roman', name: 'Times New Roman'},
+//         {class: 'calibri', name: 'Calibri'},
+//         {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+//       ],
+//       customClasses: [
+//       {
+//         name: 'quote',
+//         class: 'quote',
+//       },
+//       {
+//         name: 'redText',
+//         class: 'redText'
+//       },
+//       {
+//         name: 'titleText',
+//         class: 'titleText',
+//         tag: 'h1',
+//       },
+//     ],
+//     uploadWithCredentials: false,
+//     sanitize: false,
+//     toolbarPosition: 'top',
+//     toolbarHiddenButtons: [
+//       ['bold', 'italic'],
+//       ['fontSize','toggleEditorMode','customClasses']
+//     ]
+// };
 
   displayedColumns: string[] = [
-    "name",
-    "code",
     
+    "name",
+    "course_st_date",
+    "course_end_date",
+    "code",
+    "status",
     "view",
     "edit",
     "delete",
-  ];
 
+  ];
   dataSource: MatTableDataSource<any>;
 
   country: any;
@@ -39,6 +116,7 @@ export class ItemTypeComponent implements OnInit {
   moduleAccess:any;
   ErrorMsg:any;
   error_msg=false;
+  moment =moment;
 
   public permission={
     add:false,
@@ -58,10 +136,17 @@ export class ItemTypeComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
+    rank: new FormControl("",[Validators.required]),
+    course_st_date: new FormControl("moment().format('MM/DD/yyyy')"),
+    course_end_date: new FormControl("moment().format('MM/DD/yyyy')"),
     name: new FormControl("", [
       Validators.required,
     ]),
-    description: new FormControl(""),
+    qualification_course_id: new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    qualification_course_marks: new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    course_selection_marks:  new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    course_selection_seniority: new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
@@ -73,7 +158,16 @@ export class ItemTypeComponent implements OnInit {
   populate(data) {
 
     this.editForm.patchValue(data);
-
+    //this.editForm.patchValue({project_id:data.project_id.id});
+    //this.editForm.patchValue({trial_unit:data.trial_unit.id});
+    /*this.getCommand(data.trial_unit.id);
+    this.getSatelliteUnits(data.trial_unit.id,data.command.id);
+    this.getShips(data.trial_unit.id,data.satellite_unit.id);
+    setTimeout(()=>{
+      this.editForm.patchValue({satellite_unit:data.satellite_unit.id});
+      this.editForm.patchValue({command:data.command?data.command.id:''});
+      this.editForm.patchValue({ship:data.ship.id});
+    },500);*/
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
     this.logger.info(data.status)
   }
@@ -89,18 +183,37 @@ export class ItemTypeComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getItemType();
+     this.getRank();
+     
+     this.getCourse();
      this.getAccess();
   }
-  Itemtype:any
-  getItemType() {
+
+
+ranks:any;
+  getRank() {
     this.api
-      .getAPI(environment.API_URL + "master/item_type")
+      .getAPI(environment.API_URL + "master/rank?status=1")
+      .subscribe((res) => {
+        this.ranks = res.data;
+      });
+  }
+
+
+
+
+
+
+  
+courses:any
+  getCourse() {
+    this.api
+      .getAPI(environment.API_URL + "master/course")
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
-        this.Itemtype = res.data;
+        this.courses = res.data;
         this.dataSource.paginator = this.pagination;
-        this.logger.log('country',this.Itemtype)
+        this.logger.log('courses',this.courses)
       });
   }
 
@@ -152,15 +265,15 @@ export class ItemTypeComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/item_type/details", {
+        this.api.postAPI(environment.API_URL + "master/course/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('Status '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getItemType();
+            this.notification.warn('Shop floor '+language[environment.DEFAULT_LANG].deleteMsg);
+            this.getCourse();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -176,7 +289,7 @@ export class ItemTypeComponent implements OnInit {
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/item_type/details",
+          environment.API_URL + "master/course/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -185,7 +298,7 @@ export class ItemTypeComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getItemType();
+            this.getCourse();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -225,8 +338,11 @@ export class ItemTypeComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getItemType();
+      this.getCourse();
     }
+  }
+  disableDate(){
+    return false;
   }
   numberOnly(event:any): boolean {
     var key = event.keyCode;
@@ -237,4 +353,6 @@ export class ItemTypeComponent implements OnInit {
         return true;
   
       }
+
 }
+

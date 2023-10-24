@@ -6,11 +6,11 @@
                <div class="card-header">
                   <div class="row">
                      <div class="col-md-6">
-                        <h3>Items Master</h3>
+                        <h3>Issue</h3>
                      </div>
                      <div class="col-md-6">
                         <div class="text-right">
-                           <a href="#" data-toggle="modal" data-target="#crud-countries" (click)="create()" class="btn btn-primary btn-round-sm"  *ngIf="permission.add==true" >Create</a>
+                           <a href="#" data-toggle="modal" data-target="#crud-countries" (click)="create()" class="btn btn-primary btn-round-sm"  *ngIf="permission.add==false" >Create</a>
                         </div>
                      </div>
                   </div>
@@ -31,13 +31,13 @@
                </div>
                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             
-                  <ng-container matColumnDef="code">
-                     <th mat-header-cell *matHeaderCellDef><b> Code </b></th>
-                     <td mat-cell *matCellDef="let country"> {{country.code}} </td>
+                  <ng-container matColumnDef="issued_qty">
+                     <th mat-header-cell *matHeaderCellDef><b> Issued Qty </b></th>
+                     <td mat-cell *matCellDef="let country"> {{country.issued_qty}} </td>
                   </ng-container>
-                  <ng-container matColumnDef="item_type">
-                     <th mat-header-cell *matHeaderCellDef><b> Item Type  </b></th>
-                     <td mat-cell *matCellDef="let country"> {{country.item_type_det?country.item_type_det.name:'-'}} </td>
+                  <ng-container matColumnDef="issued_dt">
+                     <th mat-header-cell *matHeaderCellDef><b> Issued Date </b></th>
+                     <td mat-cell *matCellDef="let country"> {{moment(country.issued_dt).format('MM/DD/yyyy')}} </td>
                   </ng-container>
                   <ng-container matColumnDef="status">
                      <th mat-header-cell *matHeaderCellDef><b> Status </b></th>
@@ -80,7 +80,7 @@
    <div class="modal-dialog modal-lg">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{crudName}} Items Master</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{crudName}} Issue</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" matTooltip="Close" matTooltipClass="custom-tooltip">
               <span aria-hidden="true">&times;</span>
               </button>
@@ -90,6 +90,16 @@
             </div>
             <form [formGroup]="this.editForm" (ngSubmit)="onSubmit()" >
             <div class="form-row">
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Name <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <input matInput placeholder=""formControlName="name" maxlength="15" >
+                        <mat-error *ngIf="Error('name','required')">Enter code</mat-error>
+                        <mat-error *ngIf="Error('name','pattern')">Alpha-numeric characters only</mat-error>
+                     </mat-form-field>
+                  </div>
+               </div>
          
                <div class="col-md-6">
                   <div class="matt-group">
@@ -113,48 +123,46 @@
                </div>
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>Item Type <b class="star">*</b></mat-label>
+                     <mat-label>Demand <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <mat-select formControlName="item_type"
-                              placeholder="Select Itemtype">
+                        <mat-select formControlName="demand"
+                              placeholder="Select demand">
 
-                        <mat-option *ngFor="let itemtype of itemtypes" [value]="itemtype.id">{{itemtype.name}}</mat-option>
+                        <mat-option *ngFor="let demand of demands" [value]="demand.id">{{demand.qty}}</mat-option>
                         </mat-select>
-                        <mat-error *ngIf="Error('item_type','required')">Enter Item Type </mat-error>
-                        <mat-error *ngIf="Error('item_type','pattern')">Alpha-numeric characters only</mat-error>
+                        <mat-error *ngIf="Error('demand','required')">Enter demand</mat-error>
+                        <mat-error *ngIf="Error('demand','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>Min Stock Level <b class="star">*</b></mat-label>
+                     <mat-label>Issued Qty<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="min_stock_level" maxlength="15" >
-                        <mat-error *ngIf="Error('min_stock_level','required')">Enter Min Stock Level</mat-error>
-                        <mat-error *ngIf="Error('min_stock_level','pattern')">Alpha-numeric characters only</mat-error>
+                        <input matInput placeholder=""  formControlName="issued_qty" maxlength="15" >
+                        <mat-error *ngIf="Error('issued_qty','required')">Enter Issued Qty</mat-error>
+                        <mat-error *ngIf="Error('issued_qty','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
                   </div>
                </div>
                <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>BarCode <b class="star">*</b></mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="bar_code" maxlength="15" >
-                        <mat-error *ngIf="Error('bar_code','required')">Enter BarCode</mat-error>
-                        <!-- <mat-error *ngIf="Error('bar_code','pattern')">Alpha-numeric characters only</mat-error> -->
+                  <div class="matt-group matt-date-pickers">
+   
+                     <mat-label>Issed Date</mat-label>
+   
+                     <mat-form-field appearance="fill">
+   
+                        <input matInput [matDatepicker]="picker"  formControlName="issued_dt">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="Error('issued_dt','required')">Enter Issued Date</mat-error>
+   
                      </mat-form-field>
+   
                   </div>
+   
                </div>
-               <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>Available Qty <b class="star">*</b></mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="available_qty" maxlength="15" >
-                        <mat-error *ngIf="Error('available_qty','required')">Enter Available Qty</mat-error>
-                        <!-- <mat-error *ngIf="Error('available_qty','pattern')">Alpha-numeric characters only</mat-error> -->
-                     </mat-form-field>
-                  </div>
-               </div>
+               
                <div class="col-md-6" hidden>
                   <div class="matt-group">
                      <mat-form-field appearance="legacy">

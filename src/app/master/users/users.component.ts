@@ -47,6 +47,7 @@ export class UsersComponent implements OnInit {
   shopFloorList = [];
   payGradeList = [];
   rankList = [];
+  personalTypeList = [];
   trials = [];
   satellite = [];
   ships=[];
@@ -96,6 +97,7 @@ export class UsersComponent implements OnInit {
     ]),
     loginname: new FormControl('',Validators.required),
     email: new FormControl("",[Validators.required,Validators.email]),
+    phone_no: new FormControl('',Validators.required),
     password: new FormControl(""),
     //process : new FormControl('',[Validators.required]),
     //department : new FormControl('',[Validators.required]),
@@ -104,6 +106,7 @@ export class UsersComponent implements OnInit {
     //desig : new FormControl('',[Validators.required]),
     category_type : new FormControl('',[Validators.required]),
     design : new FormControl('',[Validators.required]),
+    personnel_type : new FormControl('',[Validators.required]),
     pay_scale : new FormControl('',[Validators.required]),
     center : new FormControl('',[Validators.required]),
 
@@ -149,6 +152,8 @@ export class UsersComponent implements OnInit {
       icard_number:data.icard_number,
       current_basic_salary:data.current_basic_salary,
       rank:data.rank[0]?data.rank[0].id:'',
+      phone_no:data.phone_no,
+      personnel_type:data.personnel_type[0]?data.personnel_type[0].id:'',
       });
 
 
@@ -260,6 +265,7 @@ export class UsersComponent implements OnInit {
      this.getShopFloor();
      this.getPayGrade();
      this.getRank();
+     this.getPersonnelType();
   }
 
   moduleList=[];
@@ -396,6 +402,17 @@ getRank(){
       console.log('rankList',this.rankList)
     });
   }
+
+getPersonnelType(){
+    let searchString='?status=1';
+   this.api
+   .getAPI(environment.API_URL + "master/personnel_type"+searchString)
+    .subscribe((res) => {
+      this.personalTypeList = res.data;
+      console.log('personalTypeList',this.personalTypeList)
+    });
+  }
+
 
   
 
@@ -788,5 +805,14 @@ numberOnly(event:any): boolean {
         return true;
   
       }
+
+numbersOnly(event:any): boolean {
+  const charCode = (event.which) ? event.which : event.keyCode;
+  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+    return false;
+  }
+  return true;
+
+}
 
 }

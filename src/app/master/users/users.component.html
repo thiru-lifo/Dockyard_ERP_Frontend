@@ -149,6 +149,17 @@
                     </mat-form-field>
                  </div>
               </div>
+
+              <div class="col-md-4">
+                 <div class="matt-group">
+                    <mat-label>Phone Number<b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                       <input matInput placeholder=""  formControlName="phone_no" (keypress)="numbersOnly($event)" maxlength="20">
+                       <mat-error *ngIf="Error('phone_no','required')">Please enter phone number</mat-error>
+                    </mat-form-field>
+                 </div>
+              </div>
+
               <div class="col-md-4">
                  <div class="matt-group">
                     <mat-label>Login Name <b class="star">*</b></mat-label>
@@ -229,6 +240,25 @@
                     </mat-form-field>
                 </div>
               </div>
+
+
+
+              <div class="col-md-4">
+                   <div class="matt-group">
+                    <mat-label>Personnel Type<b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                          <mat-select  #select formControlName="personnel_type" placeholder="Select Personnel Type">
+                          <div class="select-all">
+                       </div>
+                          <mat-option (click)="optionClick()" *ngFor="let pType of personalTypeList" [value]="pType.id">
+                       {{pType.name}}
+                       </mat-option>
+                       </mat-select>
+                       <!-- <mat-error *ngIf="Error('user_role_id','required')">Please user role</mat-error> -->
+                    </mat-form-field>
+                </div>
+              </div>
+
 
               <div class="col-md-4">
                    <div class="matt-group">
@@ -339,6 +369,8 @@
                  </div>
               </div>
 
+
+               
               <br>
               <div class="col-md-4">
                    <div class="matt-group">

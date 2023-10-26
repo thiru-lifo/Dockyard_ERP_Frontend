@@ -90,7 +90,7 @@ import { StorageLocationComponent } from './storage_location/storage_location.co
 import { IssueComponent } from './issue/issue.component';
 import { CourseComponent } from './course/course.component';
 import { OverTimeComponent } from './over_time/over_time.component';
-
+import { HolidayComponent } from './holiday/holiday.component';
 
 
 
@@ -160,6 +160,7 @@ const routes: Routes = [
   {path: 'issue', component: IssueComponent, data: { breadcrumb: 'Issue'}  },
   {path: 'course', component: CourseComponent, data: { breadcrumb: 'Course'}  },
   {path: 'over-time', component: OverTimeComponent, data: { breadcrumb: 'Over Time'}  },
+  {path: 'holiday', component: HolidayComponent, data: { breadcrumb: 'Holiday'}  },
   
   
   

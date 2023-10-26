@@ -91,6 +91,7 @@ import { IssueComponent } from './issue/issue.component';
 import { CourseComponent } from './course/course.component';
 import { BatchComponent } from './batch/batch.component';
 
+import { OverTimeComponent } from './over_time/over_time.component';
 
 
 
@@ -161,6 +162,7 @@ const routes: Routes = [
   {path: 'issue', component: IssueComponent, data: { breadcrumb: 'Issue'}  },
   {path: 'course', component: CourseComponent, data: { breadcrumb: 'Course'}  },
   {path: 'batch', component: BatchComponent, data: { breadcrumb: 'Batch'}  },
+  {path: 'over-time', component: OverTimeComponent, data: { breadcrumb: 'Over Time'}  },
   
   
   

@@ -62,7 +62,7 @@ export class ItemsMasterComponent implements OnInit {
     min_stock_level : new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
     description: new FormControl(""),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    available_qty: new FormControl("",[Validators.required]),
+    // available_qty: new FormControl("",[Validators.required]),
     bar_code: new FormControl("",[Validators.required]),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
@@ -72,10 +72,14 @@ export class ItemsMasterComponent implements OnInit {
   });
    status = this.editForm.value.status;
   populate(data) {
+    console.log("ddd",data)
 
     this.editForm.patchValue(data);
+    
     //this.editForm.patchValue({section_id:data.section_id.id});
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
+    this.editForm.patchValue({item_type:data.item_type_det.id});
+    // data && data.module_id?data.module_id:''
     this.logger.info(data.status)
   }
 
@@ -110,12 +114,12 @@ export class ItemsMasterComponent implements OnInit {
   itemtypes:any
   getItemtype() {
     this.api
-      .getAPI(environment.API_URL + "master/item_type")
+      .getAPI(environment.API_URL + "master/item_type?status=1")
       .subscribe((res) => {
         
         this.itemtypes = res.data;
         
-        this.logger.log('itemtypes',this.itemtypes)
+        
         console.log("itemstype",this.itemtypes)
       });
   }
@@ -175,7 +179,7 @@ export class ItemsMasterComponent implements OnInit {
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('CatagoryType '+language[environment.DEFAULT_LANG].deleteMsg);
+            this.notification.warn('Items master '+language[environment.DEFAULT_LANG].deleteMsg);
             this.getItemsMaster();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);

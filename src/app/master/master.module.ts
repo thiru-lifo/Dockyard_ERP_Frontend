@@ -87,6 +87,8 @@ import { ItemTypeComponent } from './item_type/item_type.component';
 import { StorageLocationComponent } from './storage_location/storage_location.component';
 import { IssueComponent } from './issue/issue.component';
 import { CourseComponent } from './course/course.component';
+import { BatchComponent } from './batch/batch.component';
+
 
 
 
@@ -172,6 +174,7 @@ import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.
     StorageLocationComponent,
     IssueComponent,
     CourseComponent,
+    BatchComponent,
 
 
 

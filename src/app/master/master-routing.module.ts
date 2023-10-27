@@ -95,7 +95,7 @@ import { OverTimeComponent } from './over_time/over_time.component';
 import { HolidayComponent } from './holiday/holiday.component';
 import { StockRegisterComponent } from './stock_register/stock_register.component';
 
-
+import { PromotionComponent } from './promotion/promotion.component';
 
 
 
@@ -168,7 +168,7 @@ const routes: Routes = [
   {path: 'over-time', component: OverTimeComponent, data: { breadcrumb: 'Over Time'}  },
   {path: 'holiday', component: HolidayComponent, data: { breadcrumb: 'Holiday'}  },
   {path: 'stock-register', component: StockRegisterComponent, data: { breadcrumb: 'Stock Register'}  },
-  
+  {path: 'promotion', component: PromotionComponent, data: { breadcrumb: 'Promotion'}  },
   
   
   

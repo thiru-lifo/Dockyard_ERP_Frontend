@@ -79,11 +79,14 @@ export class UsersComponent implements OnInit {
   constructor(public api: ApiService, private notification : NotificationService,
     private dialog:MatDialog, private router : Router, private elementref : ElementRef,private logger:ConsoleService,
     private formBuilder: FormBuilder
-    ,) {
+    ,private formBuilder1: FormBuilder) {
 
   }
   docForm!: FormGroup;
   items!: FormArray;
+
+  docForm1!: FormGroup;
+  items1!: FormArray;
 
   public editForm = new FormGroup({
     id: new FormControl(""),
@@ -126,6 +129,13 @@ export class UsersComponent implements OnInit {
 
    status = this.editForm.value.status;
    clearFormArray = (formArray: FormArray) => {
+    while (formArray.length !== 0) {
+      formArray.removeAt(0)
+    }
+  }
+
+  // Child Info
+  clearFormArray1 = (formArray: FormArray) => {
     while (formArray.length !== 0) {
       formArray.removeAt(0)
     }
@@ -212,6 +222,14 @@ export class UsersComponent implements OnInit {
       this.items = this.docForm.get('items') as FormArray;
       //this.items.push(this.formBuilder.group({module_id: '', sub_module_id:''}));
       this.items.push(this.formBuilder.group({form_id: ''}));
+
+
+      // Child Info
+
+      this.items1 = this.docForm1.get('items1') as FormArray;
+      //this.items.push(this.formBuilder.group({module_id: '', sub_module_id:''}));
+      this.items1.push(this.formBuilder1.group({form_id1: ''}));
+
     }
   }
 
@@ -447,6 +465,10 @@ getPersonnelType(){
       this.docForm = new FormGroup({
           items: new FormArray([]),
       });
+
+      this.docForm1 = new FormGroup({
+          items1: new FormArray([]),
+      });
   }
 
 
@@ -488,6 +510,14 @@ getPersonnelType(){
     });
   }
 
+  // Child Info
+  createItem1(): FormGroup {
+    return this.formBuilder1.group({
+      child_name: '',      
+      child_school_class:'',
+    });
+  }
+
   addMore(): void {
     this.items = this.docForm.get('items') as FormArray;
     this.items.push(this.createItem());
@@ -501,6 +531,20 @@ getPersonnelType(){
     console.log(this.items)
   }
 
+
+  // Child Info
+  addMore1(): void {
+    this.items1 = this.docForm1.get('items1') as FormArray;
+    this.items1.push(this.createItem1());
+    console.log(this.items1)
+  }
+
+  removeItem1(i): void {
+    this.items1.removeAt(i);
+    /*delete this.items.value[i];
+    delete this.items.controls[i];*/
+    console.log(this.items1)
+  }
 
 
   create() {
@@ -520,6 +564,13 @@ getPersonnelType(){
     this.clearFormArray(this.items);
     //this.items.push(this.formBuilder.group({module_id: '',sub_module_id:''}));
     this.items.push(this.formBuilder.group({form_id: ''}));
+
+    // Child Info
+    this.items1 = this.docForm1.get('items1') as FormArray;
+    this.clearFormArray1(this.items1);
+    //this.items.push(this.formBuilder.group({module_id: '',sub_module_id:''}));
+    this.items1.push(this.formBuilder1.group({child_name: '', child_school_class: ''}));
+
   }
 
   editOption(country) {
@@ -529,7 +580,7 @@ getPersonnelType(){
     this.isPassword = false;
     this.crudName = "Edit";
     this.logger.info(country);
-    this.populate(country);
+    //this.populate(country);
     var element = <HTMLInputElement> document.getElementById("exampleCheck1");
     if(this.editForm.value.status == 1) {
      element.checked = true;
@@ -543,7 +594,7 @@ getPersonnelType(){
     this.crudName = 'View';
     this.isReadonly=true;
     this.editForm.disable();
-    this.populate(country);
+    //this.populate(country);
     var element = <HTMLInputElement> document.getElementById("exampleCheck1");
     if(this.editForm.value.status == 1) {
      element.checked = true;

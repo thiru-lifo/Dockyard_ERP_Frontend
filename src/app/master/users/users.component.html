@@ -452,6 +452,84 @@
 
                </ng-container>
            </div>
+
+            <br>
+            <h5>Personal Details</h5>
+            <br>
+               <div  class="form-row">
+                  <div class="row">
+                    <div class="col-md-4">
+                       <div class="matt-group">
+                          <mat-label>Mobile Number <b class="star"></b></mat-label>
+                          <mat-form-field appearance="legacy">
+                             <input matInput placeholder="" formControlName="mobile_no" maxlength="15">
+                             <!-- <mat-error *ngIf="Error('icard_number','required')">Please enter iCard Number</mat-error> -->
+                          </mat-form-field>
+                       </div>
+                    </div>
+
+                    <div class="col-md-4">
+                       <div class="matt-group">
+                          <mat-label>Address <b class="star"></b></mat-label>
+                          <mat-form-field appearance="legacy">
+                             <input matInput placeholder="" formControlName="address">
+                             <!-- <mat-error *ngIf="Error('icard_number','required')">Please enter iCard Number</mat-error> -->
+                          </mat-form-field>
+                       </div>
+                    </div>
+
+                    <div class="col-md-4">
+                       <div class="matt-group">
+                          <mat-label>NOK <b class="star"></b></mat-label>
+                          <mat-form-field appearance="legacy">
+                             <input matInput placeholder="" formControlName="nok" maxlength="100">
+                             <!-- <mat-error *ngIf="Error('icard_number','required')">Please enter iCard Number</mat-error> -->
+                          </mat-form-field>
+                       </div>
+                    </div>
+                  </div>
+               </div>
+
+              <div class="col-md-4">&nbsp;</div>
+
+              <!-- < -->
+              <div class="col-md-12">
+               <ng-container  [formGroup]="docForm1" *ngIf="docForm1 && !inArray(10,editForm.value.user_role_id)">
+                 <!-- <mat-label class="matt-group">Children Info</mat-label> -->
+                 <ng-container formArrayName="items1" *ngFor="let item of docForm1.get('items1')['controls']; let j = index;">
+                       <div class="form-row">
+
+                      <ng-container  [formGroupName]="j">
+                             <div class="col-md-4">
+                                <div class="matt-group">
+                                   <mat-label>Child Name {{j+1}}<b class="star"></b></mat-label>
+                                   <mat-form-field appearance="legacy">
+                                      <input matInput placeholder="" formControlName="child_name" maxlength="100">
+                                   </mat-form-field>
+                                </div>
+                             </div>
+
+                             <div class="col-md-4">
+                                <div class="matt-group">
+                                   <mat-label>Child School Class {{j+1}}<b class="star"></b></mat-label>
+                                   <mat-form-field appearance="legacy">
+                                      <input matInput placeholder="" formControlName="child_school_class" maxlength="250">
+                                   </mat-form-field>
+                                </div>
+                             </div>
+
+                             <div class="matt-group col-md-3 matt-append-button">
+                                <button type="button" *ngIf="j==0" (click)="addMore1()" mat-fab color="primary"><mat-icon>add</mat-icon></button>
+                                <button type="button" *ngIf="j>0" (click)="removeItem1(j)" mat-fab color="warn"><mat-icon>remove</mat-icon></button>
+                             </div>
+                      </ng-container>
+                       </div>
+                 </ng-container>
+
+               </ng-container>
+           </div>
+
+
               <div class="col-md-12">
                  <div class="form-group form-check">
                     <input type="checkbox" class="form-check-input " id="exampleCheck1" formControlName="status" >

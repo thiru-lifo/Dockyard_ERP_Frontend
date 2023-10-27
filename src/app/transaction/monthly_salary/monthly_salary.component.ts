@@ -54,6 +54,7 @@ export class MonthlySalaryComponent implements OnInit {
   moduleAccess:any;
   ErrorMsg:any;
   error_msg=false;
+  moment=moment;
 
   public permission={
     add:false,
@@ -279,7 +280,7 @@ export class MonthlySalaryComponent implements OnInit {
     }
   }
 
-numberOnly(event:any): boolean {
+numbersOnly(event:any): boolean {
   var key = event.keyCode;
         if (key > 31 && (key < 65 || key > 90) &&
             (key < 97 || key > 122)) {
@@ -287,6 +288,15 @@ numberOnly(event:any): boolean {
       }
       return true;
 
+    }
+
+    numberOnly(event:any): boolean {
+      const charCode = (event.which) ? event.which : event.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+      }
+      return true;
+    
     }
 
 }

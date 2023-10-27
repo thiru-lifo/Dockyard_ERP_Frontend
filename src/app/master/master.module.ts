@@ -92,6 +92,7 @@ import { BatchComponent } from './batch/batch.component';
 import { OverTimeComponent } from './over_time/over_time.component';
 import { HolidayComponent } from './holiday/holiday.component';
 import { StockRegisterComponent } from './stock_register/stock_register.component';
+import { StockLogComponent } from './stock_log/stock_log.component';
 
 
 
@@ -183,6 +184,7 @@ import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.
     OverTimeComponent,
     HolidayComponent,
     StockRegisterComponent,
+    StockLogComponent,
 
 
 

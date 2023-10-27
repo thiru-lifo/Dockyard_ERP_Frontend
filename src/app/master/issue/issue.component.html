@@ -103,16 +103,16 @@
          
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>Code <b class="star">*</b></mat-label>
+                     <mat-label>Item Code <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
                         
-                        <mat-select formControlName="code"
+                        <mat-select formControlName="item"
                         placeholder="Select itemcode">
 
                   <mat-option *ngFor="let itemcode of itemcodes" [value]="itemcode.id">{{itemcode.code}}</mat-option>
                   </mat-select>
-                  <mat-error *ngIf="Error('code','required')">Enter itemcode</mat-error>
-                  <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error>
+                  <mat-error *ngIf="Error('item','required')">Enter itemcode</mat-error>
+                  <mat-error *ngIf="Error('item','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
                   </div>
                </div>
@@ -144,7 +144,7 @@
                   <div class="matt-group">
                      <mat-label>Issued Qty<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="issued_qty" maxlength="15" >
+                        <input matInput placeholder=""  formControlName="issued_qty" maxlength="15" (keypress)="numbersOnly($event)">
                         <mat-error *ngIf="Error('issued_qty','required')">Enter Issued Qty</mat-error>
                         <mat-error *ngIf="Error('issued_qty','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>

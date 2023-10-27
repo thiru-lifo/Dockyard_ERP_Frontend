@@ -67,6 +67,7 @@ export class RankComponent implements OnInit {
     description: new FormControl(""),
     pay_grade: new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
     personnel_type: new FormControl("",[Validators.required]),
+    created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
     sequence : new FormControl("", [Validators.pattern("^[0-9]*$")]),

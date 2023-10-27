@@ -10,7 +10,7 @@
                      </div>
                      <div class="col-md-6">
                         <div class="text-right">
-                           <a href="#" data-toggle="modal" data-target="#crud-countries" (click)="create()" class="btn btn-primary btn-round-sm"  *ngIf="permission.add==true" >Create</a>
+                           <a href="#" data-toggle="modal" data-target="#crud-countries" (click)="create()" class="btn btn-primary btn-round-sm"  *ngIf="permission.add==false" >Create</a>
                         </div>
                      </div>
                   </div>
@@ -166,7 +166,7 @@
                   <div class="matt-group">
                      <mat-label>Unit Cost<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="unit_cost" maxlength="15" type="number" >
+                        <input matInput placeholder=""  formControlName="unit_cost" maxlength="15"(keypress)="numbersOnly($event)" >
                         <!-- <mat-error *ngIf="Error('unit_cost','required')">Enter Unit Cost</mat-error> -->
                         <mat-error *ngIf="Error('unit_cost','pattern')">numeric characters only</mat-error>
                      </mat-form-field>
@@ -176,7 +176,7 @@
                   <div class="matt-group">
                      <mat-label>Available Qty<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="available_qty" maxlength="15" type ="number" >
+                        <input matInput placeholder=""  formControlName="available_qty" maxlength="15" (keypress)="numbersOnly($event)" >
                         <mat-error *ngIf="Error('available_qty','required')">Enter Available Qty</mat-error>
                         <!-- <mat-error *ngIf="Error('qualification_course_marks','pattern')">Alpha-numeric characters only</mat-error> -->
                      </mat-form-field>
@@ -186,7 +186,7 @@
                   <div class="matt-group">
                      <mat-label>Stock Qty<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="stock_qty" maxlength="15" type="number" >
+                        <input matInput placeholder=""  formControlName="stock_qty" maxlength="15" (keypress)="numbersOnly($event)" >
                         <mat-error *ngIf="Error('stock_qty','required')">Enter Stock Qty</mat-error>
                         <!-- <mat-error *ngIf="Error('qualification_course_marks','pattern')">Alpha-numeric characters only</mat-error> -->
                      </mat-form-field>

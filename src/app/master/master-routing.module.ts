@@ -94,6 +94,7 @@ import { BatchComponent } from './batch/batch.component';
 import { OverTimeComponent } from './over_time/over_time.component';
 import { HolidayComponent } from './holiday/holiday.component';
 import { StockRegisterComponent } from './stock_register/stock_register.component';
+import { StockLogComponent } from './stock_log/stock_log.component';
 
 
 
@@ -169,6 +170,8 @@ const routes: Routes = [
   {path: 'over-time', component: OverTimeComponent, data: { breadcrumb: 'Over Time'}  },
   {path: 'holiday', component: HolidayComponent, data: { breadcrumb: 'Holiday'}  },
   {path: 'stock-register', component: StockRegisterComponent, data: { breadcrumb: 'Stock Register'}  },
+  {path: 'stock-log', component: StockLogComponent, data: { breadcrumb: 'Stock Log'}  },
+  
   
   
   

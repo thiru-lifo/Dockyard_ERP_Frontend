@@ -119,6 +119,53 @@
                      </mat-form-field>
                   </div>
                </div>
+
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>On % Of Basic Pay </mat-label>
+                     <mat-form-field appearance="legacy">
+                              <mat-select placeholder="Select option" formControlName="on_per_of_basic_pay">
+                                 
+                                 <mat-option [value]="1">Yes</mat-option> 
+                                 <mat-option [value]="2">No</mat-option>        
+                               </mat-select>
+                                       
+                        <mat-error *ngIf="Error('on_per_of_basic_pay','required')">Enter On % Of Basic Pay</mat-error>
+                     </mat-form-field>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>% Of Basic Pay </mat-label>
+                     <mat-form-field appearance="legacy">
+                        <input matInput placeholder="" formControlName="per_of_basic_pay" maxlength="100" (keypress)="decimalOnly($event)">
+                        <mat-error *ngIf="Error('per_of_basic_pay','required')">Enter % Of Basic Pay</mat-error>
+                     </mat-form-field>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>On Fixed Amount </mat-label>
+                     <mat-form-field appearance="legacy">
+                        <mat-select placeholder="Select option" formControlName="on_fixed_amount">
+                           <mat-option [value]="1">Yes</mat-option> 
+                           <mat-option [value]="2">No</mat-option>
+                       </mat-select>
+                        <mat-error *ngIf="Error('on_fixed_amount','required')">Enter On Fixed Amount</mat-error>
+                     </mat-form-field>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="matt-group">
+                     <mat-label>Amount Of Deduction </mat-label>
+                     <mat-form-field appearance="legacy">
+                        <input matInput placeholder="" formControlName="amount_of_deduction" maxlength="100" (keypress)="decimalOnly($event)">
+                        <mat-error *ngIf="Error('amount_of_deduction','required')">Enter Amount Of Deduction</mat-error>
+                     </mat-form-field>
+                  </div>
+               </div>
+
+
                <div class="col-md-6" hidden>
                   <div class="matt-group">
                      <mat-form-field appearance="legacy">

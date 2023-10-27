@@ -90,13 +90,15 @@ import { StorageLocationComponent } from './storage_location/storage_location.co
 import { IssueComponent } from './issue/issue.component';
 import { CourseComponent } from './course/course.component';
 import { BatchComponent } from './batch/batch.component';
+
+import { OverTimeComponent } from './over_time/over_time.component';
+import { HolidayComponent } from './holiday/holiday.component';
 import { StockRegisterComponent } from './stock_register/stock_register.component';
 
 
-import { OverTimeComponent } from './over_time/over_time.component';
 
 
-import { HolidayComponent } from './holiday/holiday.component';
+
 
 
 
@@ -165,8 +167,8 @@ const routes: Routes = [
   {path: 'course', component: CourseComponent, data: { breadcrumb: 'Course'}  },
   {path: 'batch', component: BatchComponent, data: { breadcrumb: 'Batch'}  },
   {path: 'over-time', component: OverTimeComponent, data: { breadcrumb: 'Over Time'}  },
-  {path: 'stock-register', component: StockRegisterComponent, data: { breadcrumb: 'Stock Register'}  },
   {path: 'holiday', component: HolidayComponent, data: { breadcrumb: 'Holiday'}  },
+  {path: 'stock-register', component: StockRegisterComponent, data: { breadcrumb: 'Stock Register'}  },
   
   
   

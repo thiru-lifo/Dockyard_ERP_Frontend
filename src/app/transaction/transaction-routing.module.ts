@@ -38,6 +38,10 @@ const routes: Routes = [
     path: 'monthly-credits-debits',
      loadChildren: () => import('./monthly-credits-debits/monthly-credits-debits.module').then(m => m.MonthlyCreditsDebitsModule), data: { breadcrumb: 'Monthly Credits Debits'}
    },
+   {
+    path: 'manpower-booking',
+     loadChildren: () => import('./manpower-booking/manpower-booking.module').then(m => m.ManpowerBookingModule), data: { breadcrumb: 'Manpower Booking'}
+   },
 
 ];
 @NgModule({

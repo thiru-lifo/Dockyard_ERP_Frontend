@@ -83,7 +83,7 @@ export class BatchComponent implements OnInit {
     modified_by: new FormControl(""),
     sequence : new FormControl("", [Validators.pattern("^[0-9]*$")]),
     status: new FormControl(""),
-    batchname: this.formBuilder.array([]),
+    // batchname: this.formBuilder.array([]),
   });
    //status = this.editForm.value.status;
   populate(data) {

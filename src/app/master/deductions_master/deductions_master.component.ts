@@ -62,6 +62,12 @@ export class DeductionsMasterComponent implements OnInit {
     ]),
     description: new FormControl(""),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+
+    on_per_of_basic_pay : new FormControl("",[Validators.required]),
+    per_of_basic_pay : new FormControl("",[Validators.required]),
+    on_fixed_amount : new FormControl("",[Validators.required]),
+    amount_of_deduction : new FormControl("",[Validators.required]),
+
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -70,6 +76,8 @@ export class DeductionsMasterComponent implements OnInit {
   });
    status = this.editForm.value.status;
   populate(data) {
+
+    console.log(data,"ssssssssssss")
 
     this.editForm.patchValue(data);
     //this.editForm.patchValue({section_id:data.section_id.id});
@@ -237,5 +245,15 @@ numberOnly(event:any): boolean {
       return true;
 
     }
+
+decimalOnly(event:any): boolean {
+  const charCode = (event.which) ? event.which : event.keyCode;
+  //alert(charCode)
+  if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+    return false;
+  }
+  return true;
+
+}
 
 }

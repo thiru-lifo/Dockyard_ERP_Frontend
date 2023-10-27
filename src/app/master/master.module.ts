@@ -93,6 +93,7 @@ import { OverTimeComponent } from './over_time/over_time.component';
 import { StockRegisterComponent } from './stock_register/stock_register.component';
 
 
+import { HolidayComponent } from './holiday/holiday.component';
 
 
 
@@ -182,6 +183,7 @@ import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.
     OverTimeComponent,
     StockRegisterComponent,
 
+    HolidayComponent,
 
 
     DockyardGroupComponent,

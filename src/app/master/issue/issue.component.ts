@@ -97,6 +97,7 @@ export class IssueComponent implements OnInit {
      this.getIssue();
      this.getAccess();
      this.getDemand();
+     this.getitem()
   }
   issue:any
   getIssue() {
@@ -121,6 +122,18 @@ export class IssueComponent implements OnInit {
         
         
         console.log("demands",this.demands)
+      });
+  }
+  itemcodes:any
+  getitem() {
+    this.api
+      .getAPI(environment.API_URL + "master/items_master")
+      .subscribe((res) => {
+        
+        this.itemcodes = res.data;
+        
+        
+        console.log("itemcodes",this.itemcodes)
       });
   }
 

@@ -11,23 +11,100 @@ import { language } from "src/environments/language";
 import { Router } from '@angular/router';
 import { ConsoleService } from "src/app/service/console.service";
 import { of } from 'rxjs';
-declare var $;
-@Component({
-  selector: 'app-items_master',
-  templateUrl: './items_master.component.html',
-  styleUrls: ['./items_master.component.scss']
-})
-export class ItemsMasterComponent implements OnInit {
+import { AngularEditorConfig } from "@kolkov/angular-editor/lib/config";
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+declare var arrayColumn;
+declare var moment:any;
+declare function openModal(selector):any;
+declare function closeModal(selector):any;
+declare function formSubmit(selector):any;
+declare function triggerClick(selector):any;
 
+const ELEMENT_DATA: PeriodicElement[] = [
+  {name: 'test', remarks: 'test', actions: 'test'},
+  {name: 'test', remarks: 'test', actions: 'test'},
+  {name: 'test', remarks: 'test', actions: 'test'},
+  {name: 'test', remarks: 'test', actions: 'test'},
+];
+
+export interface PeriodicElement {
+  name: string;
+  //position: number;
+  remarks: string;
+  actions: string;
+}
+
+@Component({
+  selector: 'app-stock_register',
+  templateUrl: './stock_register.component.html',
+  styleUrls: ['./stock_register.component.scss']
+})
+export class StockRegisterComponent implements OnInit {
+
+//   forMonthDate:any;
+
+//   selected:any = '18'
+//     displayedColumns: string[] = ['name', 'remarks', 'actions'];
+//     dataSource2 = ELEMENT_DATA;
+
+//    active = 1;
+
+//    editorConfig: AngularEditorConfig = {
+//     editable: true,
+//       spellcheck: true,
+//       height: 'auto',
+//       minHeight: '0',
+//       maxHeight: 'auto',
+//       width: 'auto',
+//       minWidth: '0',
+//       translate: 'yes',
+//       enableToolbar: true,
+//       showToolbar: true,
+//       placeholder: 'Enter remarks here...',
+//       defaultParagraphSeparator: '',
+//       defaultFontName: '',
+//       defaultFontSize: '',
+//       fonts: [
+//         {class: 'arial', name: 'Arial'},
+//         {class: 'times-new-roman', name: 'Times New Roman'},
+//         {class: 'calibri', name: 'Calibri'},
+//         {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+//       ],
+//       customClasses: [
+//       {
+//         name: 'quote',
+//         class: 'quote',
+//       },
+//       {
+//         name: 'redText',
+//         class: 'redText'
+//       },
+//       {
+//         name: 'titleText',
+//         class: 'titleText',
+//         tag: 'h1',
+//       },
+//     ],
+//     uploadWithCredentials: false,
+//     sanitize: false,
+//     toolbarPosition: 'top',
+//     toolbarHiddenButtons: [
+//       ['bold', 'italic'],
+//       ['fontSize','toggleEditorMode','customClasses']
+//     ]
+// };
 
   displayedColumns: string[] = [
     
-    "code",
-    "item_type",
+    "name",
+    "stock_qty",
+    "last_updt_on",
+   
     "status",
     "view",
     "edit",
     "delete",
+
   ];
   dataSource: MatTableDataSource<any>;
 
@@ -39,6 +116,7 @@ export class ItemsMasterComponent implements OnInit {
   moduleAccess:any;
   ErrorMsg:any;
   error_msg=false;
+  moment =moment;
 
   public permission={
     add:false,
@@ -58,12 +136,16 @@ export class ItemsMasterComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
-    item_type : new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    min_stock_level : new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    description: new FormControl(""),
-    code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    // available_qty: new FormControl("",[Validators.required]),
-    bar_code: new FormControl("",[Validators.required]),
+    code: new FormControl("", [Validators.required]),
+    last_updt_on: new FormControl("moment().format('MM/DD/yyyy')"),
+    unit_cost : new FormControl("", [Validators.pattern("^[0-9]*$")]),
+    name: new FormControl("", [
+      Validators.required,
+    ]),
+    stock_qty: new FormControl("", [Validators.required,]),
+    batch: new FormControl("", [Validators.required,]),
+    storage_location: new FormControl("", [Validators.required,]),
+    available_qty: new FormControl("", [Validators.required,]),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -72,14 +154,19 @@ export class ItemsMasterComponent implements OnInit {
   });
    status = this.editForm.value.status;
   populate(data) {
-    console.log("ddd",data)
 
     this.editForm.patchValue(data);
-    
-    //this.editForm.patchValue({section_id:data.section_id.id});
+    //this.editForm.patchValue({project_id:data.project_id.id});
+    //this.editForm.patchValue({trial_unit:data.trial_unit.id});
+    /*this.getCommand(data.trial_unit.id);
+    this.getSatelliteUnits(data.trial_unit.id,data.command.id);
+    this.getShips(data.trial_unit.id,data.satellite_unit.id);
+    setTimeout(()=>{
+      this.editForm.patchValue({satellite_unit:data.satellite_unit.id});
+      this.editForm.patchValue({command:data.command?data.command.id:''});
+      this.editForm.patchValue({ship:data.ship.id});
+    },500);*/
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
-    this.editForm.patchValue({item_type:data.item_type_det.id});
-    // data && data.module_id?data.module_id:''
     this.logger.info(data.status)
   }
 
@@ -94,33 +181,60 @@ export class ItemsMasterComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getItemsMaster();
+     this.getBatch();
+     
+     this.getStoragelocation();
      this.getAccess();
-     this.getItemtype();
+     this.getStockRegister();
+     this.getCode();
   }
-  itemsmaster:any
-  getItemsMaster() {
+
+
+batchs:any;
+  getBatch() {
     this.api
-      .getAPI(environment.API_URL + "master/items_master")
+      .getAPI(environment.API_URL + "master/batch?status=1")
       .subscribe((res) => {
-        if (res.data.length>0){
-          this.dataSource = new MatTableDataSource(res.data);
-          this.itemsmaster = res.data;
-          this.dataSource.paginator = this.pagination;
-          this.logger.log('ITEMSMASTER',this.itemsmaster)
-        }
+        this.batchs = res.data;
+        console.log("batch id",this.batchs)
       });
   }
-  itemtypes:any
-  getItemtype() {
+
+  storagelocations:any;
+  getStoragelocation() {
     this.api
-      .getAPI(environment.API_URL + "master/item_type?status=1")
+      .getAPI(environment.API_URL + "master/storage_location?status=1")
       .subscribe((res) => {
-        
-        this.itemtypes = res.data;
-        
-        
-        console.log("itemstype",this.itemtypes)
+        this.storagelocations = res.data;
+        console.log("storagelocation",this.storagelocations)
+      });
+  }
+
+ codes:any;
+  getCode() {
+    this.api
+      .getAPI(environment.API_URL + "master/items_master?status=1")
+      .subscribe((res) => {
+        this.codes = res.data;
+        console.log("codes",this.codes)
+      });
+  }
+
+
+
+
+
+
+  
+stockregisters:any
+  getStockRegister() {
+    this.api
+      .getAPI(environment.API_URL + "master/stock_register")
+      .subscribe((res) => {
+        this.dataSource = new MatTableDataSource(res.data);
+        this.stockregisters = res.data;
+        this.dataSource.paginator = this.pagination;
+        this.logger.log('stockregisters',this.stockregisters)
       });
   }
 
@@ -172,15 +286,15 @@ export class ItemsMasterComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/items_master/details", {
+        this.api.postAPI(environment.API_URL + "master/stock_register/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('Items master '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getItemsMaster();
+            this.notification.warn('Stock Register '+language[environment.DEFAULT_LANG].deleteMsg);
+            this.getStoragelocation();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -189,9 +303,6 @@ export class ItemsMasterComponent implements OnInit {
       dialogRef=null;
     });
   }
-  // getCategoryType() {
-  //   throw new Error("Method not implemented.");
-  // }
 
   onSubmit() {
      if (this.editForm.valid) {
@@ -199,7 +310,7 @@ export class ItemsMasterComponent implements OnInit {
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/items_master/details",
+          environment.API_URL + "master/stock_register/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -208,7 +319,7 @@ export class ItemsMasterComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getItemsMaster();
+            this.getStoragelocation();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -248,18 +359,22 @@ export class ItemsMasterComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getItemsMaster();
+      this.getStoragelocation();
     }
   }
-
-numberOnly(event:any): boolean {
-  var key = event.keyCode;
-        if (key > 31 && (key < 65 || key > 90) &&
-            (key < 97 || key > 122)) {
-        return false;
+  disableDate(){
+    return false;
+  }
+  numberOnly(event:any): boolean {
+    var key = event.keyCode;
+          if (key > 31 && (key < 65 || key > 90) &&
+              (key < 97 || key > 122)) {
+          return false;
+        }
+        return true;
+  
       }
-      return true;
 
-    }
-
+     
 }
+

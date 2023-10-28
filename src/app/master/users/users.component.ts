@@ -124,7 +124,7 @@ export class UsersComponent implements OnInit {
     // Personal Details
     pd_mobile_no: new FormControl(""),
     pd_address: new FormControl(""),
-    pd_nok: new FormControl(""),
+    //pd_nok: new FormControl(""),
 
     created_by: new FormControl(""),
     modified_by: new FormControl(""),
@@ -178,7 +178,7 @@ export class UsersComponent implements OnInit {
 
       pd_mobile_no: data.personnel_detail[0]?data.personnel_detail[0].mobile_no:'',
       pd_address: data.personnel_detail[0]?data.personnel_detail[0].address:'',
-      pd_nok: data.personnel_detail[0]?data.personnel_detail[0].nok:'',
+      //pd_nok: data.personnel_detail[0]?data.personnel_detail[0].nok:'',
 
       });
 
@@ -247,14 +247,20 @@ export class UsersComponent implements OnInit {
       console.log(data.child_list,"SSS")
       let child_name = '';
       let child_school_class = '';
+      //let child_mobile = '';
 
       for(let j=0;j<data.child_list.length;j++)
       {
 
         child_name = data.child_list[j]['child_name'];
         child_school_class = data.child_list[j]['child_school_class'];
+        //child_mobile = data.child_list[j]['child_mobile'];
 
-        this.items1.push(this.formBuilder1.group({child_name: child_name, child_school_class:child_school_class}));
+        this.items1.push(this.formBuilder1.group({
+          child_name: child_name, 
+          child_school_class: child_school_class,
+          //child_mobile: child_mobile
+        }));
 
         console.log(this.items1,"KKKKKKKKKKKKkkk")
 
@@ -264,8 +270,8 @@ export class UsersComponent implements OnInit {
     {
       this.items1 = this.docForm1.get('items1') as FormArray;
       //this.items.push(this.formBuilder.group({module_id: '', sub_module_id:''}));
+      //this.items1.push(this.formBuilder1.group({child_name: '', child_school_class:'', child_mobile:''}));
       this.items1.push(this.formBuilder1.group({child_name: '', child_school_class:''}));
-
     }
 
   }
@@ -321,7 +327,10 @@ export class UsersComponent implements OnInit {
      this.getPayGrade();
      this.getRank();
      this.getPersonnelType();
+     this.getAllowances();
+     this.getDeductions();
   }
+  
 
   moduleList=[];
   getModule() {
@@ -469,7 +478,27 @@ getPersonnelType(){
   }
 
 
-  
+allowances=[];
+getAllowances(){
+    let searchString='?status=1';
+   this.api
+   .getAPI(environment.API_URL + "master/allowances_master"+searchString)
+    .subscribe((res) => {
+      this.allowances = res.data;
+      console.log('allowances',this.allowances)
+    });
+  }
+
+deductions=[];
+getDeductions(){
+    let searchString='?status=1';
+   this.api
+   .getAPI(environment.API_URL + "master/deductions_master"+searchString)
+    .subscribe((res) => {
+      this.deductions = res.data;
+      console.log('deductions',this.deductions)
+    });
+  }
 
   getUserRoles(process_id='') {
     let searchString='?status=1';
@@ -606,6 +635,7 @@ getPersonnelType(){
     this.items1 = this.docForm1.get('items1') as FormArray;
     this.clearFormArray1(this.items1);
     //this.items.push(this.formBuilder.group({module_id: '',sub_module_id:''}));
+    //this.items1.push(this.formBuilder1.group({child_name: '', child_school_class: '', child_mobile: ''}));
     this.items1.push(this.formBuilder1.group({child_name: '', child_school_class: ''}));
 
   }
@@ -911,7 +941,16 @@ numbersOnly(event:any): boolean {
     return false;
   }
   return true;
-
 }
+
+decimalOnly(event:any): boolean {
+  const charCode = (event.which) ? event.which : event.keyCode;
+  //alert(charCode)
+  if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+    return false;
+  }
+  return true;
+}
+
 
 }

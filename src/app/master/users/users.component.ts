@@ -121,6 +121,11 @@ export class UsersComponent implements OnInit {
 
     rank : new FormControl('',[Validators.required]),
 
+    // Personal Details
+    pd_mobile_no: new FormControl(""),
+    pd_address: new FormControl(""),
+    pd_nok: new FormControl(""),
+
     created_by: new FormControl(""),
     modified_by: new FormControl(""),
     status: new FormControl(""),
@@ -151,6 +156,12 @@ export class UsersComponent implements OnInit {
 
     this.items = this.docForm.get('items') as FormArray;
     this.clearFormArray(this.items);
+
+    // Child Info
+    this.items1 = this.docForm1.get('items1') as FormArray;
+    this.clearFormArray1(this.items1);
+
+
     //this.editForm.patchValue({id:data.id,first_name:data.first_name,last_name:data.last_name,loginname:data.loginname,email:data.email,desig:data.desig,created_by:data.created_by,modified_by:this.api.userid.user_id,status:data.status});
 
     this.editForm.patchValue({id:data.id,first_name:data.first_name,last_name:data.last_name,loginname:data.loginname,email:data.email,design:data.design,created_by:data.created_by,modified_by:this.api.userid.user_id,status:data.status,
@@ -164,6 +175,11 @@ export class UsersComponent implements OnInit {
       rank:data.rank[0]?data.rank[0].id:'',
       phone_no:data.phone_no,
       personnel_type:data.personnel_type[0]?data.personnel_type[0].id:'',
+
+      pd_mobile_no: data.personnel_detail[0]?data.personnel_detail[0].mobile_no:'',
+      pd_address: data.personnel_detail[0]?data.personnel_detail[0].address:'',
+      pd_nok: data.personnel_detail[0]?data.personnel_detail[0].nok:'',
+
       });
 
 
@@ -222,15 +238,36 @@ export class UsersComponent implements OnInit {
       this.items = this.docForm.get('items') as FormArray;
       //this.items.push(this.formBuilder.group({module_id: '', sub_module_id:''}));
       this.items.push(this.formBuilder.group({form_id: ''}));
+    }
 
 
-      // Child Info
+    if(data.child_list.length>0)
+    {
 
+      console.log(data.child_list,"SSS")
+      let child_name = '';
+      let child_school_class = '';
+
+      for(let j=0;j<data.child_list.length;j++)
+      {
+
+        child_name = data.child_list[j]['child_name'];
+        child_school_class = data.child_list[j]['child_school_class'];
+
+        this.items1.push(this.formBuilder1.group({child_name: child_name, child_school_class:child_school_class}));
+
+        console.log(this.items1,"KKKKKKKKKKKKkkk")
+
+      }
+    }
+    else
+    {
       this.items1 = this.docForm1.get('items1') as FormArray;
       //this.items.push(this.formBuilder.group({module_id: '', sub_module_id:''}));
-      this.items1.push(this.formBuilder1.group({form_id1: ''}));
+      this.items1.push(this.formBuilder1.group({child_name: '', child_school_class:''}));
 
     }
+
   }
 
   checkShipinSatelliteUnit(ship,trail_unit_id,satellite_unit_id)
@@ -580,7 +617,7 @@ getPersonnelType(){
     this.isPassword = false;
     this.crudName = "Edit";
     this.logger.info(country);
-    //this.populate(country);
+    this.populate(country);
     var element = <HTMLInputElement> document.getElementById("exampleCheck1");
     if(this.editForm.value.status == 1) {
      element.checked = true;
@@ -594,7 +631,7 @@ getPersonnelType(){
     this.crudName = 'View';
     this.isReadonly=true;
     this.editForm.disable();
-    //this.populate(country);
+    this.populate(country);
     var element = <HTMLInputElement> document.getElementById("exampleCheck1");
     if(this.editForm.value.status == 1) {
      element.checked = true;
@@ -630,7 +667,10 @@ getPersonnelType(){
   }
   accessArr=[];
   onSubmit() {
-    ////console.log('this.items.value',this.items.value);
+    // console.log('this.items.value',this.items.value);
+    //console.log('this.items1.value',this.items1.value);
+    // console.log(this.editForm.value)    
+    // return false;
     // let trial_unit,satellite_unit,obj;
     /*for(let i =0; i<this.docForm.value.items.length; i++) {
       trial_unit=this.docForm.value.items[i].trial_unit;
@@ -643,18 +683,26 @@ getPersonnelType(){
       this.accessArr.push(obj)
     }*/
     let data_access ={'data_access':this.items.value}
-     console.log(this.editForm)
+    let personnel_details = {
+                              'child_list':this.items1.value,
+                              // 'mobile_no':this.editForm.value.pd_mobile_no,
+                              // 'address':this.editForm.value.pd_address,
+                              // 'nok':this.editForm.value.pd_nok
+                            }
+
+     //console.log(this.editForm)
      if (this.editForm.valid) {
       this.editForm.value.created_by = this.api.userid.user_id;
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
        let formVal={
         ...this.editForm.value,
-        ...data_access
+        ...data_access,
+        ...personnel_details,
 
        }
-       console.log(this.items.value);
-       console.log(formVal,"HHHHHHHHHH");
-       //return false;
+       // console.log(this.items.value);
+       // console.log(formVal,"HHHHHHHHHH");
+       // return false;
 
     if (formVal.id!='' && formVal.id!=null)
       delete formVal.password;

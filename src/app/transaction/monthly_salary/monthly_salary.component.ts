@@ -37,7 +37,7 @@ export class MonthlySalaryComponent implements OnInit {
     "employee",
     "total_credits",
     "total_debits",
-  
+    "pay_slip",
     "status",
     "view",
     "edit",

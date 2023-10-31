@@ -82,11 +82,22 @@ export class UsersComponent implements OnInit {
     ,private formBuilder1: FormBuilder) {
 
   }
+
   docForm!: FormGroup;
   items!: FormArray;
 
+  // Child Info
   docForm1!: FormGroup;
   items1!: FormArray;
+
+  // Allowance Info
+  docFormAllowance!: FormGroup;
+  allowances!: FormArray;
+
+  // Deduction Info
+  docFormDeduction!: FormGroup;
+  deductions!: FormArray;
+
 
   public editForm = new FormGroup({
     id: new FormControl(""),
@@ -146,6 +157,19 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  // Allowance info
+  clearFormArrayAllowance = (formArray: FormArray) => {
+    while (formArray.length !== 0) {
+      formArray.removeAt(0)
+    }
+  }
+
+  // Deduction info
+  clearFormArrayDeduction = (formArray: FormArray) => {
+    while (formArray.length !== 0) {
+      formArray.removeAt(0)
+    }
+  }
 
   populate(data) {
     console.log(data,"Hiiiiii")
@@ -160,6 +184,14 @@ export class UsersComponent implements OnInit {
     // Child Info
     this.items1 = this.docForm1.get('items1') as FormArray;
     this.clearFormArray1(this.items1);
+
+    // Allowance Info
+    this.allowances = this.docFormAllowance.get('allowances') as FormArray;
+    this.clearFormArrayAllowance(this.allowances);
+
+    // Deduction Info
+    this.deductions = this.docFormDeduction.get('deductions') as FormArray;
+    this.clearFormArrayDeduction(this.deductions);
 
 
     //this.editForm.patchValue({id:data.id,first_name:data.first_name,last_name:data.last_name,loginname:data.loginname,email:data.email,desig:data.desig,created_by:data.created_by,modified_by:this.api.userid.user_id,status:data.status});
@@ -240,11 +272,11 @@ export class UsersComponent implements OnInit {
       this.items.push(this.formBuilder.group({form_id: ''}));
     }
 
-
+    // Child Info
     if(data.child_list.length>0)
     {
 
-      console.log(data.child_list,"SSS")
+      //console.log(data.child_list,"SSS")
       let child_name = '';
       let child_school_class = '';
       //let child_mobile = '';
@@ -272,6 +304,56 @@ export class UsersComponent implements OnInit {
       //this.items.push(this.formBuilder.group({module_id: '', sub_module_id:''}));
       //this.items1.push(this.formBuilder1.group({child_name: '', child_school_class:'', child_mobile:''}));
       this.items1.push(this.formBuilder1.group({child_name: '', child_school_class:''}));
+    }
+
+
+    // Allowance Info
+    if(data.allowance_list.length>0)
+    {
+      let allowance_id = '';
+
+      for(let k=0;k<data.allowance_list.length;k++)
+      {
+
+        allowance_id = data.allowance_list[k]['allowance'];
+
+        this.allowances.push(this.formBuilder.group({
+          allowance_id: allowance_id,
+        }));
+
+        console.log(allowance_id,"allowances")
+
+      }
+    }
+    else
+    {
+      this.allowances = this.docFormAllowance.get('allowances') as FormArray;
+      this.allowances.push(this.formBuilder.group({allowance_id: ''}));
+    }
+
+
+    // Deduction Info
+    if(data.deduction_list.length>0)
+    {
+      let deduction_id = '';
+
+      for(let l=0;l<data.deduction_list.length;l++)
+      {
+
+        deduction_id = data.deduction_list[l]['deduction'];
+
+        this.deductions.push(this.formBuilder.group({
+          deduction_id: deduction_id
+        }));
+
+        console.log(deduction_id,"deductions")
+
+      }
+    }
+    else
+    {
+      this.deductions = this.docFormDeduction.get('deductions') as FormArray;
+      this.deductions.push(this.formBuilder.group({deduction_id: ''}));
     }
 
   }
@@ -478,25 +560,25 @@ getPersonnelType(){
   }
 
 
-allowances=[];
+allowance_list=[];
 getAllowances(){
     let searchString='?status=1';
    this.api
    .getAPI(environment.API_URL + "master/allowances_master"+searchString)
     .subscribe((res) => {
-      this.allowances = res.data;
-      console.log('allowances',this.allowances)
+      this.allowance_list = res.data;
+      console.log('allowance_list',this.allowance_list)
     });
   }
 
-deductions=[];
+deduction_list=[];
 getDeductions(){
     let searchString='?status=1';
    this.api
    .getAPI(environment.API_URL + "master/deductions_master"+searchString)
     .subscribe((res) => {
-      this.deductions = res.data;
-      console.log('deductions',this.deductions)
+      this.deduction_list = res.data;
+      console.log('deduction_list',this.deduction_list)
     });
   }
 
@@ -532,8 +614,19 @@ getDeductions(){
           items: new FormArray([]),
       });
 
+      // Child Info
       this.docForm1 = new FormGroup({
           items1: new FormArray([]),
+      });
+
+      // Allowance Info
+      this.docFormAllowance = new FormGroup({
+          allowances: new FormArray([]),
+      });
+
+      // Deduction Info
+      this.docFormDeduction = new FormGroup({
+          deductions: new FormArray([]),
       });
   }
 
@@ -584,6 +677,21 @@ getDeductions(){
     });
   }
 
+  // Allowance Info
+  createItemAllowance(): FormGroup {
+    return this.formBuilder.group({
+      allowance_id: ''
+    });
+  }
+
+  // Deduction Info
+  createItemDeduction(): FormGroup {
+    return this.formBuilder.group({
+      deduction_id: ''
+    });
+  }
+
+
   addMore(): void {
     this.items = this.docForm.get('items') as FormArray;
     this.items.push(this.createItem());
@@ -613,6 +721,32 @@ getDeductions(){
   }
 
 
+  // Allowance Info
+  addMoreAllowance(): void {
+    this.allowances = this.docFormAllowance.get('allowances') as FormArray;
+    this.allowances.push(this.createItemAllowance());
+    console.log(this.allowances)
+  }
+
+  removeItemAllowance(i): void {
+    this.allowances.removeAt(i);
+    console.log(this.allowances)
+  }
+
+
+  // Deduction Info
+  addMoreDeduction(): void {
+    this.deductions = this.docFormDeduction.get('deductions') as FormArray;
+    this.deductions.push(this.createItemDeduction());
+    console.log(this.deductions)
+  }
+
+  removeItemDeduction(i): void {
+    this.deductions.removeAt(i);
+    console.log(this.deductions)
+  }
+
+
   create() {
     this.editForm.get('password').setValidators([Validators.required]);
     this.editForm.get('password').updateValueAndValidity();
@@ -637,6 +771,21 @@ getDeductions(){
     //this.items.push(this.formBuilder.group({module_id: '',sub_module_id:''}));
     //this.items1.push(this.formBuilder1.group({child_name: '', child_school_class: '', child_mobile: ''}));
     this.items1.push(this.formBuilder1.group({child_name: '', child_school_class: ''}));
+
+
+    // Allowance Info
+    this.allowances = this.docFormAllowance.get('allowances') as FormArray;
+    this.clearFormArrayAllowance(this.allowances);
+    this.allowances.push(this.formBuilder.group({
+      allowance_id: ''
+    }));
+
+    // Deduction Info
+    this.deductions = this.docFormDeduction.get('deductions') as FormArray;
+    this.clearFormArrayDeduction(this.deductions);
+    this.deductions.push(this.formBuilder.group({
+      deduction_id: ''
+    }));
 
   }
 
@@ -720,6 +869,10 @@ getDeductions(){
                               // 'nok':this.editForm.value.pd_nok
                             }
 
+    let allowance_details = {'allowance_list':this.allowances.value}
+
+    let deduction_details = {'deduction_list':this.deductions.value}
+
      //console.log(this.editForm)
      if (this.editForm.valid) {
       this.editForm.value.created_by = this.api.userid.user_id;
@@ -728,11 +881,12 @@ getDeductions(){
         ...this.editForm.value,
         ...data_access,
         ...personnel_details,
-
+        ...allowance_details,
+        ...deduction_details,
        }
-       // console.log(this.items.value);
-       // console.log(formVal,"HHHHHHHHHH");
-       // return false;
+       console.log(this.items.value);
+       console.log(formVal,"HHHHHHHHHH");
+       //return false;
 
     if (formVal.id!='' && formVal.id!=null)
       delete formVal.password;

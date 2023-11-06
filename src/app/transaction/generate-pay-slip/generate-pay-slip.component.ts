@@ -347,7 +347,7 @@ export class GeneratePaySlipComponent implements OnInit {
 
       // this.editForm.value.conclusion_of_contract = moment(this.editForm.value.conclusion_of_contract, "YYYY-MM-DD").format("YYYY-MM-DD");
 
-      // this.editForm.value.induction = moment(this.editForm.value.induction, "YYYY-MM-DD").format("YYYY-MM-DD");
+      this.editForm.value.for_month = moment(this.editForm.value.for_month, "YYYY-MM-DD").format("YYYY-MM-DD");
       this.editForm.value.created_by = this.api.userid.user_id;
       //this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.editForm.value.status = 1;
@@ -373,7 +373,7 @@ export class GeneratePaySlipComponent implements OnInit {
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
             //this.getListing();
-            this.closebutton.nativeElement.click();
+            //this.closebutton.nativeElement.click();
             //res.data['type']='edit';
             //localStorage.setItem('trial_form',this.api.encryptData(res.data));
           } else if(res.status==environment.ERROR_CODE) {

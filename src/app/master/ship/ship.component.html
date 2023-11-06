@@ -106,7 +106,14 @@
 
    </form>
 </div>
+
+
                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                  <ng-container matColumnDef="name">
+                     <th mat-header-cell *matHeaderCellDef><b> Name </b></th>
+                     <td mat-cell *matCellDef="let country"> {{country.name}} </td>
+                  </ng-container>
+                  
                 <ng-container matColumnDef="command_id">
                   <th mat-header-cell *matHeaderCellDef><b> Command </b></th>
                   <td mat-cell *matCellDef="let country"> {{country.command_id.name}} </td>
@@ -127,10 +134,7 @@
                   <td mat-cell *matCellDef="let country"> {{country.authority_id.name}} </td>
                  </ng-container> -->
 
-                  <ng-container matColumnDef="name">
-                     <th mat-header-cell *matHeaderCellDef><b> Name </b></th>
-                     <td mat-cell *matCellDef="let country"> {{country.name}} </td>
-                  </ng-container>
+
                   <ng-container matColumnDef="code">
                      <th mat-header-cell *matHeaderCellDef><b> Code </b></th>
                      <td mat-cell *matCellDef="let country"> {{country.code}} </td>

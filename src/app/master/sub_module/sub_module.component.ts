@@ -20,8 +20,8 @@ import { of } from 'rxjs';
 export class SubModuleComponent implements OnInit {
 
   displayedColumns: string[] = [
-    "module",
     "name",
+    "module",
     //"targetted_month_complex",
     //"targetted_month_moderate",
     "status",

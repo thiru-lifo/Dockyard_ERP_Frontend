@@ -21,11 +21,11 @@ export class ShipComponent implements OnInit {
 
 
   displayedColumns: string[] = [
-    'command_id',
     //"class_id",
     //"project_id",
     //"authority_id",
     "name",
+    "command_id",
     "code",
     "status",
     "view",

@@ -23,6 +23,13 @@ export class RefitTypeComponent implements OnInit {
   displayedColumns: string[] = [
     "name",
     "code",
+    "dl_1",
+    "dl_2",
+    "dl_3",
+    "sdl",
+    "awrf_1",
+    "awrf_2",
+    "awrf_3",
     "status",
     "view",
     "edit",
@@ -62,6 +69,15 @@ export class RefitTypeComponent implements OnInit {
     ]),
     description: new FormControl(""),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+
+    dl_1: new FormControl(""),
+    dl_2: new FormControl(""),
+    dl_3: new FormControl(""),
+    sdl: new FormControl(""),
+    awrf_1: new FormControl(""),
+    awrf_2: new FormControl(""),
+    awrf_3: new FormControl(""),
+
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -228,14 +244,21 @@ export class RefitTypeComponent implements OnInit {
     }
   }
 
-numberOnly(event:any): boolean {
-  var key = event.keyCode;
-        if (key > 31 && (key < 65 || key > 90) &&
-            (key < 97 || key > 122)) {
-        return false;
-      }
-      return true;
+  numberOnly(event:any): boolean {
+    var key = event.keyCode;
+          if (key > 31 && (key < 65 || key > 90) &&
+              (key < 97 || key > 122)) {
+          return false;
+        }
+        return true;
+  }
 
+  numbersOnly(event:any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
     }
+    return true;
+  }
 
 }

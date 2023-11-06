@@ -60,6 +60,7 @@ export class PayScaleComponent implements OnInit {
     name: new FormControl("", [
       Validators.required,
     ]),
+    designation: new FormControl("", [Validators.required,]),
     description: new FormControl(""),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
     created_by: new FormControl(""),
@@ -89,6 +90,7 @@ export class PayScaleComponent implements OnInit {
 
   ngOnInit(): void {
      this.getPayScale();
+     this.getDesignation();
      this.getAccess();
   }
    payscale:any
@@ -102,6 +104,18 @@ export class PayScaleComponent implements OnInit {
         this.logger.log('payscale',this.payscale)
       });
   }
+
+designations:any
+getDesignation(){
+    let searchString='?status=1';
+   this.api
+   .getAPI(environment.API_URL + "master/designation"+searchString)
+    .subscribe((res) => {
+      this.designations = res.data;
+      console.log('designations',this.designations)
+    });
+  }
+
 
   create() {
     this.crudName = "Add";

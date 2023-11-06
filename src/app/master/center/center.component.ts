@@ -21,8 +21,8 @@ export class CenterComponent implements OnInit {
 
 
   displayedColumns: string[] = [
-    'equipment',
     "name",
+    'equipment',
     "code",
     "status",
     "view",

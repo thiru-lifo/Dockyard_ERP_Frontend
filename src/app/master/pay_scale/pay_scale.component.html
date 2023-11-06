@@ -89,6 +89,20 @@
             </div>
             <form [formGroup]="this.editForm" (ngSubmit)="onSubmit()" >
             <div class="form-row">
+
+
+               <div class="col-md-6">
+                   <div class="matt-group">
+                    <mat-label>Designation<b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                          <mat-select  #select formControlName="designation" placeholder="Select Designation">
+                           <mat-option *ngFor="let designation of designations" [value]="designation.id">{{designation.name}}</mat-option>
+                          </mat-select>
+                    </mat-form-field>
+                </div>
+               </div>
+
+
                <div class="col-md-6">
                   <div class="matt-group">
                      <mat-label>Name <b class="star">*</b></mat-label>

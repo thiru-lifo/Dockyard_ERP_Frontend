@@ -123,6 +123,10 @@ status = this.editForm.value.status;
 populate(data) {
   
   this.editForm.patchValue(data);
+
+  this.items = this.docForm.get('itemc') as FormArray;
+  this.clearFormArray(this.itemc);
+
   // this.editForm.patchValue({project_id:data.project_id.id});
   // this.editForm.patchValue({trial_unit:data.trial_unit.id});
   /*this.getCommand(data.trial_unit.id);
@@ -541,7 +545,7 @@ onDelete(id) {
         this.logger.log('response',res);
         if(res.status==environment.SUCCESS_CODE) {
           this.logger.info('delete')
-          this.notification.warn('Stock  '+language[environment.DEFAULT_LANG].deleteMsg);
+          this.notification.warn('Stock'+language[environment.DEFAULT_LANG].deleteMsg);
           this.getStoragelocation();
         } else {
           this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);

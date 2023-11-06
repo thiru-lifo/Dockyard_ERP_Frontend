@@ -96,6 +96,7 @@ import { StockLogComponent } from './stock_log/stock_log.component';
 import { NewDesignComponent } from './new_design/new_design.component';
 import { StockCheckComponent } from './stock-check/stock-check.component';
 
+import { PromotionComponent } from './promotion/promotion.component';
 
 
 
@@ -199,6 +200,7 @@ import { ManPowerBookingComponent } from './man-power-booking/man-power-booking.
     ShopFloorComponent,
     TimeKeepingAttendanceComponent,
     ManPowerBookingComponent,
+    PromotionComponent,
   ],
   imports: [
     CommonModule,

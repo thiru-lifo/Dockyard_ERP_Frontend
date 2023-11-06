@@ -42,6 +42,10 @@ const routes: Routes = [
     path: 'manpower-booking',
      loadChildren: () => import('./manpower-booking/manpower-booking.module').then(m => m.ManpowerBookingModule), data: { breadcrumb: 'Manpower Booking'}
    },
+    {
+    path: 'generate-pay-slip',
+     loadChildren: () => import('./generate-pay-slip/generate-pay-slip.module').then(m => m.GeneratePaySlipModule), data: { breadcrumb: 'Generate Pay Slip'}
+   },
 
 ];
 @NgModule({

@@ -6,11 +6,11 @@
                <div class="card-header">
                   <div class="row">
                      <div class="col-md-6">
-                        <h3>Monthly Salary</h3>
+                        <h3>Promotion</h3>
                      </div>
                      <div class="col-md-6">
                         <div class="text-right">
-                           <a href="#" data-toggle="modal" data-target="#crud-countries" (click)="create()" class="btn btn-primary btn-round-sm"  *ngIf="permission.add==true">Create</a>
+                           <a href="#" data-toggle="modal" data-target="#crud-countries" (click)="create()" class="btn btn-primary btn-round-sm"  *ngIf="permission.add==true" >Create</a>
                         </div>
                      </div>
                   </div>
@@ -30,29 +30,17 @@
                   </div>
                </div>
                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                  <ng-container matColumnDef="employee">
-                     <th mat-header-cell *matHeaderCellDef><b> Employee</b></th>
-                     
-                     <td mat-cell *matCellDef="let country"> {{country.user_det.loginname}} </td>
+                  <ng-container matColumnDef="from_rank">
+                     <th mat-header-cell *matHeaderCellDef><b> From Rank</b></th>
+                     <td mat-cell *matCellDef="let country"> {{country.from_rank_det.name}} </td>
                   </ng-container>
-                  <ng-container matColumnDef="total_credits">
-                     <th mat-header-cell *matHeaderCellDef><b>Total Credits </b></th>
-                     <td mat-cell *matCellDef="let country"> {{country.total_credits}} </td>
+                  <ng-container matColumnDef="to_rank">
+                     <th mat-header-cell *matHeaderCellDef><b> To Rank </b></th>
+                     <td mat-cell *matCellDef="let country"> {{country.to_rank_det.name}} </td>
                   </ng-container>
-                  <ng-container matColumnDef="for_month">
-                     <th mat-header-cell *matHeaderCellDef><b> Month </b></th>
-                     <td mat-cell *matCellDef="let country">
-                     {{moment(country.for_month).format('MMM')}}</td>
-                  </ng-container>
-                  <ng-container matColumnDef="total_debits">
-                     <th mat-header-cell *matHeaderCellDef><b>Total Debits </b></th>
-                     <td mat-cell *matCellDef="let country"> {{country.total_debits}} </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="pay_slip">
-                     <th mat-header-cell *matHeaderCellDef><b>Pay Slip </b></th>
-                     <td mat-cell *matCellDef="let country">
-                        <a href="#" data-toggle="modal" data-target="#crud-countries" class="edit-icon text-primary" *ngIf="permission.view==true" (click)="onView(country)"><span class="material-icons-outlined">remove_red_eye</span></a>
+                  <ng-container matColumnDef="time_for_promotion">
+                     <th mat-header-cell *matHeaderCellDef><b>Time For Promotion </b></th>
+                     <td mat-cell *matCellDef="let country">{{moment(country.time_for_promotion).format('DD/MM/yyyy')}} 
                      </td>
                   </ng-container>
                   <ng-container matColumnDef="status">
@@ -96,7 +84,7 @@
    <div class="modal-dialog modal-lg">
       <div class="modal-content">
          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{crudName}} Monthly Salary</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{crudName}} Promotion</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" matTooltip="Close" matTooltipClass="custom-tooltip">
               <span aria-hidden="true">&times;</span>
               </button>
@@ -108,104 +96,76 @@
             <div class="form-row">
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>Employee<b class="star">*</b></mat-label>
+                     <mat-label>From Rank<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <mat-select  placeholder="Select user" formControlName="user" maxlength="100" >
-                           <!-- <a href="javascript:void(0)" class="list-group-item list-group-item-action"><b> {{user['name']}}</a> -->
-                        
-                           <mat-option *ngFor="let user of users" [value]="user.id">{{user.loginname}}</mat-option>
+                        <mat-select formControlName="from_rank"
+                        placeholder="Select From Rank">
+                        <mat-option *ngFor="let rank of ranks" [value]="rank.id">{{rank.name}}</mat-option>
                         </mat-select>
-                        <mat-error *ngIf="Error('user','required')">Select User</mat-error>
-                        <!-- <mat-error *ngIf="Error('user','pattern')">Alphabets characters only</mat-error> -->
+                        <!-- <mat-error *ngIf="Error('pay_grade','required')">Select from rank</mat-error> -->
                      </mat-form-field>
                   </div>
                </div>
-               <!-- <div class="col-md-6">
-                  <div class="matt-group">
-                      <mat-label>DemandDate <b class="star">*</b></mat-label>
-                      <mat-form-field appearance="legacy">
-                      <input matInput [matDatepicker]="picker1" formControlName="demand_date" placeholder=""[(ngModel)]="demand_date" onclick="$('#date1').trigger('click'); return false;" (keydown)="disableDate()">
-                      <mat-datepicker-toggle id="date1" matSuffix [for]="picker1"></mat-datepicker-toggle>
-                      <mat-datepicker #picker1 ></mat-datepicker>
-                      <!-- <mat-error *ngIf="Error('DartDate','required')">Enter DartDate</mat-error> -->
-                    <!-- </mat-form-field>
-                  </div>
-              </div> --> 
-              <div class="col-md-6">
 
-               <div class="matt-group matt-date-pickers">
-
-                  <mat-label>For Month</mat-label>
-
-                  <mat-form-field appearance="fill">
-
-                     <input matInput [matDatepicker]="picker" [(ngModel)]="formattedDate" formControlName="for_month">
-                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                     <mat-datepicker #picker></mat-datepicker>
-                     <mat-error *ngIf="Error('for_month','required')">Enter For Month</mat-error>
-
-                  </mat-form-field>
-
-               </div>
-
-               </div>
-
-               <!-- <div class="col-md-6">
-                  <div class="matt-group">
-                     <mat-label>Demand Date </mat-label>
-                     <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="demand_date" maxlength="100"
-                        >
-                        <mat-error *ngIf="Error('demand_date','required')">Enter Demand date</mat-error>
-                     </mat-form-field>
-                  </div>
-               </div> -->
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label>Total Credits <b class="star">*</b></mat-label>
+                     <mat-label>To Rank<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="total_credits" maxlength="15" (keypress)="numberOnly($event)" >
-                        
-                        <mat-error *ngIf="Error('total_credits','required')">Enter Total Credits</mat-error>
-                        <!-- <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error> -->
+                        <mat-select formControlName="to_rank"
+                        placeholder="Select From Rank">
+                        <mat-option *ngFor="let rank of ranks" [value]="rank.id">{{rank.name}}</mat-option>
+                        </mat-select>
+                        <!-- <mat-error *ngIf="Error('pay_grade','required')">Select to rank</mat-error> -->
                      </mat-form-field>
                   </div>
                </div>
+
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label> Total Debits <b class="star">*</b></mat-label>
+                     <mat-label>By Time / By Selection<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="total_debits" maxlength="15" (keypress)="numberOnly($event)" >
-                        
-                        <mat-error *ngIf="Error('total_debits','required')">Total Debits </mat-error>
-                        <!-- <mat-error *ngIf="Error('center_no','pattern')">Alpha-numeric characters only</mat-error> -->
+                        <mat-select formControlName="by_time_by_selection"
+                        placeholder="Select the option">
+                        <mat-option [value]="1">By Time</mat-option> 
+                        <mat-option [value]="2">By Selection</mat-option>
+                        </mat-select>
                      </mat-form-field>
                   </div>
                </div>
+
+               <div class="col-md-6">
+                  <div class="matt-group matt-date-pickers">
+                     <mat-label>Time For Promotion</mat-label>
+                     <mat-form-field appearance="fill">
+                        <input matInput [matDatepicker]="picker1"  formControlName="time_for_promotion">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        <mat-error *ngIf="Error('time_for_promotion','required')">Time For Promotion</mat-error>
+                     </mat-form-field>
+                  </div>
+               </div>
+
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label> Gross Salary <b class="star">*</b></mat-label>
+                     <mat-label>Qualification Course Id<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="gross_salary" maxlength="15" (keypress)="numberOnly($event)"  >
-                        
-                        
-                        <mat-error *ngIf="Error('gross_salary','required')">Enter Gross Salary</mat-error>
-                        <!-- <mat-error *ngIf="Error('wi_number','pattern')">Alpha-numeric characters only</mat-error> -->
+                        <input matInput placeholder=""  formControlName="qualification_course_id">
+                        <mat-error *ngIf="Error('qualification_course_id','required')">Enter Qualification Course Id</mat-error>
+                        <mat-error *ngIf="Error('qualification_course_id','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
                   </div>
                </div>
+
                <div class="col-md-6">
                   <div class="matt-group">
-                     <mat-label> Net Salary <b class="star">*</b></mat-label>
+                     <mat-label>Qualification Course Marks<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder=""  formControlName="net_salary" maxlength="15" (keypress)="numberOnly($event)" >
-                        
-                        
-                        <mat-error *ngIf="Error('net_salary','required')">Enter Net Salary</mat-error>
-                        <!-- <mat-error *ngIf="Error('wi_number','pattern')">Alpha-numeric characters only</mat-error> -->
+                        <input matInput placeholder=""  formControlName="qualification_course_marks" maxlength="15" (keypress)="decimalOnly($event)">
+                        <mat-error *ngIf="Error('qualification_course_marks','required')">Enter Qualification Course Marks</mat-error>
                      </mat-form-field>
                   </div>
                </div>
+               
                <div class="col-md-6" hidden>
                   <div class="matt-group">
                      <mat-form-field appearance="legacy">
@@ -229,7 +189,7 @@
             </div>
             <div class="form-row button-group-lg button-auto mt-2">
                <div class="col-md-12">
-                  <button type="submit" class="btn btn-primary" >Save</button>
+                  <button type="submit" class="btn btn-primary" *ngIf="!isReadonly" >Save</button>
                   <button type="button" class="btn btn-outline-primary" #closebutton data-dismiss="modal">Cancel</button>
                </div>
             </div>

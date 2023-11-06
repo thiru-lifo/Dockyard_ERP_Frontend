@@ -8,47 +8,37 @@ import { NotificationService } from "src/app/service/notification.service";
 import { ConfirmationDialogComponent } from "src/app/confirmation-dialog/confirmation-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { language } from "src/environments/language";
-import { DatePipe } from '@angular/common';
-
+import { Router } from '@angular/router';
 import { ConsoleService } from "src/app/service/console.service";
-import { Router,ActivatedRoute } from '@angular/router';
-
-
 import { of } from 'rxjs';
-import { AngularEditorConfig } from "@kolkov/angular-editor/lib/config";
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 declare var $;
-declare var arrayColumn;
 declare var moment:any;
-declare function openModal(selector):any;
-declare function closeModal(selector):any;
-declare function formSubmit(selector):any;
-declare function triggerClick(selector):any;
-
 @Component({
-  selector: 'app-monthly_salary',
-  templateUrl: './monthly_salary.component.html',
-  styleUrls: ['./monthly_salary.component.scss']
+  selector: 'app-promotion',
+  templateUrl: './promotion.component.html',
+  styleUrls: ['./promotion.component.scss']
 })
-export class MonthlySalaryComponent implements OnInit {
+export class PromotionComponent implements OnInit {
 
 
- displayedColumns: string[] = [
-    "employee",
-    "total_credits",
-    "total_debits",
-    "pay_slip",
+  displayedColumns: string[] = [
+    "from_rank",
+    "to_rank",
+    "time_for_promotion",
     "status",
     "view",
     "edit",
     "delete",
   ];
   dataSource: MatTableDataSource<any>;
-  public formattedDate: string;
+  dataSourceApproved: MatTableDataSource<any>;
+  dataSourcePending: MatTableDataSource<any>;
 
   country: any;
   public crudName = "Add";
   public countryList = [];
+  public dataListApproved = [];
+  public dataListPending = [];
   filterValue:any;
   isReadonly=false;
   moduleAccess:any;
@@ -66,6 +56,8 @@ export class MonthlySalaryComponent implements OnInit {
   @ViewChild(MatPaginator) pagination: MatPaginator;
   @ViewChild("closebutton") closebutton;
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
+  @ViewChild('paginationApproved') paginationApproved: MatPaginator;
+  @ViewChild('paginationPending') paginationPending: MatPaginator;
 
   constructor(public api: ApiService, private notification : NotificationService,
     private dialog:MatDialog, private router : Router, private elementref : ElementRef,private logger:ConsoleService) {
@@ -73,20 +65,17 @@ export class MonthlySalaryComponent implements OnInit {
   }
 
   public editForm = new FormGroup({
-    id: new FormControl(""),
-    user: new FormControl("", [
-      Validators.required,
-    ]),
-   
-    for_month: new FormControl("moment().format('YYYY-MM-DD')"),
-    total_credits: new FormControl("",[Validators.required]),
-    total_debits: new FormControl("",[Validators.required]),
-    gross_salary: new FormControl("",[Validators.required]),
-    net_salary: new FormControl("", [Validators.required,]),
-    created_by: new FormControl(""),
+    id: new FormControl(""),    
+    from_rank: new FormControl("", [Validators.required]),
+    to_rank: new FormControl("", [Validators.required]),
+    by_time_by_selection: new FormControl("", [Validators.required]),
+    time_for_promotion: new FormControl("", [Validators.required]),
+    qualification_course_id: new FormControl("", [Validators.required]),
+    qualification_course_marks: new FormControl("", [Validators.required]),
+
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
-    sequence : new FormControl("", [Validators.pattern("^[0-9]*$")]),
+    //sequence : new FormControl("", [Validators.pattern("^[0-9]*$")]),
     status: new FormControl("", [Validators.required]),
   });
    status = this.editForm.value.status;
@@ -109,42 +98,30 @@ export class MonthlySalaryComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getMonthlySalary();
+     this.getPromotion();
+     this.getRank();
      this.getAccess();
-     this.getUsers();
-     this.formatDate(new Date());
-     
   }
-  // users:any;
-  // getUsers() {
-  //   this.api
-  //     .getAPI(environment.API_URL + "master/center?status=1")
-  //     .subscribe((res) => {
-  //       this.users = res.data;
-  //       console.log("userssssss",this.users)
-  //     });
-  // }
 
-
-  users=[];
-  getUsers() {
+  promotion:any
+  getPromotion() {
     this.api
-      .postAPI(environment.API_URL + "api/auth/user/get_all_user",{})
-      .subscribe((res) => {
-        this.users = res.data;
-        console.log(this.users,"userrrr")
-      });
-  }
-  
-  monthlysalary:any
-  getMonthlySalary() {
-    this.api
-      .getAPI(environment.API_URL + "transaction/monthly_salary")
+      .getAPI(environment.API_URL + "master/promotion")
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
-        this.monthlysalary = res.data;
+        this.promotion = res.data;
         this.dataSource.paginator = this.pagination;
-        this.logger.log('monthlysalary',this.monthlysalary)
+        this.logger.log('Promotion',res.promotion)
+      });
+   }
+
+  ranks:any
+  getRank() {
+    this.api
+      .getAPI(environment.API_URL + "master/rank")
+      .subscribe((res) => {
+        this.ranks = res.data;
+        this.logger.log('rankkkkkk',this.ranks)
       });
   }
 
@@ -196,15 +173,15 @@ export class MonthlySalaryComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "transaction/monthly_salary/crud", {
+        this.api.postAPI(environment.API_URL + "master/promotion/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('DemandMaster '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getMonthlySalary();
+            this.notification.warn('Promotion'+language[environment.DEFAULT_LANG].deleteMsg);
+            this.getPromotion();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -213,9 +190,6 @@ export class MonthlySalaryComponent implements OnInit {
       dialogRef=null;
     });
   }
-  // getCategoryType() {
-  //   throw new Error("Method not implemented.");
-  // }
 
   onSubmit() {
      if (this.editForm.valid) {
@@ -223,7 +197,7 @@ export class MonthlySalaryComponent implements OnInit {
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "transaction/monthly_salary/crud",
+          environment.API_URL + "master/promotion/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -232,7 +206,7 @@ export class MonthlySalaryComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getMonthlySalary();
+            this.getPromotion();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -246,10 +220,6 @@ export class MonthlySalaryComponent implements OnInit {
 
         });
     }
-  }
-  formatDate(date: Date) {
-    const datePipe = new DatePipe('en-US');
-    this.formattedDate = datePipe.transform(date, 'yyyy-MM-dd');
   }
 
 
@@ -276,11 +246,11 @@ export class MonthlySalaryComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getMonthlySalary();
+      this.getPromotion();
     }
   }
 
-numbersOnly(event:any): boolean {
+numberOnly(event:any): boolean {
   var key = event.keyCode;
         if (key > 31 && (key < 65 || key > 90) &&
             (key < 97 || key > 122)) {
@@ -290,13 +260,13 @@ numbersOnly(event:any): boolean {
 
     }
 
-    numberOnly(event:any): boolean {
-      const charCode = (event.which) ? event.which : event.keyCode;
-      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
-      }
-      return true;
-    
-    }
+decimalOnly(event:any): boolean {
+  const charCode = (event.which) ? event.which : event.keyCode;
+  //alert(charCode)
+  if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+    return false;
+  }
+  return true;
+}
 
 }

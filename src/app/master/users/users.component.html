@@ -348,7 +348,7 @@
                  <div class="matt-group">
                     <mat-label>Current Basic Salary <b class="star">*</b></mat-label>
                     <mat-form-field appearance="legacy">
-                       <input matInput placeholder="" formControlName="current_basic_salary" maxlength="100">
+                       <input matInput placeholder="" formControlName="current_basic_salary" maxlength="100" (keypress)="decimalOnly($event)">
                        <mat-error *ngIf="Error('current_basic_salary','required')">Please enter Current basic salary</mat-error>
                        <!-- <mat-error *ngIf="Error('first_name','required')">Please enter First name</mat-error>
                        <mat-error *ngIf="Error('first_name','pattern')">Alphabets characters only</mat-error> -->
@@ -452,6 +452,158 @@
 
                </ng-container>
            </div>
+
+            <br>
+            <h5>Personal Details</h5>
+            <div class="col-md-4">&nbsp;</div>
+               <div  class="form-row">
+                  <div class="row">
+                    <div class="col-md-4">
+                       <div class="matt-group">
+                          <mat-label>Mobile Number <b class="star"></b></mat-label>
+                          <mat-form-field appearance="legacy">
+                             <input matInput placeholder="" formControlName="pd_mobile_no" maxlength="15">
+                             <!-- <mat-error *ngIf="Error('icard_number','required')">Please enter iCard Number</mat-error> -->
+                          </mat-form-field>
+                       </div>
+                    </div>
+
+                    <div class="col-md-4">
+                       <div class="matt-group">
+                          <mat-label>Address <b class="star"></b></mat-label>
+                          <mat-form-field appearance="legacy">
+                             <input matInput placeholder="" formControlName="pd_address">
+                             <!-- <mat-error *ngIf="Error('icard_number','required')">Please enter iCard Number</mat-error> -->
+                          </mat-form-field>
+                       </div>
+                    </div>
+
+                    <!-- <div class="col-md-4">
+                       <div class="matt-group">
+                          <mat-label>Nok <b class="star"></b></mat-label>
+                          <mat-form-field appearance="legacy">
+                             <input matInput placeholder="" formControlName="pd_nok" maxlength="100">
+                             
+                          </mat-form-field>
+                       </div>
+                    </div> -->
+                  </div>
+               </div>
+
+              <div class="col-md-4">&nbsp;</div>
+
+              <!-- < -->
+              <div class="col-md-12">
+               <ng-container  [formGroup]="docForm1" *ngIf="docForm1 && !inArray(10,editForm.value.user_role_id)">
+                 <!-- <mat-label class="matt-group">Children Info</mat-label> -->
+                 <ng-container formArrayName="items1" *ngFor="let item of docForm1.get('items1')['controls']; let j = index;">
+                       <div class="form-row">
+
+                      <ng-container  [formGroupName]="j">
+                             <div class="col-md-4">
+                                <div class="matt-group">
+                                   <mat-label>Child Name {{j+1}}<b class="star"></b></mat-label>
+                                   <mat-form-field appearance="legacy">
+                                      <input matInput placeholder="" formControlName="child_name" maxlength="100">
+                                   </mat-form-field>
+                                </div>
+                             </div>
+
+                             <div class="col-md-4">
+                                <div class="matt-group">
+                                   <mat-label>Child School Class {{j+1}}<b class="star"></b></mat-label>
+                                   <mat-form-field appearance="legacy">
+                                      <input matInput placeholder="" formControlName="child_school_class" maxlength="250">
+                                   </mat-form-field>
+                                </div>
+                             </div>
+
+                             <!-- <div class="col-md-4">
+                                <div class="matt-group">
+                                   <mat-label>Mobile {{j+1}}<b class="star"></b></mat-label>
+                                   <mat-form-field appearance="legacy">
+                                      <input matInput placeholder="" formControlName="child_mobile" maxlength="250">
+                                   </mat-form-field>
+                                </div>
+                             </div> -->
+
+                             <div class="matt-group col-md-3 matt-append-button">
+                                <button type="button" *ngIf="j==0" (click)="addMore1()" mat-fab color="primary"><mat-icon>add</mat-icon></button>
+                                <button type="button" *ngIf="j>0" (click)="removeItem1(j)" mat-fab color="warn"><mat-icon>remove</mat-icon></button>
+                             </div>
+                      </ng-container>
+                       </div>
+                 </ng-container>
+
+               </ng-container>
+           </div>
+
+
+
+
+            <br>
+            <br>
+            <!-- <h5>Allowance / Deduction</h5> -->
+            <div class="col-md-4">&nbsp;</div>
+
+               <div class="row">
+                  <!-- <div class="form-group row"> -->
+                     <div class="col-md-6">
+                        <ng-container [formGroup]="docFormAllowance" *ngIf="docFormAllowance && !inArray(10,editForm.value.user_role_id)">
+                           <mat-label class="matt-group"><h5>Allowance</h5></mat-label>
+                          <ng-container formArrayName="allowances"*ngFor="let item of docFormAllowance.get('allowances')['controls']; let k = index;">
+                                <div class="form-row">
+
+                               <ng-container  [formGroupName]="k">
+                                 <div class="matt-group col-md-4">
+                                      <mat-form-field appearance="fill" >
+                                       <mat-label>Allowance {{k+1}}<b class="star"></b></mat-label>
+                                         <mat-select formControlName="allowance_id" >
+                                             <mat-option *ngFor="let a_list of allowance_list" [value]="a_list.id">{{a_list.name}}</mat-option>
+                                          </mat-select>
+                                       </mat-form-field>
+                                  </div>
+                                      <div class="matt-group col-md-3 matt-append-button">
+                                         <button type="button" *ngIf="k==0" (click)="addMoreAllowance()" mat-fab color="primary"><mat-icon>add</mat-icon></button>
+                                         <button type="button" *ngIf="k>0" (click)="removeItemAllowance(k)" mat-fab color="warn"><mat-icon>remove</mat-icon></button>
+                                      </div>
+                               </ng-container>
+                                </div>
+                          </ng-container>
+                        </ng-container>
+                     </div>
+                  <!-- </div> -->
+
+                  <!-- <div class="form-group row"> -->
+                     <div class="col-md-6">
+                        <ng-container [formGroup]="docFormDeduction" *ngIf="docFormDeduction && !inArray(10,editForm.value.user_role_id)">
+                           <mat-label class="matt-group"><h5>Deduction</h5></mat-label>
+                          <ng-container formArrayName="deductions" *ngFor="let item of docFormDeduction.get('deductions')['controls']; let l = index;">
+                                <div class="form-row">
+
+                               <ng-container  [formGroupName]="l">
+                                 <div class="matt-group col-md-4">
+                                      <mat-form-field appearance="fill" >
+                                       <mat-label>Deduction {{l+1}}<b class="star"></b></mat-label>
+                                         <mat-select formControlName="deduction_id" >
+                                             <mat-option *ngFor="let d_list of deduction_list" [value]="d_list.id">{{d_list.name}}</mat-option>
+                                          </mat-select>
+                                       </mat-form-field>
+                                  </div>
+                                      <div class="matt-group col-md-3 matt-append-button">
+                                         <button type="button" *ngIf="l==0" (click)="addMoreDeduction()" mat-fab color="primary"><mat-icon>add</mat-icon></button>
+                                         <button type="button" *ngIf="l>0" (click)="removeItemDeduction(l)" mat-fab color="warn"><mat-icon>remove</mat-icon></button>
+                                      </div>
+                               </ng-container>
+                                </div>
+                          </ng-container>
+                        </ng-container>
+                     </div>
+                  <!-- </div> -->
+               </div>
+
+
+               <div class="col-md-4">&nbsp;</div>
               <div class="col-md-12">
                  <div class="form-group form-check">
                     <input type="checkbox" class="form-check-input " id="exampleCheck1" formControlName="status" >

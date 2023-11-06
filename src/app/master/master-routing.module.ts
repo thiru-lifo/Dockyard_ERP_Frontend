@@ -101,7 +101,7 @@ import { StockRegisterComponent } from './stock_register/stock_register.componen
 import { StockLogComponent } from './stock_log/stock_log.component';
 
 
-
+import { PromotionComponent } from './promotion/promotion.component';
 
 
 
@@ -179,6 +179,7 @@ const routes: Routes = [
   {path: 'stock-check', component: StockCheckComponent, data: { breadcrumb: 'Stock Check'}  },
   
   
+  {path: 'promotion', component: PromotionComponent, data: { breadcrumb: 'Promotion'}  },
   
   
   

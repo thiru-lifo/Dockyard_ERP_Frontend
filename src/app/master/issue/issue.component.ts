@@ -65,7 +65,7 @@ export class IssueComponent implements OnInit {
     issued_dt : new FormControl(new FormControl("moment().format('MM/DD/yyyy')")),
     name: new FormControl(""),
     description: new FormControl(""),
-    code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    item: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
     demand: new FormControl("", [Validators.required,]),
     
     created_by: new FormControl(""),
@@ -76,10 +76,14 @@ export class IssueComponent implements OnInit {
   });
    status = this.editForm.value.status;
   populate(data) {
+    console.log("ddd",data)
+
+    console.log("for itemcode",data)
 
     this.editForm.patchValue(data);
     //this.editForm.patchValue({section_id:data.section_id.id});
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
+    this.editForm.patchValue({item:data.item.id});
     this.logger.info(data.status)
   }
 
@@ -273,6 +277,14 @@ numberOnly(event:any): boolean {
       }
       return true;
 
+    }
+    numbersOnly(event:any): boolean {
+      const charCode = (event.which) ? event.which : event.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+      }
+      return true;
+    
     }
 
 }

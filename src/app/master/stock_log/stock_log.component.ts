@@ -12,23 +12,26 @@ import { Router } from '@angular/router';
 import { ConsoleService } from "src/app/service/console.service";
 import { of } from 'rxjs';
 
+declare var $;
+declare var moment:any
+
 @Component({
-  selector: 'app-storage_location',
-  templateUrl: './storage_location.component.html',
-  styleUrls: ['./storage_location.component.scss']
+  selector: 'app-stock_log',
+  templateUrl: './stock_log.component.html',
+  styleUrls: ['./stock_log.component.scss']
 })
-export class StorageLocationComponent implements OnInit {
+export class StockLogComponent implements OnInit {
 
 
   displayedColumns: string[] = [
     "name",
     "code",
     
+    "status",
     "view",
     "edit",
     "delete",
   ];
-
   dataSource: MatTableDataSource<any>;
 
   country: any;
@@ -39,6 +42,7 @@ export class StorageLocationComponent implements OnInit {
   moduleAccess:any;
   ErrorMsg:any;
   error_msg=false;
+  momemt=moment;
 
   public permission={
     add:false,
@@ -59,10 +63,13 @@ export class StorageLocationComponent implements OnInit {
   public editForm = new FormGroup({
     id: new FormControl(""),
     name: new FormControl("", [
-      Validators.required,
+      Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")
     ]),
-    description: new FormControl("",[Validators.required,]),
-    code: new FormControl("", [Validators.required,]),
+    log_qty :  new FormControl("", [Validators.required]),
+    code: new FormControl("", [Validators.required]),
+    description: new FormControl(""),
+    log_of_stock: new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    log_date: new FormControl("moment().format('MM/DD/yyyy')"),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),
@@ -73,7 +80,7 @@ export class StorageLocationComponent implements OnInit {
   populate(data) {
 
     this.editForm.patchValue(data);
-
+    //this.editForm.patchValue({section_id:data.section_id.id});
     this.editForm.patchValue({modified_by:this.api.userid.user_id});
     this.logger.info(data.status)
   }
@@ -89,20 +96,42 @@ export class StorageLocationComponent implements OnInit {
   };
 
   ngOnInit(): void {
-     this.getStorageLocation();
+     this.getStockLog();
      this.getAccess();
+     this.getStockRegister();
+    //  this.getPersonnelType();
   }
-  Storagelocation:any
-  getStorageLocation() {
+  stocklogs:any
+  getStockLog() {
     this.api
-      .getAPI(environment.API_URL + "master/storage_location")
+      .getAPI(environment.API_URL + "master/stock_log")
       .subscribe((res) => {
         this.dataSource = new MatTableDataSource(res.data);
-        this.Storagelocation = res.data;
+        this.stocklogs = res.data;
         this.dataSource.paginator = this.pagination;
-        this.logger.log('Storagelocation',this.Storagelocation)
+        this.logger.log('stocklogsss',this.stocklogs)
       });
   }
+  stockregisters:any
+  getStockRegister(){
+    this.api.getAPI(environment.API_URL + "master/stock_register")
+      .subscribe((res) => {
+        this.stockregisters= res.data;
+        // this.dataSource.paginator = this.pagination;
+        this.logger.log('stockregistersss',this.stockregisters)
+      });
+
+  }
+  // personneltypes:any
+  // getPersonnelType(){
+  //   this.api.getAPI(environment.API_URL + "master/personnel_type")
+  //     .subscribe((res) => {
+  //       this.personneltypes= res.data;
+  //       // this.dataSource.paginator = this.pagination;
+  //       this.logger.log('personneltypeeeee',this.personneltypes)
+  //     });
+
+  // }
 
   create() {
     this.crudName = "Add";
@@ -152,15 +181,15 @@ export class StorageLocationComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.api.postAPI(environment.API_URL + "master/storage_location/details", {
+        this.api.postAPI(environment.API_URL + "master/stock_log/details", {
           id: id,
           status: 3,
         }).subscribe((res)=>{
           this.logger.log('response',res);
           if(res.status==environment.SUCCESS_CODE) {
             this.logger.info('delete')
-            this.notification.warn('Status '+language[environment.DEFAULT_LANG].deleteMsg);
-            this.getStorageLocation();
+            this.notification.warn('Rank'+language[environment.DEFAULT_LANG].deleteMsg);
+            this.getStockLog();
           } else {
             this.notification.displayMessage(language[environment.DEFAULT_LANG].unableDelete);
           }
@@ -176,7 +205,7 @@ export class StorageLocationComponent implements OnInit {
       this.editForm.value.status = this.editForm.value.status==true ? 1 : 2;
       this.api
         .postAPI(
-          environment.API_URL + "master/storage_location/details",
+          environment.API_URL + "master/stock_log/details",
           this.editForm.value
         )
         .subscribe((res) => {
@@ -185,7 +214,7 @@ export class StorageLocationComponent implements OnInit {
           if(res.status==environment.SUCCESS_CODE){
             // this.logger.log('Formvalue',this.editForm.value);
             this.notification.success(res.message);
-            this.getStorageLocation();
+            this.getStockLog();
             this.closebutton.nativeElement.click();
           } else if(res.status==environment.ERROR_CODE) {
             this.error_msg=true;
@@ -225,16 +254,28 @@ export class StorageLocationComponent implements OnInit {
     if(this.filterValue){
       this.dataSource.filter = this.filterValue.trim().toLowerCase();
     } else {
-      this.getStorageLocation();
+      this.getStockLog();
     }
   }
-  numberOnly(event:any): boolean {
-    var key = event.keyCode;
-          if (key > 31 && (key < 65 || key > 90) &&
-              (key < 97 || key > 122)) {
-          return false;
-        }
-        return true;
-  
+
+numberOnly(event:any): boolean {
+  var key = event.keyCode;
+        if (key > 31 && (key < 65 || key > 90) &&
+            (key < 97 || key > 122)) {
+        return false;
       }
+      return true;
+
+    }
+    // only for number
+    numbersOnly(event:any): boolean {
+      const charCode = (event.which) ? event.which : event.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+      }
+      return true;
+    
+    }
+    
+
 }

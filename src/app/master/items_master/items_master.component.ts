@@ -58,9 +58,9 @@ export class ItemsMasterComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
-    item_type : new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    min_stock_level : new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    description: new FormControl(""),
+    item_type : new FormControl("",[Validators.required,]),
+    min_stock_level : new FormControl("",[Validators.required]),
+    description: new FormControl("",[Validators.required]),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
     // available_qty: new FormControl("",[Validators.required]),
     bar_code: new FormControl("",[Validators.required]),
@@ -251,7 +251,7 @@ export class ItemsMasterComponent implements OnInit {
       this.getItemsMaster();
     }
   }
-
+// it is for words only
 numberOnly(event:any): boolean {
   var key = event.keyCode;
         if (key > 31 && (key < 65 || key > 90) &&
@@ -260,6 +260,15 @@ numberOnly(event:any): boolean {
       }
       return true;
 
+    }
+    // it is for number only
+    numbersOnly(event:any): boolean {
+      const charCode = (event.which) ? event.which : event.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+      }
+      return true;
+    
     }
 
 }

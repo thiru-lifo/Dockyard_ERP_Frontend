@@ -108,9 +108,9 @@
                      <th mat-header-cell *matHeaderCellDef><b> Defect List Code </b></th>
                      <td mat-cell *matCellDef="let project"> {{project.code}} </td>
                   </ng-container> -->
-                  <ng-container matColumnDef="id">
-                     <th mat-header-cell *matHeaderCellDef><b> Batch Id</b></th>
-                     <td mat-cell *matCellDef="let project"> {{project.id}} </td>
+                  <ng-container matColumnDef="batch_number">
+                     <th mat-header-cell *matHeaderCellDef><b> Batch Number</b></th>
+                     <td mat-cell *matCellDef="let project"> {{project.batch_number}} </td>
                   </ng-container>
 
 
@@ -173,10 +173,10 @@
 
                <div class="col-md-10">
                   <div class="matt-group">
-                     <mat-label>Batch Id <b class="star">*</b></mat-label>
+                     <mat-label>Batch Number<b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" formControlName="id" maxlength="100"  >
-                        <mat-error *ngIf="Error('id','required')">Enter Id</mat-error>
+                        <input matInput placeholder="" formControlName="batch_number" maxlength="100"  >
+                        <mat-error *ngIf="Error('batch_number','required')">Enter Id</mat-error>
                      </mat-form-field>
                   </div>
                </div>

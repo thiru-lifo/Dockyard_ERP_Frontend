@@ -188,6 +188,15 @@ export class StockRegisterComponent implements OnInit {
      this.getStockRegister();
      this.getCode();
   }
+  items = [{ storage_location: '', bar_code: '' }];
+
+  addItem() {
+    this.items.push({ storage_location: '', bar_code: '' });
+  }
+
+  removeItem(index: number) {
+    this.items.splice(index, 1);
+  }
 
 
 batchs:any;
@@ -374,7 +383,18 @@ stockregisters:any
         return true;
   
       }
-
-     
+      // for number only
+      numbersOnly(event:any): boolean {
+        const charCode = (event.which) ? event.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+          return false;
+        }
+        return true;
+      
+      }
+      
 }
+      
+     
+
 

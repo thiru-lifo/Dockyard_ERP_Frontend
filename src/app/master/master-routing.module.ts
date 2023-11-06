@@ -90,10 +90,16 @@ import { StorageLocationComponent } from './storage_location/storage_location.co
 import { IssueComponent } from './issue/issue.component';
 import { CourseComponent } from './course/course.component';
 import { BatchComponent } from './batch/batch.component';
+import { NewDesignComponent } from './new_design/new_design.component';
+import { StockCheckComponent } from './stock-check/stock-check.component';
+
+
 
 import { OverTimeComponent } from './over_time/over_time.component';
 import { HolidayComponent } from './holiday/holiday.component';
 import { StockRegisterComponent } from './stock_register/stock_register.component';
+import { StockLogComponent } from './stock_log/stock_log.component';
+
 
 import { PromotionComponent } from './promotion/promotion.component';
 
@@ -168,6 +174,11 @@ const routes: Routes = [
   {path: 'over-time', component: OverTimeComponent, data: { breadcrumb: 'Over Time'}  },
   {path: 'holiday', component: HolidayComponent, data: { breadcrumb: 'Holiday'}  },
   {path: 'stock-register', component: StockRegisterComponent, data: { breadcrumb: 'Stock Register'}  },
+  {path: 'stock-log', component: StockLogComponent, data: { breadcrumb: 'Stock Log'}  },
+  {path: 'new-design', component: NewDesignComponent, data: { breadcrumb: 'New Design'}  },
+  {path: 'stock-check', component: StockCheckComponent, data: { breadcrumb: 'Stock Check'}  },
+  
+  
   {path: 'promotion', component: PromotionComponent, data: { breadcrumb: 'Promotion'}  },
   
   

@@ -1,0 +1,145 @@
+<section class="body-card">
+   <div class="container-fluid">
+    
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Stock Check</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close" matTooltip="Close" matTooltipClass="custom-tooltip">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body form-style-md form-style-font linux">
+               <div id="hide_alert" class="alert alert-danger form-error-message my-4" *ngIf="error_msg==true">{{ErrorMsg}}
+               </div>
+               <form [formGroup]="this.editForm" (ngSubmit)="onSubmit()" >
+                 <div class="row">
+                <div class="col-md-4">
+                  <div class="matt-group" >
+                     <mat-label>Sotrage Location <b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                           <mat-select formControlName="storage_location"
+                           placeholder="Select Sotrage Location ">
+                           <mat-option *ngFor="let storagelocation of storagelocations" [value]="storagelocation.id">{{storagelocation.name}}</mat-option>
+                           </mat-select>
+                       <mat-error *ngIf="Error('storage_location','required')">Select Sotrage Location </mat-error>
+                     </mat-form-field>
+                 </div>
+              </div>
+              <div class="col-md-4"> 
+                <div class="matt-group">
+                 <mat-label>Enter Bar Code <b class="star">*</b></mat-label>
+                 <mat-form-field appearance="legacy">
+                   <input matInput placeholder=""  (input)="inputChanges($event)" formControlName="bar_code" maxlength="100" >
+                       <!-- <mat-select formControlName="bar_code"
+                       placeholder="Select Item Code">
+                       <mat-option *ngFor="let code of codes" [value]="code.id">{{code.bar_code}}
+                      </mat-option>
+                       </mat-select> -->
+                   <mat-error *ngIf="Error('bar_code','required')">Select Item Code</mat-error>
+                 </mat-form-field>
+             </div>
+             </div>
+             <div class="col-md-2">
+              <div class="matt-group">
+                <mat-label>&nbsp;</mat-label>
+                <button type="button" class="btn btn-primary" (click)="onRoleAdd()">add</button>
+             </div>
+          </div>
+             
+           </div>
+             <!-- <ng-container *ngIf="showInputs"> -->
+               <div formArrayName="itemc" >
+                  <div class="example-box" *ngFor="let itemc of itemc.controls; let i=index" cdkDrag>
+                     <ng-container [formGroupName]="i">
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="matt-group">
+                     <mat-label>Item Code<b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <input matInput placeholder=""  formControlName="item_code" maxlength="15" readonly="true" >
+                         <mat-error *ngIf="Error('item_code','required')">Enter Item Code</mat-error> 
+                        <!-- <mat-error *ngIf="Error('unit_cost','pattern')">numeric characters only</mat-error> -->
+                     </mat-form-field>
+                  </div>
+               </div>
+               <div class="col-md-2">
+                  <div class="matt-group">
+                     <mat-label>Item Description<b class="star">*</b></mat-label>
+                     <mat-form-field appearance="legacy">
+                        <input matInput placeholder=""  formControlName="description" maxlength="15" readonly="true"  >
+                        <mat-error *ngIf="Error('description','required')">Enter item description</mat-error>
+                        <!-- <mat-error *ngIf="Error('qualification_course_marks','pattern')">Alpha-numeric characters only</mat-error> -->
+                      </mat-form-field> 
+                  </div>
+               </div> 
+                <div class="col-md-2">
+                 <div class="matt-group">
+                    <mat-label>Unit Cost<b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                       <input matInput placeholder=""  formControlName="unit_cost" maxlength="15" >
+                        <!-- <mat-error *ngIf="Error('unit_cost','required')">Enter Unit Cost</mat-error>  -->
+                       <!-- <mat-error *ngIf="Error('unit_cost','pattern')">numeric characters only</mat-error> -->
+                    </mat-form-field>
+                 </div>
+              </div>
+              <div class="col-md-2">
+                 <div class="matt-group">
+                    <mat-label>Qty<b class="star">*</b></mat-label>
+                    <mat-form-field appearance="legacy">
+                       <input matInput placeholder=""  formControlName="qty" maxlength="15" >
+                       <!-- <mat-error *ngIf="Error('qty','required')">Enter Available Qty</mat-error> -->
+                       <!-- <mat-error *ngIf="Error('qualification_course_marks','pattern')">Alpha-numeric characters only</mat-error> -->
+                     </mat-form-field> 
+                 </div>
+              </div> 
+              
+             <div class="col-md-2">
+                <div class="matt-group warn">
+                <button type="button" class="btn btn-primary"  mat-fab color="warn"  (click)="removeItems(i)"><mat-icon class="warnicon">-</mat-icon>
+                </button>
+              </div>
+            </div>
+             <!-- <div class="col-md-12">
+               <button type="submit" class="btn btn-primary" *ngIf="!isReadonly" >submit</button>
+               
+            </div>  -->
+         
+          </div>
+          </ng-container>
+          </div>
+         </div>
+           <!-- </ng-container>  -->
+           <div class="col-md-12">
+            <button type="submit" class="btn btn-primary" *ngIf="!isReadonly" >submit</button>
+            
+         </div>
+            
+          </form>
+          </div>
+          
+            
+      
+      </div>
+     
+</section>
+
+                
+        
+    
+     
+       
+          
+       
+      
+       
+        
+       
+        
+
+
+
+
+
+         
+
+
+<!-- modal -->

@@ -61,8 +61,8 @@ export class StorageLocationComponent implements OnInit {
     name: new FormControl("", [
       Validators.required,
     ]),
-    description: new FormControl(""),
-    code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
+    description: new FormControl("",[Validators.required,]),
+    code: new FormControl("", [Validators.required,]),
     created_by: new FormControl(""),
     created_ip: new FormControl(""),
     modified_by: new FormControl(""),

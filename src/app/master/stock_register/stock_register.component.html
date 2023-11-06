@@ -96,7 +96,17 @@
             </div>
             <form [formGroup]="this.editForm" (ngSubmit)="onSubmit()" >
             <div class="form-row">
-         
+               <!-- <div>
+                  <button (click)="addItem()">Add</button>
+                </div>
+                <div *ngFor="let item of items; let i = index">
+                  <label for="storage_location{{i}}">Storage Location:</label>
+                  <input type="text" id="storage_location{{i}}" [(ngModel)]="item.storage_location">
+                  <label for="bar_code{{i}}">Barcode:</label>
+                  <input type="text" id="bar_code{{i}}" [(ngModel)]="item.bar_code">
+                  <button (click)="removeItem(i)">Remove</button>
+                </div>
+          -->
                 <div class="col-md-6">
                   <div class="matt-group">
                      <mat-label>Name <b class="star">*</b></mat-label>

@@ -58,9 +58,9 @@ export class ItemsMasterComponent implements OnInit {
 
   public editForm = new FormGroup({
     id: new FormControl(""),
-    item_type : new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    min_stock_level : new FormControl("",[Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
-    description: new FormControl(""),
+    item_type : new FormControl("",[Validators.required,]),
+    min_stock_level : new FormControl("",[Validators.required]),
+    description: new FormControl("",[Validators.required]),
     code: new FormControl("", [Validators.required,Validators.pattern("[a-zA-Z0-9 ]+")]),
     // available_qty: new FormControl("",[Validators.required]),
     bar_code: new FormControl("",[Validators.required]),

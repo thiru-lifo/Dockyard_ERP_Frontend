@@ -95,7 +95,7 @@
                   <div class="matt-group">
                      <mat-label> Item Code <b class="star">*</b></mat-label>
                      <mat-form-field appearance="legacy">
-                        <input matInput placeholder="" class="code_field" formControlName="code" maxlength="15" >
+                        <input matInput placeholder="" formControlName="code"  maxlength="15" >
                         <mat-error *ngIf="Error('code','required')">Enter code</mat-error>
                         <mat-error *ngIf="Error('code','pattern')">Alpha-numeric characters only</mat-error>
                      </mat-form-field>
@@ -121,7 +121,7 @@
                         <mat-option *ngFor="let itemtype of itemtypes" [value]="itemtype.id">{{itemtype.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="Error('item_type','required')">Enter Item Type </mat-error>
-                        <mat-error *ngIf="Error('item_type','pattern')">Alpha-numeric characters only</mat-error>
+                        <!-- <mat-error *ngIf="Error('item_type','pattern')">Alpha-numeric characters only</mat-error> -->
                      </mat-form-field>
                   </div>
                </div>
@@ -131,7 +131,7 @@
                      <mat-form-field appearance="legacy">
                         <input matInput placeholder=""  formControlName="min_stock_level" maxlength="50" (keypress)="numbersOnly($event)" >
                         <mat-error *ngIf="Error('min_stock_level','required')">Enter Min Stock Level</mat-error>
-                        <mat-error *ngIf="Error('min_stock_level','pattern')">Alpha-numeric characters only</mat-error>
+                        <!-- <mat-error *ngIf="Error('min_stock_level','pattern')">Alpha-numeric characters only</mat-error> -->
                      </mat-form-field>
                   </div>
                </div>

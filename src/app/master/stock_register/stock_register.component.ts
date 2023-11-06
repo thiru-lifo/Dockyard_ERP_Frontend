@@ -188,6 +188,15 @@ export class StockRegisterComponent implements OnInit {
      this.getStockRegister();
      this.getCode();
   }
+  items = [{ storage_location: '', bar_code: '' }];
+
+  addItem() {
+    this.items.push({ storage_location: '', bar_code: '' });
+  }
+
+  removeItem(index: number) {
+    this.items.splice(index, 1);
+  }
 
 
 batchs:any;
